@@ -13,6 +13,13 @@ function base_path($path){
 
 }
 
+function base_url($url){
+
+    return BASE_URL . $url;
+
+}
+
+
 function view($path, $attributes =[]){
 
     extract($attributes);

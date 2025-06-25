@@ -1,6 +1,6 @@
 <?php
-    $act = "rounded-md bg-purple-900 text-white";
-    $nact = "rounded-md  text-gray-300 hover:bg-purple-700 hover:text-white";
+$act = "rounded-md bg-purple-900 text-white";
+$nact = "rounded-md  text-gray-300 hover:bg-purple-700 hover:text-white";
 ?>
 
 <nav class="bg-purple-800">
@@ -17,59 +17,60 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                        <?php if($role === "admin"):?>
+                        <?php if ($role === "admin"): ?>
                             <a
-                                href="/admin/dashboard"
-                                class=  "<?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-sm font-medium"
+                                href=<?= base_url('/admin/dashboard') ?>
+                                class="<?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-sm font-medium"
                                 aria-current="page">Dashboard</a>
-                                
                             <a
-                                href="/admin/departments"
-                                class="<?= $heading === "Departments" ? $act : $nact?> px-3 py-2 text-sm font-medium">Departments</a>
+                                href=<?= base_url('/admin/programs') ?>
+
+                                class="<?= $heading === "Programs" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Programs</a>
                             <a
-                                href="/admin/programs"
-                                class="<?= $heading === "Programs" ? $act : $nact?> px-3 py-2 text-sm font-medium">Programs</a>
+                                href=<?= base_url('/admin/subjects') ?>
+                                class="<?= $heading === "Subjects" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Subjects</a>
                             <a
-                                href="/admin/subjects"
-                                class="<?= $heading === "Subjects" ? $act : $nact?> px-3 py-2 text-sm font-medium">Subjects</a>
-                            <a
-                                href="/admin/users"
-                                class="<?= $heading === "Users" ? $act : $nact?> px-3 py-2 text-sm font-medium">Users</a>
-                        
-                        <?php elseif($role === "faculty"):?>
+                                href=<?= base_url('/admin/users') ?>
+                                class="<?= $heading === "Users" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Users</a>
+
+                        <?php elseif ($role === "faculty"): ?>
 
                             <a
-                                href="/faculty/dashboard"
-                                class=  "<?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-sm font-medium"
+                                href=<?= base_url('/faculty/dashboard') ?>
+
+                                class="<?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-sm font-medium"
                                 aria-current="page">Dashboard</a>
                             <a
-                                href="/faculty/students"
-                                class="<?= $heading === "Students" ? $act : $nact?> px-3 py-2 text-sm font-medium">Students</a>
+                                href=<?= base_url('/faculty/students') ?>
+
+                                class="<?= $heading === "Students" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Students</a>
                             <a
-                                href="/faculty/subjects"
-                                class="<?= $heading === "Subjects" ? $act : $nact?> px-3 py-2 text-sm font-medium">Subjects</a>
-                           
-                        <?php elseif($role === "student"):?>
+                                href=<?= base_url('/faculty/subjects') ?>
+                                class="<?= $heading === "Subjects" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Subjects</a>
+
+                        <?php elseif ($role === "student"): ?>
 
                             <a
-                                href="/student/dashboard"
-                                class=  "<?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-sm font-medium"
+                                href=<?= base_url('/student/dashboard') ?>
+                                class="<?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-sm font-medium"
                                 aria-current="page">Dashboard</a>
                             <a
-                                href="/student/activities"
-                                class="<?= $heading === "Activities" ? $act : $nact?> px-3 py-2 text-sm font-medium">Activities</a>
-                         
-                        <?php elseif($role === "parent"):?>
+                                href=<?= base_url('/student/activities') ?>
+                                class="<?= $heading === "Activities" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Activities</a>
+
+                        <?php elseif ($role === "parent"): ?>
 
                             <a
-                                href="/parent/dashboard"
-                                class=  "<?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-sm font-medium"
+                                href=<?= base_url('/parent/dashboard') ?>
+
+                                class="<?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-sm font-medium"
                                 aria-current="page">Dashboard</a>
                             <a
-                                href="/parent/students"
-                                class="<?= $heading === "Students" ? $act : $nact?> px-3 py-2 text-sm font-medium">Students</a>
-                         
-                        <?php endif;?>
+                                href=<?= base_url('/parent/students') ?>
+
+                                class="<?= $heading === "Students" ? $act : $nact ?> px-3 py-2 text-sm font-medium">Students</a>
+
+                        <?php endif; ?>
 
                     </div>
                 </div>
@@ -86,7 +87,7 @@
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true">
-                                Dela Cruz, Juan
+                                <?= $_SESSION['last_name'] . ', ' . $_SESSION['first_name'] ?>
                                 <box-icon
                                     id="chevron-icon"
                                     color="white"
@@ -121,11 +122,11 @@
                       >Your Profile</a
                     > -->
                             <a
-                                href="/"
+                                href=<?= base_url('/logout') ?>
                                 class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem"
                                 tabindex="-1"
-                                id="user-menu-item-2">Sign out</a>
+                                id="user-menu-item-2">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -177,70 +178,74 @@
     <div class="hidden md:hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <?php if($role === "admin"):?>
+            <?php if ($role === "admin"): ?>
                 <a
-                    href="/admin/dashboard"
-                    class=  "block <?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-base font-medium"
+                    href=<?= base_url('/admin/dashboard') ?>
+                    class="block <?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-base font-medium"
                     aria-current="page">Dashboard</a>
-                    
-                <a
-                    href="/admin/departments"
-                    class="block <?= $heading === "Departments" ? $act : $nact?> px-3 py-2 text-base font-medium">Departments</a>
-                <a
-                    href="/admin/programs"
-                    class="block <?= $heading === "Programs" ? $act : $nact?> px-3 py-2 text-base font-medium">Programs</a>
-                <a
-                    href="/admin/subjects"
-                    class="block <?= $heading === "Subjects" ? $act : $nact?> px-3 py-2 text-base font-medium">Subjects</a>
-                <a
-                    href="/admin/users"
-                    class="block <?= $heading === "Users" ? $act : $nact?> px-3 py-2 text-base font-medium">Users</a>
-            
-            <?php elseif($role === "faculty"):?>
 
                 <a
-                    href="/faculty/dashboard"
-                    class=  "block <?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-base font-medium"
-                    aria-current="page">Dashboard</a>
+                    href=<?= base_url('/admin/departments') ?>
+
+                    class="block <?= $heading === "Departments" ? $act : $nact ?> px-3 py-2 text-base font-medium">Departments</a>
                 <a
-                    href="/faculty/students"
-                    class="block <?= $heading === "Students" ? $act : $nact?> px-3 py-2 text-base font-medium">Students</a>
+                    href=<?= base_url('/admin/programs') ?>
+
+                    class="block <?= $heading === "Programs" ? $act : $nact ?> px-3 py-2 text-base font-medium">Programs</a>
                 <a
-                    href="/faculty/subjects"
-                    class="block <?= $heading === "Subjects" ? $act : $nact?> px-3 py-2 text-base font-medium">Subjects</a>
-                
-            <?php elseif($role === "student"):?>
+                    href=<?= base_url('/admin/subjects') ?>
+
+                    class="block <?= $heading === "Subjects" ? $act : $nact ?> px-3 py-2 text-base font-medium">Subjects</a>
+                <a
+                    href=<?= base_url('/admin/users') ?>
+
+                    class="block <?= $heading === "Users" ? $act : $nact ?> px-3 py-2 text-base font-medium">Users</a>
+
+            <?php elseif ($role === "faculty"): ?>
 
                 <a
-                    href="/student/dashboard"
-                    class=  "block <?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-base font-medium"
+                    href=<?= base_url('/faculty/dashboard') ?>
+                    class="block <?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-base font-medium"
                     aria-current="page">Dashboard</a>
                 <a
-                    href="/student/activities"
-                    class="block <?= $heading === "Activities" ? $act : $nact?> px-3 py-2 text-base font-medium">Activities</a>
-                
-            <?php elseif($role === "parent"):?>
+                    href=<?= base_url('/faculty/students') ?>
+                    class="block <?= $heading === "Students" ? $act : $nact ?> px-3 py-2 text-base font-medium">Students</a>
+                <a
+                    href=<?= base_url('/faculty/subjects') ?>
+                    class="block <?= $heading === "Subjects" ? $act : $nact ?> px-3 py-2 text-base font-medium">Subjects</a>
+
+            <?php elseif ($role === "student"): ?>
 
                 <a
-                    href="/parent/dashboard"
-                    class=  "block <?= $heading === "Dashboard" ? $act : $nact?> px-3 py-2 text-base font-medium"
+                    href=<?= base_url('/student/dashboard') ?>
+                    class="block <?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-base font-medium"
                     aria-current="page">Dashboard</a>
                 <a
-                    href="/parent/students"
-                    class="block <?= $heading === "Students" ? $act : $nact?> px-3 py-2 text-base font-medium">Students</a>
-                
-            <?php endif;?>
+                    href=<?= base_url('/student/activities') ?>
+                    class="block <?= $heading === "Activities" ? $act : $nact ?> px-3 py-2 text-base font-medium">Activities</a>
+
+            <?php elseif ($role === "parent"): ?>
+
+                <a
+                    href=<?= base_url('/parent/dashboard') ?>
+                    class="block <?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-base font-medium"
+                    aria-current="page">Dashboard</a>
+                <a
+                    href=<?= base_url('/parent/students') ?>
+                    class="block <?= $heading === "Students" ? $act : $nact ?> px-3 py-2 text-base font-medium">Students</a>
+
+            <?php endif; ?>
         </div>
         <div class="border-t border-gray-700 pt-4 pb-3">
             <div class="flex items-center px-5">
 
                 <div class="ml-3">
-                    <div class="text-base/5 font-medium text-white">Dela Cruz, Juan</div>
+                    <div class="text-base/5 font-medium text-white"><?= $_SESSION['last_name'] . ', ' . $_SESSION['first_name'] ?></div>
                     <div class="text-sm font-medium text-gray-400">
-                        delacruzjuan@example.com
+                        <?= $_SESSION['email'] ?>
                     </div>
                 </div>
-                
+
             </div>
             <div class="mt-3 space-y-1 px-2">
                 <!-- <a
@@ -249,8 +254,8 @@
                 >Your Profile</a
               > -->
                 <a
-                    href="/"
-                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-purple-700 hover:text-white">Sign out</a>
+                    href=<?= base_url('/logout') ?>
+                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-purple-700 hover:text-white">logout</a>
             </div>
         </div>
     </div>

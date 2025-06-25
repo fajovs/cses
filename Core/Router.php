@@ -6,61 +6,66 @@ class Router
 {
     protected $routes = [];
 
-    public function add($uri, $controller, $method)
+    public function add($uri, $controller, $method, $roles)
     {
 
         $this->routes[] = [
+            'method' => $method,
             'uri' => $uri,
             'controller' => $controller,
-            'method' => $method
+            'roles' => $roles
         ];
     }
 
-    public function get($uri, $controller)
+    public function get($uri, $controller , $roles)
     {
 
-        $this->add($uri, $controller, 'GET');
+        $this->add($uri, $controller, 'GET', $roles);
     }
 
-    public function post($uri, $controller)
+    public function post($uri, $controller , $roles)
     {
 
-        $this->add($uri, $controller, 'POST');
+        $this->add($uri, $controller, 'POST' , $roles);
     }
 
-    public function delete($uri, $controller)
+    public function delete($uri, $controller , $roles)
     {
 
-       $this->add($uri, $controller, 'DELETE');
+        $this->add($uri, $controller, 'DELETE' , $roles);
     }
 
-    public function patch($uri, $controller)
+    public function patch($uri, $controller , $roles)
     {
-        $this->add($uri, $controller, 'PATCH');
+        $this->add($uri, $controller, 'PATCH' , $roles);
     }
 
-    public function put($uri, $controller)
+    public function put($uri, $controller , $roles)
     {
 
-        $this->add($uri, $controller, 'PUT');
+        $this->add($uri, $controller, 'PUT' , $roles);
     }
 
     public function route($uri, $method)
-    {
+{
+    foreach ($this->routes as $route) {
+        if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
 
-        foreach ($this->routes as $route) {
-            
-            if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
-                
-                return require base_path($route['controller']);
-                
+            // Check if this route has role restrictions
+            if (!empty($route['roles'])) {
+                $userRole = $_SESSION['role'] ?? null;
+
+                if (!in_array($userRole, $route['roles'])) {
+                    $this->abort(403); // Forbidden
+                }
             }
-            
-        }
 
-        $this->abort();
+            return require base_path($route['controller']);
+        }
     }
 
+    $this->abort(); // Not found
+}
     protected function abort($code = 404)
     {
         http_response_code($code);
