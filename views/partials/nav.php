@@ -87,7 +87,7 @@ $nact = "rounded-md  text-gray-300 hover:bg-purple-700 hover:text-white";
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true">
-                                <?= $_SESSION['last_name'] . ', ' . $_SESSION['first_name'] ?>
+                                <?= htmlspecialchars($_SESSION['last_name'] . ', ' . $_SESSION['first_name']) ?>
                                 <box-icon
                                     id="chevron-icon"
                                     color="white"
@@ -184,11 +184,7 @@ $nact = "rounded-md  text-gray-300 hover:bg-purple-700 hover:text-white";
                     class="block <?= $heading === "Dashboard" ? $act : $nact ?> px-3 py-2 text-base font-medium"
                     aria-current="page">Dashboard</a>
 
-                <a
-                    href=<?= base_url('/admin/departments') ?>
-
-                    class="block <?= $heading === "Departments" ? $act : $nact ?> px-3 py-2 text-base font-medium">Departments</a>
-                <a
+              <a
                     href=<?= base_url('/admin/programs') ?>
 
                     class="block <?= $heading === "Programs" ? $act : $nact ?> px-3 py-2 text-base font-medium">Programs</a>
@@ -240,9 +236,9 @@ $nact = "rounded-md  text-gray-300 hover:bg-purple-700 hover:text-white";
             <div class="flex items-center px-5">
 
                 <div class="ml-3">
-                    <div class="text-base/5 font-medium text-white"><?= $_SESSION['last_name'] . ', ' . $_SESSION['first_name'] ?></div>
+                    <div class="text-base/5 font-medium text-white"><?= htmlspecialchars($_SESSION['last_name'] . ', ' . $_SESSION['first_name']) ?></div>
                     <div class="text-sm font-medium text-gray-400">
-                        <?= $_SESSION['email'] ?>
+                        <?= htmlspecialchars($_SESSION['email']) ?>
                     </div>
                 </div>
 

@@ -1,68 +1,47 @@
 <?php
-
-use Core\Validator;
 use Core\Database;
+
 
 $config = require base_path('config.php');
 $db = new Database($config['database']);
 
-$email = trim($_POST['email']);
-$password = $_POST['password'];
-$first_name = $_POST['first_name'];
-$middle_name = $_POST['middle_name'];
-$last_name = $_POST['last_name'];
+
+$first_name = $_POST['first-name'];
+$middle_name = $_POST['middle-name'];
+$last_name = $_POST['last-name'];
 $suffix = $_POST['suffix'];
+$password = $_POST['password'];
+$email = $_POST['email'];
+$program_id = $_POST['program'];
 $role = $_POST['role'];
+$about = $_POST['about'];
+$datetime = date('Y-m-d H:i:s');
 
-$min = 8;
-$errors = [];
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// Validate email
-if (!Validator::email($email)) {
-    $errors['email'] = 'Please provide a valid email address.';
-}
+try {
 
-// Validate password
-if (!Validator::string($password, $min, 255)) {
-    $errors['password'] = "Password must have at least $min characters.";
-}
-
-$user = $db->query('select * from users where email = :email', [
-    'email' => $email
-]);
-
-if ($user) {
-    $errors['emai'] = "Email is already taken.";
-}
-
-// If there are validation errors, return to the view
-if (!empty($errors)) {
-    return view('/users/users.view.php', [
-        'heading' => 'Users',
-        'errors' => $errors
-    ]);
-
-} else {
-
-    // Save user
-    $datetime = date('Y-m-d H:i:s');
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $db->query(
-        "INSERT INTO users (first_name, middle_name, last_name, suffix, email, password, role, created_at) 
-     VALUES (:first, :middle, :last, :suffix, :email, :password, :role, :created_at)",
+        'INSERT INTO users (email, password, first_name, middle_name, last_name, suffix, role, program_id, created_at)
+         VALUES (:email, :password, :first_name, :middle_name, :last_name, :suffix, :role, :program_id, :created_at)',
         [
-            'first' => 'Admin',
-            'middle' => '',
-            'last' => '',
-            'suffix' => '',
             'email' => $email,
             'password' => $hashedPassword,
-            'role' => 'admin',
+            'first_name' => $first_name,
+            'middle_name' => $middle_name,
+            'last_name' => $last_name,
+            'suffix' => $suffix,
+            'role' => $role,
+            'program_id' => $program_id,
             'created_at' => $datetime
         ]
     );
 
-    // Redirect or load view after successful registration
-    view('/users/users.view.php', ['heading' => 'Users']);
+    $_SESSION['success'] = 'User created successfully!';
+} catch (Exception $e) {
+    $_SESSION['error'] = 'Failed to create user: ' . $e->getMessage();
 }
+
+header('Location: ' . base_url('/admin/users'));
+die();

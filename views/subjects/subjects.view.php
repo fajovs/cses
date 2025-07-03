@@ -40,10 +40,10 @@ require("views/partials/notification.php");
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Buttons pushed to bottom -->
                             <div class="mt-auto space-y-2">
-                                
+
                                 <button
                                     data-id="<?= $subject['subject_id'] ?>"
                                     data-sname="<?= htmlspecialchars($subject['subject_name']) ?>"
@@ -121,19 +121,25 @@ require("views/partials/notification.php");
 
                                             <div class="col-span-full">
                                                 <label for="program" class="block text-sm font-medium text-gray-900 mb-2">Program</label>
-                                                <select id="program" name="program"
-                                                    class="pr-10 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                                                    <?= empty($programs) ? 'disabled' : 'required' ?>>
+                                                <div class="mt-2 grid grid-cols-1">
+                                                    <select id="program" name="program"
+                                                        class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                        <?= empty($programs) ? 'disabled' : 'required' ?>>
 
-                                                    <?php if (empty($programs)) : ?>
-                                                        <option selected disabled>No Program Available</option>
-                                                    <?php else : ?>
-                                                        <option value="" selected disabled>Select a Program</option>
-                                                        <?php foreach ($programs as $program) : ?>
-                                                            <option value="<?= htmlspecialchars($program['program_id']) ?>"><?= htmlspecialchars($program['program_name']) ?></option>
-                                                        <?php endforeach; ?>
-                                                    <?php endif; ?>
-                                                </select>
+                                                        <?php if (empty($programs)) : ?>
+                                                            <option selected disabled>No Program Available</option>
+                                                        <?php else : ?>
+                                                            <option value="" selected disabled>Select a Program</option>
+                                                            <?php foreach ($programs as $program) : ?>
+                                                                <option value="<?= htmlspecialchars($program['program_id']) ?>"><?= htmlspecialchars($program['program_name']) ?></option>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </select>
+
+                                                    <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                                        <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
                                             </div>
 
                                             <div class="col-span-full">
@@ -237,64 +243,67 @@ require("views/partials/notification.php");
 
                                             <div class="col-span-full">
                                                 <label for="program" class="block text-sm font-medium text-gray-900 mb-2">Program</label>
+                                                <div class="mt-2 grid grid-cols-1"></div>
                                                 <select id="program" name="program"
-                                                    class="pr-10 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                                                 <?= empty($programs) ? 'disabled' : 'required' ?>>
-
-                                                    
-                                                        <option value="" selected disabled>Select a Program</option>
-                                                        <?php foreach ($programs as $program) : ?>
-                                                            <option value="<?= htmlspecialchars($program['program_id']) ?>"><?= htmlspecialchars($program['program_name']) ?></option>
-                                                        <?php endforeach; ?>
-                                                  
-                                                
-                                                </select>
-                                            </div>
-
-                                            <div class="col-span-full">
-                                                <label for="faculty" class="block text-sm font-medium text-gray-900 mb-2">Subject Adviser</label>
-                                                <select id="faculty" name="faculty" autocomplete="off" placeholder="Search or select a Subject Adviser..."
-                                                    class="block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-
-                                                    <?php
-
-                                                    foreach ($faculties as $faculty): ?>
-                                                        <option value="<?= htmlspecialchars($faculty['user_id']) ?>">
-                                                            <?= htmlspecialchars($faculty['last_name'] . ', ' . $faculty['first_name']) ?>
-                                                        </option>
+                                                    class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    <?= empty($programs) ? 'disabled' : 'required' ?>>
+                                                    <option value="" selected disabled>Select a Program</option>
+                                                    <?php foreach ($programs as $program) : ?>
+                                                        <option value="<?= htmlspecialchars($program['program_id']) ?>"><?= htmlspecialchars($program['program_name']) ?></option>
                                                     <?php endforeach; ?>
+
+
                                                 </select>
+                                                <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                                </svg>
                                             </div>
-
-
-
-                                            <div class="col-span-full">
-                                                <label for="about" class="block text-sm/6 font-medium text-gray-900">About</label>
-                                                <div class="mt-2">
-                                                    <textarea name="about" id="about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
-                                                </div>
-                                                <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about the Subject.</p>
-                                            </div>
-
                                         </div>
+
+                                        <div class="col-span-full">
+                                            <label for="faculty" class="block text-sm font-medium text-gray-900 mb-2">Subject Adviser</label>
+                                            <select id="faculty" name="faculty" autocomplete="off" placeholder="Search or select a Subject Adviser..."
+                                                class="block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+
+                                                <?php
+
+                                                foreach ($faculties as $faculty): ?>
+                                                    <option value="<?= htmlspecialchars($faculty['user_id']) ?>">
+                                                        <?= htmlspecialchars($faculty['last_name'] . ', ' . $faculty['first_name']) ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+
+
+
+                                        <div class="col-span-full">
+                                            <label for="about" class="block text-sm/6 font-medium text-gray-900">About</label>
+                                            <div class="mt-2">
+                                                <textarea name="about" id="about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
+                                            </div>
+                                            <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about the Subject.</p>
+                                        </div>
+
                                     </div>
-
                                 </div>
-
-                                <div class="mt-6 flex items-center justify-between gap-x-6">
-                                    <button id="openDialog" type="button" class="text-sm/6  font-semibold text-red-600">DELETE</button>
-                                    <button type="submit" class="rounded-md bg-indigo-600  w-50 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-                                </div>
-                            </form>
-
 
                         </div>
-                    </div>
 
+                        <div class="mt-6 flex items-center justify-between gap-x-6">
+                            <button id="openDialog" type="button" class="text-sm/6  font-semibold text-red-600">DELETE</button>
+                            <button type="submit" class="rounded-md bg-indigo-600  w-50 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                        </div>
+                        </form>
+
+
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Edit Program End -->

@@ -2,6 +2,10 @@
 require("views/partials/head.php");
 require("views/partials/nav.php");
 require("views/partials/banner.php");
+require("views/partials/notification.php");
+
+
+
 ?>
 <main>
   <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -27,12 +31,7 @@ require("views/partials/banner.php");
           <table class="w-full">
             <thead class="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </th>
+
                 <th
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   User
@@ -52,341 +51,88 @@ require("views/partials/banner.php");
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <!-- Row 1 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                      <span class="text-emerald-600 font-medium text-sm">JD</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Juan Dela Cruz
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        juan.delacruz@example.com
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded-full">Admin</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  Jan 15, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
+              <?php foreach ($users as $user) : ?>
+                <?php switch ($user['role']) {
+                  case 'admin':
+                    $badge = 'bg-purple-100 text-purple-800';
+                    $bg = 'bg-purple-100';
+                    $bgtext = 'text-purple-600';
+                    break;
+                  case 'faculty':
+                    $badge = 'bg-emerald-100 text-emerald-800';
+                    $bg = 'bg-emerald-100';
+                    $bgtext = 'text-emerald-600';
+                    break;
+                  case 'student':
+                    $badge = 'bg-blue-100 text-blue-800';
+                    $bg = 'bg-blue-100';
+                    $bgtext = 'text-blue-600';
+                    break;
+                  case 'parent':
+                    $badge = 'bg-amber-100 text-amber-800';
+                    $bg = 'bg-amber-100';
+                    $bgtext = 'text-amber-600';
+                    break;
+                } ?>
+                <tr class="hover:bg-gray-50 transition-colors">
 
-              <!-- Row 2 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                      <span class="text-orange-600 font-medium text-sm">MR</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Maria Reyes
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div
+                        class="h-10 w-10 rounded-full flex items-center justify-center <?= $bg ?>">
+                        <span class="<?= $bgtext ?> font-medium text-sm">
+                          <?= strtoupper($user['first_name'][0]) . strtoupper($user['last_name'][0]) ?>
+                        </span>
                       </div>
-                      <div class="text-sm text-gray-500">
-                        maria.reyes@example.com
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          <?= htmlspecialchars($user['first_name']) ?>
+                          <?= $user['middle_name'] ? ' ' . htmlspecialchars($user['middle_name']) : '' ?>
+                          <?= htmlspecialchars($user['last_name']) ?>
+                          <?= $user['suffix'] ? ', ' . htmlspecialchars($user['suffix']) : '' ?> </div>
+                        <div class="text-sm text-gray-500">
+                          <?= htmlspecialchars($user['email']) ?>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">Faculty</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  Mar 22, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="inline-flex px-2 py-1 text-xs font-medium <?= $badge ?> rounded-full"><?= htmlspecialchars(ucfirst($user['role'])) ?></span>
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <?= htmlspecialchars($user['created_at']) ?>
+                  </td>
+                  <?php if ($user['role'] != 'admin'): ?>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button
+                        data-id="<?= htmlspecialchars($user['user_id']) ?>"
+                        data-first="<?= htmlspecialchars($user['first_name']) ?>"
+                        data-middle="<?= htmlspecialchars($user['middle_name']) ?>"
+                        data-last="<?= htmlspecialchars($user['last_name']) ?>"
+                        data-suffix="<?= htmlspecialchars($user['suffix']) ?>"
+                        data-email="<?= htmlspecialchars($user['email']) ?>"
+                        data-programid="<?= htmlspecialchars($user['program_id']) ?>"
+                        data-role="<?= htmlspecialchars($user['role']) ?>"
+                   
+                        class="openDrawerEdit text-teal-600 hover:text-teal-900 mr-3">
+                        Edit
+                      </button>
+               
 
-              <!-- Row 3 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">
-                      <span class="text-pink-600 font-medium text-sm">AS</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Antonio Santos
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        antonio.santos@example.com
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Student</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  May 10, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
+                    </td>
+                  <?php endif; ?>
+                </tr>
+              <?php endforeach; ?>
 
-              <!-- Row 4 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center">
-                      <span class="text-teal-600 font-medium text-sm">LL</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Luisa Lim
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        luisa.lim@example.com
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-amber-100 text-amber-800 rounded-full">Parent</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  Jun 5, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-
-              <!-- Row 5 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-violet-100 flex items-center justify-center">
-                      <span class="text-violet-600 font-medium text-sm">RA</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Roberto Aquino
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        roberto.aquino@example.com
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Student</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  Aug 17, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-
-              <!-- Row 6 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center">
-                      <span class="text-rose-600 font-medium text-sm">CM</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Carmela Mendoza
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        carmela.mendoza@example.com
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">Faculty</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  Oct 3, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-
-              <!-- Row 7 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <input
-                    type="checkbox"
-                    class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div
-                      class="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center">
-                      <span class="text-amber-600 font-medium text-sm">PG</span>
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Paolo Garcia
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        paolo.garcia@example.com
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="inline-flex px-2 py-1 text-xs font-medium bg-amber-100 text-amber-800 rounded-full">Parent</span>
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  Nov 12, 2023
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    class="text-teal-600 hover:text-teal-900 mr-3">
-                    Edit
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    Delete
-                  </button>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- Table Footer -->
-        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-          <div class="flex items-center justify-between">
-            <div class="text-sm text-gray-500">
-              Showing 1 to 7 of 24 results
-            </div>
-            <div class="flex items-center space-x-2">
-              <button
-                class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled>
-                Previous
-              </button>
-              <button
-                class="px-3 py-1 text-sm bg-teal-600 text-white rounded-md hover:bg-emerald-700 transition-colors">
-                1
-              </button>
-              <button
-                class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
-                2
-              </button>
-              <button
-                class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
-                3
-              </button>
-              <button
-                class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
-                Next
-              </button>
-            </div>
-          </div>
-        </div>
+    
+        
       </div>
     </div>
   </div>
@@ -422,7 +168,7 @@ require("views/partials/banner.php");
             <h2 class="text-base font-semibold text-gray-900" id="drawer-title">Add User</h2>
             <div class="mt-6 flex-1">
 
-              <form method="POST" action=<?= base_url('/admin/program/create') ?>>
+              <form method="POST" action=<?= base_url('/admin/user/create') ?>>
                 <div class="space-y-12">
 
                   <div class="border-b border-gray-900/10 pb-12">
@@ -433,7 +179,7 @@ require("views/partials/banner.php");
                       <div class="sm:col-span-3">
                         <label for="first-name" class="block text-sm/6 font-medium text-gray-900">First name</label>
                         <div class="mt-2">
-                          <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                          <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 " required />
                         </div>
                       </div>
 
@@ -447,7 +193,7 @@ require("views/partials/banner.php");
                       <div class="sm:col-span-3">
                         <label for="last-name" class="block text-sm/6 font-medium text-gray-900">Last name</label>
                         <div class="mt-2">
-                          <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                          <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 " required />
                         </div>
                       </div>
 
@@ -461,21 +207,25 @@ require("views/partials/banner.php");
                       <div class="sm:col-span-4">
                         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
                         <div class="mt-2">
-                          <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                          <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 " required />
+                          <p id="email-error" class="mt-2 text-sm px-2 text-red-600 hidden">
+
+                          </p>
                         </div>
                       </div>
 
                       <div class="sm:col-span-3">
                         <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
                         <div class="mt-2">
-                          <input id="password" name="password" type="password" autocomplete="password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                          <input id="password" name="password" type="password" autocomplete="password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required />
                         </div>
                       </div>
 
                       <div class="sm:col-span-3">
                         <label for="confirm_password" class="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
                         <div class="mt-2">
-                          <input id="confirm_password" name="confirm_password" type="confirm_password" autocomplete="confirm_password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                          <input id="confirm_password" name="confirm_password" type="password" autocomplete="confirm_password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required />
+                          <p id="pass-error" class="mt-2 text-sm px-2 text-red-600 hidden"></p>
                         </div>
                       </div>
 
@@ -494,66 +244,36 @@ require("views/partials/banner.php");
                         </div>
                       </div>
 
-                      <div class="sm:col-span-4">
-                        <label for="deparment" class="block text-sm/6 font-medium text-gray-900">Department</label>
-                        <div class="mt-2 grid grid-cols-1">
-                          <select id="deparment" name="deparment" autocomplete="deparment" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                            <option selected disabled>Select a Department </option>
-                   
-                          </select>
-                          <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                          </svg>
-                        </div>
-                      </div>
 
-                      <div class="sm:col-span-4">
+
+                      <div class="sm:col-span-4 hidden" id="program-container">
                         <label for="program" class="block text-sm/6 font-medium text-gray-900">Program</label>
                         <div class="mt-2 grid grid-cols-1">
-                          <select id="program" name="program" autocomplete="program" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                            <option selected disabled>Select a Program </option>
-                          
+                          <select id="program" name="program"
+                            class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            <?= empty($programs) ? 'disabled' : 'required' ?>>
+
+                            <?php if (empty($programs)) : ?>
+                              <option selected disabled>No Program Available</option>
+                            <?php else : ?>
+                              <option value="" selected disabled>Select a Program</option>
+                              <?php foreach ($programs as $program) : ?>
+                                <option value="<?= htmlspecialchars($program['program_id']) ?>"><?= htmlspecialchars($program['program_name']) ?></option>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
                           </select>
                           <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
                             <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                           </svg>
                         </div>
                       </div>
-
-                      <div class="sm:col-span-4">
-                        <label for="student" class="block text-sm/6 font-medium text-gray-900">Student</label>
-                        <div class="mt-2 grid grid-cols-1">
-                          <select id="student" name="student" autocomplete="student" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                            <option selected disabled>Select a Student </option>
-                            <option value="faculty">Faculty</option>
-                            <option value="student">Student</option>
-                            <option value="parent">Parent</option>
-                          </select>
-                          <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                          </svg>
-                        </div>
-                      </div>
-
-
-                      
-
-
                     </div>
                   </div>
 
-
-
-                  
-
-
                 </div>
-
-
-
                 <div class="mt-6 flex items-center justify-end gap-x-6">
                   <button id="cancel" type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-                  <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                  <button id="save" type="submit" disabled="true" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                 </div>
               </form>
 
@@ -586,7 +306,7 @@ require("views/partials/banner.php");
     <div class="absolute inset-0 overflow-hidden">
       <div class="fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
         <!-- Sliding Panel -->
-        <div id="drawerPanelEdit" class="w-screen max-w-md bg-white shadow-xl transform transition-transform duration-500 translate-x-full">
+        <div id="drawerPanelEdit" class="w-screen max-w-5xl bg-white shadow-xl transform transition-transform duration-500 translate-x-full">
 
           <!-- Close Button -->
           <div class="absolute top-0 right-0 flex pt-4 pr-4">
@@ -600,55 +320,121 @@ require("views/partials/banner.php");
 
           <!-- Drawer Content -->
           <div class="flex h-full flex-col overflow-y-auto py-6 px-4 sm:px-6">
-            <h2 class="text-base font-semibold text-gray-900" id="drawer-title">Update Program</h2>
-            <p class="mt-1 text-sm/6 text-gray-600">Please provide the program details needed to be updated. This information will be visible to system users.</p>
+            <h2 class="text-base font-semibold text-gray-900" id="drawer-title">Update User</h2>
+            <p class="mt-1 text-sm/6 text-gray-600">Please provide the user details needed to be updated. This information will be visible to system users.</p>
             <div class="mt-6 flex-1">
-              <form method="POST" action=<?= base_url('/admin/program/update') ?>>
+              <form method="POST" action=<?= base_url('/admin/user/update') ?>>
                 <input type="hidden" name="_method" value="PATCH">
                 <div class="space-y-12">
+
                   <div class="border-b border-gray-900/10 pb-12">
+                    <h2 class="text-base/7 font-semibold text-gray-900">Personal Information</h2>
+                    <p class="mt-1 text-sm/6 text-gray-600">Please provide the User details. This information will be visible to system users.</p>
 
-                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-                      <div class="col-span-full">
-                        <label for="program_edit" class="block text-sm/6 font-medium text-gray-900">Program</label>
+                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-10">
+                      <div class="sm:col-span-3">
+                        <label for="first-name-edit" class="block text-sm/6 font-medium text-gray-900">First name</label>
                         <div class="mt-2">
-                          <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                            <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6"></div>
-                            <input type="hidden" name="program_id">
-                            <input type="text" name="program_edit" id="program_edit" class="block w-full min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="e.g., Bachelor of Science in Information Technology" required>
-                          </div>
+                          <input class="hidden" name="user_id">
+                          <input type="text" name="first-name-edit" id="first-name-edit" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 " required />
                         </div>
                       </div>
 
-                      <div class="col-span-full">
-                        <label for="department_edit" class="block text-sm font-medium text-gray-900 mb-2">Department</label>
-                        <select id="department_edit" name="department_edit"
-                          class="pr-10 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" required>
-
-                          <?php foreach ($departments as $department) : ?>
-                            <option value=<?= $department['department_id'] ?>><?= $department['department_name'] ?></option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-
-
-
-                      <div class="col-span-full">
-                        <label for="about" class="block text-sm/6 font-medium text-gray-900">About</label>
+                      <div class="sm:col-span-3">
+                        <label for="middle-name-edit" class="block text-sm/6 font-medium text-gray-900">Middle name</label>
                         <div class="mt-2">
-                          <textarea name="about" id="about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
+                          <input type="text" name="middle-name-edit" id="middle-name-edit" autocomplete="middle-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                         </div>
-                        <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about the Program.</p>
                       </div>
 
+                      <div class="sm:col-span-3">
+                        <label for="last-name-edit" class="block text-sm/6 font-medium text-gray-900">Last name</label>
+                        <div class="mt-2">
+                          <input type="text" name="last-name-edit" id="last-name-edit" autocomplete="family-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 " required />
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-1">
+                        <label for="suffix-edit" class="block text-sm/6 font-medium text-gray-900">Suffix</label>
+                        <div class="mt-2">
+                          <input type="text" name="suffix-edit" id="suffix-edit" autocomplete="suffix" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-4">
+                        <label for="email-edit" class="block text-sm/6 font-medium text-gray-900">Email address</label>
+                        <div class="mt-2">
+                          <input id="email-edit" name="email-edit" type="email" autocomplete="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 " />
+                          <p id="email-error-edit" class="mt-2 text-sm px-2 text-red-600 hidden">
+
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-3">
+                        <label for="password-edit" class="block text-sm/6 font-medium text-gray-900">Password</label>
+                        <div class="mt-2">
+                          <input id="password-edit" name="password-edit" type="password" autocomplete="password" class="block w-full rounded-md bg-gray-200 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" disabled />
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-3">
+                        <label for="confirm_password-edit" class="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
+                        <div class="mt-2">
+                          <input id="confirm_password-edit" name="confirm_password-edit" type="password" autocomplete="confirm_password" class="block w-full rounded-md bg-gray-200 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" disabled />
+                          <p id="pass-error-edit" class="mt-2 text-sm px-2 text-red-600 hidden"></p>
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="role-edit" class="block text-sm/6 font-medium text-gray-900">Role</label>
+                        <div class="mt-2 grid grid-cols-1">
+                          <select id="role-edit" name="role-edit" autocomplete="role" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                            <option selected disabled>Select a Role </option>
+                            <option value="faculty">Faculty</option>
+                            <option value="student">Student</option>
+                            <option value="parent">Parent</option>
+                          </select>
+                          <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                      </div>
+
+
+
+                      <div class="sm:col-span-4 hidden" id="program-container-edit">
+                        <label for="program-edit" class="block text-sm/6 font-medium text-gray-900">Program</label>
+                        <div class="mt-2 grid grid-cols-1">
+                          <select id="program-edit" name="program-edit"
+                            class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            <?= empty($programs) ? 'disabled' : 'required' ?>>
+
+                            <?php if (empty($programs)) : ?>
+                              <option selected disabled>No Program Available</option>
+                            <?php else : ?>
+                              <option value="" selected disabled>Select a Program</option>
+                              <?php foreach ($programs as $program) : ?>
+                                <option value="<?= htmlspecialchars($program['program_id']) ?>"><?= htmlspecialchars($program['program_name']) ?></option>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
+                          </select>
+                          <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                 </div>
 
+
                 <div class="mt-6 flex items-center justify-between gap-x-6">
                   <button id="openDialog" type="button" class="text-sm/6  font-semibold text-red-600">DELETE</button>
-                  <button type="submit" class="rounded-md bg-indigo-600  w-50 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                  <button id="change" type="button" class="text-center rounded-md bg-emerald-600  w-50 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">Change Password</button>
+
+                  <button id="editBtn" type="submit" class="rounded-md bg-indigo-600  w-50 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                 </div>
               </form>
 
@@ -685,8 +471,8 @@ require("views/partials/banner.php");
         </div>
       </div>
     </div>
-    <form method="POST" action="<?= base_url('/admin/program/delete') ?>">
-      <input type="hidden" name="program_id" id="program_id">
+    <form method="POST" action="<?= base_url('/admin/user/delete') ?>">
+      <input type="hidden" name="user_id" id="user_id">
       <input type="hidden" name="_method" value="DELETE">
       <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
         <button type="submit"
@@ -763,14 +549,25 @@ require("views/partials/banner.php");
       btn.addEventListener('click', () => {
         // Populate form fields
         const id = btn.dataset.id;
-        const dpid = btn.dataset.dpid;
-        const pname = btn.dataset.pname;
-        const about = btn.dataset.about;
+        const first = btn.dataset.first;
+        const middle = btn.dataset.middle;
+        const last = btn.dataset.last;
+        const suffix = btn.dataset.suffix;
+        const programId = btn.dataset.programid;
+        const role = btn.dataset.role;
+        const email = btn.dataset.email;
 
-        document.querySelector('#drawerPanelEdit input[name="program_id"]').value = id;
-        document.querySelector('#drawerPanelEdit select[name="department"]').value = dpid;
-        document.querySelector('#drawerPanelEdit input[name="program"]').value = pname;
-        document.querySelector('#drawerPanelEdit textarea[name="about"]').value = about;
+        console.log(programId);
+
+        document.querySelector('#drawerPanelEdit input[name="user_id"]').value = id;
+        document.querySelector('#drawerPanelEdit input[name="first-name-edit"]').value = first;
+        document.querySelector('#drawerPanelEdit input[name="middle-name-edit"]').value = middle;
+        document.querySelector('#drawerPanelEdit input[name="last-name-edit"]').value = last;
+        document.querySelector('#drawerPanelEdit input[name="suffix-edit"]').value = suffix;
+        document.querySelector('#drawerPanelEdit input[name="email-edit"]').value = email;
+        document.querySelector('#drawerPanelEdit select[name="program-edit"]').value = programId;
+        document.querySelector('#drawerPanelEdit select[name="role-edit"]').value = role;
+        handleRoleChange();
 
         openDialog.setAttribute('data-id', id);
 
@@ -793,12 +590,12 @@ require("views/partials/banner.php");
     const cancelBtn = document.getElementById('cancelDialog');
     const wrapper = document.getElementById('dialogWrapper');
     const panel = document.getElementById('dialogPanel');
-    const deparment_id = document.getElementById('deparment_id')
+    const user_id = document.getElementById('user_id')
 
     openDialog.addEventListener('click', () => {
 
       const id = openDialog.getAttribute('data-id');
-      program_id.value = id;
+      user_id.value = id;
 
       wrapper.classList.remove('hidden');
       setTimeout(() => {
@@ -818,30 +615,183 @@ require("views/partials/banner.php");
 
 
     //Role value change
-    const addInfo = document.getElementById('add-info');
+
+    const programContainer = document.getElementById('program-container');
+    const program = document.getElementById('program');
     const role = document.getElementById('role');
 
-    role.addEventListener('change', () => {
+    role.addEventListener('change', function() {
       const roleValue = this.value;
 
       if (roleValue === 'faculty' || roleValue === 'student') {
-        addInfo.classList.remove('hidden');
+        programContainer.classList.remove('hidden');
+        program.setAttribute('required', 'true');
+      } else {
+        programContainer.classList.add('hidden');
+        program.setAttribute('required', 'false');
       }
 
     })
 
-    role.addEventListener('change', () => {
-      const roleValue = role.value;
+    const programContainerEdit = document.getElementById('program-container-edit');
+    const programEdit = document.getElementById('program-edit');
+    const roleEdit = document.getElementById('role-edit');
+
+    function handleRoleChange() {
+      const roleValue = roleEdit.value;
 
       if (roleValue === 'faculty' || roleValue === 'student') {
-        addInfo.classList.remove('hidden');
-      }else if(roleValue === 'parent'){
-        addInfo.classList.add('hidden');
-      }else{
-        addInfo.classList.add('hidden');
+        programContainerEdit.classList.remove('hidden');
+        programEdit.setAttribute('required', 'true');
+      } else {
+        programContainerEdit.classList.add('hidden');
+        programEdit.removeAttribute('required'); 
+      }
+    }
+
+    roleEdit.addEventListener('change', handleRoleChange);
+
+    
+
+
+
+
+
+    // Email Validation
+    const existingEmails = <?= json_encode(array_map('strtolower', $emails), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+
+    const emailInput = document.getElementById('email');
+    const saveBtn = document.getElementById('save');
+    const emailError = document.getElementById('email-error');
+
+    const emailInputEdit = document.getElementById('email-edit');
+    const editBtn = document.getElementById('editBtn');
+    const emailErrorEdit = document.getElementById('email-error-edit');
+
+    // Email format regex
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function validateEmail(input, errorBox, button) {
+      const email = input.value.trim().toLowerCase();
+
+      // Format check
+      if (!emailPattern.test(email)) {
+        errorBox.innerHTML = 'Please enter a valid email address';
+        errorBox.classList.remove('hidden');
+        button.setAttribute('disabled', 'true');
+        button.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+        button.classList.add('bg-gray-600');
+        return;
       }
 
-    });
+      // Duplicate check
+      if (existingEmails.includes(email)) {
+        errorBox.innerHTML = 'Email has already been taken';
+        errorBox.classList.remove('hidden');
+        button.setAttribute('disabled', 'true');
+        button.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+        button.classList.add('bg-gray-600');
+      } else {
+        errorBox.classList.add('hidden');
+        button.removeAttribute('disabled');
+        button.classList.add('bg-indigo-600', 'hover:bg-indigo-500');
+        button.classList.remove('bg-gray-600');
+      }
+    }
+
+
+    emailInput.addEventListener('input', () => validateEmail(emailInput, emailError, saveBtn));
+
+    emailInputEdit.addEventListener('input', () => validateEmail(emailInputEdit, emailErrorEdit, editBtn));
+
+
+
+
+    //Confirm Password
+
+
+    const password = document.getElementById('password');
+    const confirmPass = document.getElementById('confirm_password');
+    const passError = document.getElementById('pass-error');
+
+    const passwordEdit = document.getElementById('password-edit');
+    const confirmPassEdit = document.getElementById('confirm_password-edit');
+    const passErrorEdit = document.getElementById('pass-error-edit');
+
+
+    function validatePasswordMatch(pass, conf, errorBox) {
+      if (pass.value !== conf.value) {
+        errorBox.textContent = 'Password does not match';
+        errorBox.classList.remove('hidden');
+        saveBtn.setAttribute('disabled', 'true');
+        saveBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+        saveBtn.classList.add('bg-gray-600');
+        editBtn.setAttribute('disabled', 'true');
+        editBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
+        editBtn.classList.add('bg-gray-600');
+      } else {
+        errorBox.classList.add('hidden');
+        saveBtn.removeAttribute('disabled');
+        saveBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-500');
+        saveBtn.classList.remove('bg-gray-600');
+        editBtn.removeAttribute('disabled');
+        editBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-500');
+        editBtn.classList.remove('bg-gray-600');
+      }
+    }
+
+    // For new password fields
+    password.addEventListener('input', () => validatePasswordMatch(password, confirmPass, passError));
+    confirmPass.addEventListener('input', () => validatePasswordMatch(password, confirmPass, passError));
+
+    // For edit password fields
+    passwordEdit.addEventListener('input', () => validatePasswordMatch(passwordEdit, confirmPassEdit, passErrorEdit));
+    confirmPassEdit.addEventListener('input', () => validatePasswordMatch(passwordEdit, confirmPassEdit, passErrorEdit));
+
+    const changeBtn = document.getElementById('change');
+
+    var isChange = false;
+
+    changeBtn.addEventListener('click', () => {
+  isChange = !isChange; // Toggle the flag
+
+  if (isChange) {
+    passwordEdit.setAttribute('required', 'true');
+    passwordEdit.removeAttribute('disabled');
+    passwordEdit.classList.remove('bg-gray-200');
+    passwordEdit.classList.add('bg-white');
+
+    confirmPassEdit.setAttribute('required', 'true');
+    confirmPassEdit.removeAttribute('disabled');
+    confirmPassEdit.classList.remove('bg-gray-200');
+    confirmPassEdit.classList.add('bg-white');
+
+    changeBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500', 'focus-visible:outline-emerald-600');
+    changeBtn.classList.add('bg-red-600', 'hover:bg-red-500', 'focus-visible:outline-red-600');
+    changeBtn.innerHTML = 'Cancel Change Password';
+  } else {
+    // Disable and reset fields
+    passwordEdit.setAttribute('disabled', 'true');
+    passwordEdit.removeAttribute('required');
+    passwordEdit.classList.remove('bg-white');
+    passwordEdit.classList.add('bg-gray-200');
+    passwordEdit.value = '';
+
+    confirmPassEdit.setAttribute('disabled', 'true');
+    confirmPassEdit.removeAttribute('required');
+    confirmPassEdit.classList.remove('bg-white');
+    confirmPassEdit.classList.add('bg-gray-200');
+    confirmPassEdit.value = '';
+
+    // Reset button style and text
+    changeBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'focus-visible:outline-emerald-600');
+    changeBtn.classList.remove('bg-red-600', 'hover:bg-red-500', 'focus-visible:outline-red-600');
+    changeBtn.innerHTML = 'Change Password';
+  }
+});
+
+
+
 
   })
 </script>
