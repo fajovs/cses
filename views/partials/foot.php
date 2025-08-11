@@ -1,3 +1,6 @@
+ <!-- Removed tab JS, kept elements script -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+
  <script>
   
      function toggleMenu() {

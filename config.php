@@ -4,7 +4,7 @@ return [
 
     'database' =>  [
         'host' => 'localhost',
-        'dbname' => 'ccses_db',
+        'dbname' => 'ccses_database',
         'charset' => 'utf8mb4'
     ]
 ];

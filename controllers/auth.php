@@ -36,16 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             switch ($user['role']) {
                 case 'admin':
-                    header('Location: ' . base_url('/admin/dashboard'));
+                    header('Location: ' . base_url('/admin/programs'));
                     break;
                 case 'student':
-                    header('Location: ' . base_url('/student/dashboard'));
+                    header('Location: ' . base_url('/student/subjects'));
                     break;
                 case 'faculty':
-                    header('Location: ' . base_url('/faculty/dashboard'));
+                    header('Location: ' . base_url('/faculty/subjects'));
                     break;
                 case 'parent':
-                    header('Location: ' . base_url('/parent/dashboard'));
+                    header('Location: ' . base_url('/parent/students'));
                     break;
             }
             exit;
