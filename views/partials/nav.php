@@ -1,6 +1,9 @@
 <?php
 $act = "rounded-md bg-indigo-600 text-white";
 $nact = "rounded-md  text-gray-300 hover:bg-indigo-700 hover:text-white";
+require base_path('CORE/nav-notification.php');
+
+
 ?>
 
 <nav class="bg-indigo-600">
@@ -172,7 +175,7 @@ $nact = "rounded-md  text-gray-300 hover:bg-indigo-700 hover:text-white";
                             <a
                                 href=<?= base_url('/parent/students') ?>
 
-                                class="<?= $heading === "Students" ? $act : $nact ?> px-3 py-2 text-sm font-medium">My Students</a>
+                                class="<?= $heading === "Students" ? $act : $nact ?> px-3 py-2 text-sm font-medium">MyStudents</a>
 
                         <?php endif; ?>
 
@@ -181,8 +184,101 @@ $nact = "rounded-md  text-gray-300 hover:bg-indigo-700 hover:text-white";
             </div>
             <div class="hidden md:block">
                 <div class="ml-4 flex items-center md:ml-6">
+                    <?php if ($_SESSION['role'] === 'faculty') : ?>
+                        <button popovertarget="notifications" type="button" class="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
+                            <span class="absolute -inset-1.5"></span>
+                            <span class="sr-only">View notifications</span>
+
+                            <!-- Bell icon -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                                <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+
+                            <!-- Notification marker -->
+                            <?php if (
+                                (!empty($activityNotification) || !empty($quizNotification) || !empty($examNotification))
+                                && $_SESSION['role'] === 'faculty'
+                            ) : ?>
+                                <!-- Notification Marker -->
+                                <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white"></span>
+
+                                <el-popover id="notifications" anchor="bottom" popover
+                                    class="w-screen max-w-max overflow-visible bg-transparent px-4 transition transition-discrete 
+               [--anchor-gap:--spacing(5)] backdrop:bg-transparent open:flex data-closed:translate-y-1 
+               data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 
+               data-leave:ease-in">
+
+                                    <div class="w-80 flex-auto overflow-hidden rounded-xl bg-gray-50 text-sm ring-1 ring-gray-300 shadow-lg">
+                                        <!-- Scrollable container -->
+                                        <div class="p-2 max-h-60 overflow-y-auto">
+
+                                            <!-- Activities -->
+                                            <?php if (!empty($activityNotification)): ?>
+                                                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Activities</div>
+                                                <?php foreach ($activityNotification as $notif): ?>
+                                                    <a href="<?= base_url('/faculty/submissions/subject/' . htmlspecialchars($notif['subject_id']) . '/activity/' . htmlspecialchars($notif['activity_id'])) ?>"
+                                                        class="block p-3 border-b border-gray-200 last:border-none hover:bg-gray-100 transition-colors duration-150 text-left">
+                                                        <div class="font-semibold text-gray-900">
+                                                            <?= htmlspecialchars($notif['activity_title'] ?? 'Untitled Activity') ?>
+                                                        </div>
+                                                        <p class="mt-1 text-gray-700 text-sm">
+                                                            <?= htmlspecialchars($notif['subject_name'] ?? 'Untitled Subject') ?> —
+                                                            <?= (int)$notif['total_submissions'] ?> new submission<?= $notif['total_submissions'] > 1 ? 's' : '' ?>.
+                                                        </p>
+                                                    </a>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
+                                            <!-- Quizzes -->
+                                            <?php if (!empty($quizNotification)): ?>
+                                                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Quizzes</div>
+                                                <?php foreach ($quizNotification as $notif): ?>
+                                                    <a href="<?= base_url('/faculty/submissions/subject/' . htmlspecialchars($notif['subject_id']) . '/quiz/' . htmlspecialchars($notif['quiz_id'])) ?>"
+                                                        class="block p-3 border-b border-gray-200 last:border-none hover:bg-gray-100 transition-colors duration-150 text-left">
+                                                        <div class="font-semibold text-gray-900">
+                                                            <?= htmlspecialchars($notif['quiz_title'] ?? 'Untitled Quiz') ?>
+                                                        </div>
+                                                        <p class="mt-1 text-gray-700 text-sm">
+                                                            <?= htmlspecialchars($notif['subject_name'] ?? 'Untitled Subject') ?> —
+                                                            <?= (int)$notif['total_submissions'] ?> new submission<?= $notif['total_submissions'] > 1 ? 's' : '' ?>.
+                                                        </p>
+                                                    </a>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
+                                            <!-- Exams -->
+                                            <?php if (!empty($examNotification)): ?>
+                                                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Exams</div>
+                                                <?php foreach ($examNotification as $notif): ?>
+                                                    <a href="<?= base_url('/faculty/submissions/subject/' . htmlspecialchars($notif['subject_id']) . '/exam/' . htmlspecialchars($notif['exam_id'])) ?>"
+                                                        class="block p-3 border-b border-gray-200 last:border-none hover:bg-gray-100 transition-colors duration-150 text-left">
+                                                        <div class="font-semibold text-gray-900">
+                                                            <?= htmlspecialchars($notif['exam_title'] ?? 'Untitled Exam') ?>
+                                                        </div>
+                                                        <p class="mt-1 text-gray-700 text-sm">
+                                                            <?= htmlspecialchars($notif['subject_name'] ?? 'Untitled Subject') ?> —
+                                                            <?= (int)$notif['total_submissions'] ?> new submission<?= $notif['total_submissions'] > 1 ? 's' : '' ?>.
+                                                        </p>
+                                                    </a>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
+                                        </div>
+                                    </div>
+                                </el-popover>
+                            <?php endif; ?>
+
+
+
+
+
+                        </button>
+                    <?php endif; ?>
+
                     <!-- Profile dropdown -->
                     <div class="relative ml-3">
+
                         <div>
                             <button
                                 type="button"
@@ -324,6 +420,7 @@ $nact = "rounded-md  text-gray-300 hover:bg-indigo-700 hover:text-white";
             <?php endif; ?>
         </div>
         <div class="border-t border-gray-700 pt-4 pb-3">
+
             <div class="flex items-center px-5">
 
                 <div class="ml-3">
