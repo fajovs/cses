@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /CSES/
+RewriteBase /ccses/
 
 # Only rewrite if the file or folder doesn't exist
 RewriteCond %{REQUEST_FILENAME} !-f
