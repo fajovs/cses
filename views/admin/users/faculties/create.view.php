@@ -34,7 +34,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-6">
                         <label for="faculty_number" class="block text-sm/6 font-medium text-gray-900">Faculty Number</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="faculty_number"
@@ -48,7 +48,7 @@ require("views/partials/notification.php");
 
                     <div class="sm:col-span-6">
                         <label for="program_id" class="block text-sm font-medium text-gray-900 mb-3">Program</label>
-                        <select id="program_id" name="program_id" class="w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" <?= empty($programs) ? 'disabled' : 'required' ?>>
+                        <select id="program_id" name="program_id" class="w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" <?= empty($programs) ? 'disabled' : 'required' ?>>
                             <?php if (empty($programs)) : ?>
                                 <option selected disabled>No Program Available</option>
                             <?php else : ?>
@@ -63,7 +63,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-3">
                         <label for="first_name" class="block text-sm/6 font-medium text-gray-900">First Name</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="first_name"
@@ -78,7 +78,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-3">
                         <label for="middle_name" class="block text-sm/6 font-medium text-gray-900">Middle Name</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="middle_name"
@@ -93,7 +93,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-3">
                         <label for="last_name" class="block text-sm/6 font-medium text-gray-900">Last Name</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="last_name"
@@ -110,9 +110,9 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-1">
                         <label for="suffix" class="block text-sm/6 font-medium text-gray-900">Suffix</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
-                                    required
+                                  
                                     id="suffix"
                                     type="text"
                                     name="suffix"
@@ -127,7 +127,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-4">
                         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="email"
@@ -144,7 +144,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-4">
                         <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="password"
@@ -159,7 +159,7 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-4">
                         <label for="confirm_password" class="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
                         <div class="mt-2">
-                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     required
                                     id="confirm_password"
@@ -186,7 +186,7 @@ require("views/partials/notification.php");
             <a href=<?= base_url("/admin/users/faculties") ?> class="text-sm/6 font-semibold text-gray-900">
                 Cancel
             </a>
-            <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button type="submit" class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
                 Create
             </button>
         </div>

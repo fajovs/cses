@@ -40,7 +40,7 @@ require("views/partials/notification.php");
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Examinations</h2>
         <input type="text" placeholder="Search examinations..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="active">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -77,7 +77,7 @@ require("views/partials/notification.php");
 
 
                                         <a href="<?= base_url('/faculty/submissions/subject/' . $exam['subject_id'] . '/exam/' . $exam['exam_id']) ?>"
-                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             View
                                         </a>
 

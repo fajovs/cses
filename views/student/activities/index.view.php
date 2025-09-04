@@ -20,7 +20,7 @@ require("views/partials/notification.php");
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Active Activities</h2>
         <input type="text" placeholder="Search active activities..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="active">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -48,7 +48,7 @@ require("views/partials/notification.php");
 
                                     <td class="px-6 py-5 text-center">
                                         <a href="<?= base_url('/student/subject/' . $activity['subject_id'] . '/activity/' . $activity['activity_id']) ?>"
-                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             View
                                         </a>
                                     </td>
@@ -70,7 +70,7 @@ require("views/partials/notification.php");
     <div>
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Submitted Activities</h2>
         <input type="text" placeholder="Search submitted activities..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="inactive">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -116,7 +116,7 @@ require("views/partials/notification.php");
                                                 data-activity='<?= htmlspecialchars(json_encode($activity), ENT_QUOTES, 'UTF-8') ?>'
                                                 command="show-modal"
                                                 commandfor="drawer"
-                                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                                 Show Feedback
                                             </button>
                                         <?php endif; ?>

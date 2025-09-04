@@ -22,7 +22,7 @@ require("views/partials/notification.php");
         <input
             type="text"
             placeholder="Search subjects..."
-            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all">
     </div>
 
     <div>
@@ -86,7 +86,7 @@ require("views/partials/notification.php");
 
                                         <!-- Exams Button -->
                                         <a href="<?= base_url("/student/subject/" . htmlspecialchars($subject['subject_id']) . "/exams") ?>"
-                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             Examinations
                                             <?php if ($subject['not_attempted_exams'] > 0): ?>
                                                 <span class="absolute top-0 right-0 -mt-1 -mr-1 flex items-center justify-center h-5 w-5 text-xs font-bold bg-red-600 text-white rounded-full">

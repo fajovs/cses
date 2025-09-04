@@ -13,7 +13,7 @@ require("views/partials/notification.php");
         </div>
         <div class="flex flex-col gap-4">
             <a href="<?= base_url('/faculty/subject/' . $subject['subject_id']) . '/exam' ?>"
-                class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 outline-none">
+                class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 outline-none">
                 Create Exam
             </a>
         </div>
@@ -26,7 +26,7 @@ require("views/partials/notification.php");
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Active Exams</h2>
         <input type="text" placeholder="Search active exams..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="active">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -71,7 +71,7 @@ require("views/partials/notification.php");
                                         </form>
 
                                         <a href="<?= base_url('/faculty/subject/' . $exam['subject_id'] . '/exam/' . $exam['exam_id']) ?>"
-                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             View
                                         </a>
                                         <button href="#"
@@ -99,7 +99,7 @@ require("views/partials/notification.php");
     <div>
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Inactive Exams</h2>
         <input type="text" placeholder="Search inactive exams..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="inactive">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -144,7 +144,7 @@ require("views/partials/notification.php");
                                         </form>
 
                                         <a href="<?= base_url('/faculty/subject/' . $exam['subject_id'] . '/exam/' . $exam['exam_id']) ?>"
-                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             View
                                         </a>
                                         <button href="#"

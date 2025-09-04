@@ -10,7 +10,7 @@ require("views/partials/notification.php");
             <h1 class="text-3xl font-bold text-gray-900 mb-2"><?= htmlentities($program['program_name']); ?> </h1>
             <p class="mt-1 text-sm/6 text-gray-600"><?= htmlentities($program['program_about']); ?></p>
         </div>
-        <a href=<?= base_url('/admin/program/edit/' . $program['program_id']) ?> class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 outline-none">
+        <a href=<?= base_url('/admin/program/edit/' . $program['program_id']) ?> class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 outline-none">
             Manage
         </a>
     </div>
@@ -24,7 +24,7 @@ require("views/partials/notification.php");
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
                 <h2 class="text-lg font-semibold text-gray-900">Sections</h2>
                 <button command="show-modal" commandfor="drawer"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                     Add Section
                 </button>
             </div>
@@ -112,7 +112,7 @@ require("views/partials/notification.php");
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
                 <h2 class="text-lg font-semibold text-gray-900">Subjects</h2>
                 <a href="<?= base_url('/admin/program/subject/add') ?>"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                     Add Subject
                 </a>
             </div>
@@ -145,7 +145,7 @@ require("views/partials/notification.php");
                                     </td>
                                     <td class="px-6 py-5 text-center">
                                         <a href="<?= base_url("/admin/program/" . htmlspecialchars($subject['section_id'])) ?>"
-                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             EDIT
                                         </a>
                                     </td>
@@ -178,7 +178,7 @@ require("views/partials/notification.php");
                                         <div class="sm:col-span-6">
                                             <label for="section_name" class="block text-sm/6 font-medium text-gray-900">Section Name</label>
                                             <div class="mt-2">
-                                                <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                                                <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                                     <input type="hidden" name="program_id" value=<?= htmlspecialchars($program['program_id']) ?> />
                                                     <input required id="section_name" type="text" name="section_name" placeholder="eg. BSIT-1A" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" />
                                                 </div>
@@ -189,7 +189,7 @@ require("views/partials/notification.php");
                             </div>
                             <div class="mt-6 flex items-center justify-end gap-x-6">
                                 <button command="close" commandfor="drawer" type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-                                <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                                <button type="submit" class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Save</button>
                             </div>
                         </form>
                     </div>

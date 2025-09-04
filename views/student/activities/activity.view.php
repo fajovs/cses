@@ -29,6 +29,22 @@ require("views/partials/notification.php");
             <p class="text-sm text-gray-600">
                 <strong>Deadline:</strong> <?= date("F j, Y g:i A", strtotime($activity['deadline'])) ?>
             </p>
+
+            <div class="mt-4">
+                <?php if (!empty($activity['file_path'])): ?>
+                    <a href="<?= base_url('/download?file=' . urlencode($activity['file_name'])) ?>"
+                        class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-md transition-colors">
+                        Download: <?= htmlspecialchars($activity['file_name']) ?>
+                    </a>
+
+
+                <?php else: ?>
+                    <button type="button" disabled
+                        class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-600 text-sm font-medium rounded-md cursor-not-allowed">
+                        No file download
+                    </button>
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
@@ -52,20 +68,20 @@ require("views/partials/notification.php");
                 <label for="file" class="block text-sm font-medium text-gray-900">Upload File (PDF, PNG, JPG, JPEG)</label>
                 <input required id="file" name="file" type="file" accept=".pdf, .png, .jpg, .jpeg"
                     class="mt-2 block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
-                           file:rounded-md file:border-0 file:bg-indigo-600 file:text-white 
-                           hover:file:bg-indigo-500 focus:outline-none" />
+                           file:rounded-md file:border-0 file:bg-green-600 file:text-white 
+                           hover:file:bg-green-500 focus:outline-none" />
             </div>
 
             <div>
                 <label for="note" class="block text-sm font-medium text-gray-900">Notes (Optional)</label>
                 <textarea id="note" name="note" rows="4"
-                    class="mt-2 block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600"
+                    class="mt-2 block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600"
                     placeholder="Write any notes or comments..."></textarea>
             </div>
 
             <div class="flex justify-end">
                 <button type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600">
+                    class="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-500 focus:ring-2 focus:ring-green-600">
                     Submit Activity
                 </button>
             </div>

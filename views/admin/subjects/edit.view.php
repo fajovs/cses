@@ -30,21 +30,21 @@ require("views/partials/notification.php");
                     <div class="col-span-full">
                         <label for="subject_name" class="block text-sm/6 font-medium text-gray-900">Subject</label>
                         <div class="mt-2">
-                            <input value=<?= htmlspecialchars($subject['subject_name']) ?> type="text" name="subject_name" id="subject_name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="e.g., Data Structures" required>
+                            <input value=<?= htmlspecialchars($subject['subject_name']) ?> type="text" name="subject_name" id="subject_name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" placeholder="e.g., Data Structures" required>
                         </div>
                     </div>
 
                     <div class="col-span-full">
                         <label for="subject_about" class="block text-sm/6 font-medium text-gray-900">About</label>
                         <div class="mt-2">
-                            <textarea required id="subject_about" name="subject_about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"><?= htmlspecialchars($subject['subject_about']) ?></textarea>
+                            <textarea required id="subject_about" name="subject_about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-600 sm:text-sm/6"><?= htmlspecialchars($subject['subject_about']) ?></textarea>
                         </div>
                         <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about the subject.</p>
                     </div>
 
                     <div class="col-span-full">
                         <label for="program_id" class="block text-sm font-medium text-gray-900 mb-2">Program</label>
-                        <select id="program_id" name="program_id" class="w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" <?= empty($programs) ? 'disabled' : 'required' ?>>
+                        <select id="program_id" name="program_id" class="w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" <?= empty($programs) ? 'disabled' : 'required' ?>>
                             <?php if (empty($programs)) : ?>
                                 <option selected disabled>No Program Available</option>
                             <?php else : ?>
@@ -62,7 +62,7 @@ require("views/partials/notification.php");
 
                     <div class="sm:col-span-2" id="sections-container">
                         <label for="section_id" class="block text-sm/6 font-medium text-gray-900">Section</label>
-                        <select required name="section_id" id="section_id" class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6">
+                        <select required name="section_id" id="section_id" class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6">
                             <?php if (!empty($subject['section_id'])): ?>
                                 <option value="<?= htmlspecialchars($subject['section_id']) ?>" selected>
                                     <?= htmlspecialchars($subject['section_name']) ?>
@@ -77,7 +77,7 @@ require("views/partials/notification.php");
 
                     <div class="col-span-full">
                         <label for="faculty_id" class="block text-sm font-medium text-gray-900 mb-2">Subject Adviser</label>
-                        <select id="faculty_id" name="faculty_id" class="block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                        <select id="faculty_id" name="faculty_id" class="block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-gray-900 focus:outline-none focus:ring-1 focus:ring-green-500 sm:text-sm">
                             <?php foreach ($faculties as $faculty): ?>
                                 <option value="<?= htmlspecialchars($faculty['faculty_id']) ?>"
                                     <?= ($faculty['faculty_id'] == $subject['faculty_id']) ? 'selected' : '' ?>>
@@ -101,7 +101,7 @@ require("views/partials/notification.php");
             <div class="mt-6 flex items-center justify-end gap-x-6">
 
                 <a href=<?= base_url("/admin/program/" . $subject['program_id'] . "/subjects") ?> id="cancel" type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</a>
-                <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">Save</button>
+                <button type="submit" class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-500">Save</button>
             </div>
         </div>
     </form>

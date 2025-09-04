@@ -102,7 +102,7 @@ $router->patch(base_url('/faculty/subject/:id/activity/:aid/update'), 'controlle
 $router->get(base_url('/faculty/submissions/activities'), 'controllers/faculty/submissions/activities/index.php', ['faculty']);
 $router->get(base_url('/faculty/submissions/:id/activities'), 'controllers/faculty/submissions/activities/activities.php', ['faculty']);
 $router->get(base_url('/faculty/submissions/subject/:id/activity/:aid'), 'controllers/faculty/submissions/activities/submissions.php', ['faculty']);
-$router->get(base_url('/download'), 'controllers/download.php',['faculty']);
+$router->get(base_url('/download'), 'controllers/download.php',['faculty', 'student']);
 $router->patch(base_url('/faculty/submissions/activity/evaluate'), 'controllers/faculty/submissions/activities/evaluate.php',['faculty']);
 
 

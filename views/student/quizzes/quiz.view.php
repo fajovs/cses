@@ -28,7 +28,7 @@ require("views/partials/notification.php");
                         <?php foreach (['A', 'B', 'C', 'D'] as $choice): ?>
                             <label class="flex items-center space-x-3">
                                 <input required type="radio" name="answers[<?= $q['quiz_question_id'] ?>]" value="<?= $choice ?>"
-                                    class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                                    class="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500" />
                                 <span class="text-gray-800">
                                     <?= htmlspecialchars($q['choice_' . strtolower($choice)]) ?>
                                 </span>
@@ -41,7 +41,7 @@ require("views/partials/notification.php");
 
         <div class="mt-8 flex justify-end">
             <button type="submit"
-                class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500">
+                class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-500">
                 Submit Answers
             </button>
         </div>

@@ -5,6 +5,8 @@ use Core\Database;
 $config = require base_path('config.php');
 $db = new Database($config['database']);
 
+
+
 $subject_id = $params['id'] ?? null;  // get from query or router
 // Or if you prefer, parse from the URL some other way, instead of using $params.
 
@@ -27,18 +29,20 @@ $subject = $db->query(
     [':subject_id' => $subject_id]
 )->fetch();
 
+
+
 if (!$subject) {
     http_response_code(404);
     require base_path('views/404.view.php');
     exit;
 }
 
-// Ensure student belongs to correct section
-if ($subject['section_id'] != $user['section_id']) {
-    http_response_code(403);
-    require base_path('views/403.view.php');
-    exit;
-}
+// // Ensure student belongs to correct section
+// if ($subject['section_id'] != $user['section_id']) {
+//     http_response_code(403);
+//     require base_path('views/403.view.php');
+//     exit;
+// }
 
 // ✅ Fetch quizzes the student has already attempted
 $attemptedQuizzes = $db->query(

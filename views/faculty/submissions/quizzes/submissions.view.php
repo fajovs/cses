@@ -38,7 +38,7 @@ require("views/partials/notification.php");
     <div class="mb-8">
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Not Checked Quizzes</h2>
         <input type="text" placeholder="Search Students..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="active">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -85,7 +85,7 @@ require("views/partials/notification.php");
 
                                             command="show-modal"
                                             commandfor="drawer"
-                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             Check
                                         </button>
 
@@ -153,7 +153,7 @@ require("views/partials/notification.php");
 
                                             command="show-modal"
                                             commandfor="drawer"
-                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             Show Evaluation
                                         </button>
                                     </td>
@@ -201,7 +201,7 @@ require("views/partials/notification.php");
                                     <div class="sm:col-span-full">
                                         <label for="feedback" class="block text-sm font-medium text-gray-900">Feedback (Optional)</label>
                                         <textarea id="feedback" name="feedback" rows="5"
-                                            class="h-48 mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600"
+                                            class="h-48 mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600"
                                             placeholder="Feedback..."></textarea>
 
 
@@ -211,7 +211,7 @@ require("views/partials/notification.php");
                             </div>
                             <div class="mt-6 flex items-center justify-end gap-x-6">
                                 <button command="close" commandfor="drawer" type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-                                <button type="submit" id="submit-btn" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"></button>
+                                <button type="submit" id="submit-btn" class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"></button>
                             </div>
 
                         </form>

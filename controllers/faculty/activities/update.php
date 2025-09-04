@@ -44,23 +44,46 @@ $description = $_POST['description'];
 $deadline = $_POST['deadline'];
 $criteria_names = $_POST['criteria_name'] ?? [];
 $criteria_weights = $_POST['criteria_weight'] ?? [];
-$criteria_ids = $_POST['criteria_id'] ?? []; // hidden inputs if existing
+$criteria_ids = $_POST['criteria_id'] ?? [];
+
+// Default keep old file
+$file_path = $activity['file_path'];
+$original_filename = $activity['original_filename'];
+
+if ($file && $file['error'] === UPLOAD_ERR_OK) {
+    $originalName = pathinfo($file['name'], PATHINFO_FILENAME);
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $timestamp = time();
+    $filename = strtolower(preg_replace('/[^a-zA-Z0-9]/', '_', $originalName)) . "_$timestamp." . $extension;
+
+    // Set relative path for DB
+    $file_path = 'uploads/' . $filename;
+
+    // Store the file temporarily, move after DB insert
+    $temp_path = $file['tmp_name'];
+}
+
 
 try {
     $db->beginTransaction();
 
     // Update the activity info
     $db->query(
-        "UPDATE activities SET title = :title, description = :description, deadline = :deadline WHERE activity_id = :activity_id",
+        "UPDATE activities 
+         SET title = :title, description = :description, deadline = :deadline, 
+             file_path = :file_path, original_filename = :original_filename
+         WHERE activity_id = :activity_id",
         [
             ':title' => $title,
             ':description' => $description,
             ':deadline' => $deadline,
+            ':file_path' => $file_path,
+            ':original_filename' => $original_filename,
             ':activity_id' => $activity_id
         ]
     );
 
-    // Get existing criteria from DB
+    // Get existing criteria
     $existing_criteria = $db->query(
         "SELECT * FROM activity_criteria WHERE activity_id = :activity_id",
         [':activity_id' => $activity_id]
@@ -74,9 +97,10 @@ try {
         $criteria_id = $criteria_ids[$index] ?? null;
 
         if ($criteria_id && in_array($criteria_id, $existing_ids)) {
-            // Update existing criterion
             $db->query(
-                "UPDATE activity_criteria SET criteria_name = :name, weight = :weight WHERE criteria_id = :criteria_id",
+                "UPDATE activity_criteria 
+                 SET criteria_name = :name, weight = :weight 
+                 WHERE criteria_id = :criteria_id",
                 [
                     ':name' => $name,
                     ':weight' => $weight,
@@ -85,7 +109,6 @@ try {
             );
             $new_ids[] = $criteria_id;
         } else {
-            // Insert new criterion
             $db->query(
                 "INSERT INTO activity_criteria (activity_id, criteria_name, weight)
                  VALUES (:activity_id, :name, :weight)",

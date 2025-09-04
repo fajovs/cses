@@ -5,12 +5,14 @@ use Core\Database;
 $config = require base_path('config.php');
 $db = new Database($config['database']);
 
+
 $user = $db->query(
     "SELECT * FROM students WHERE user_id = :user_id",
     [':user_id' => $_SESSION['user_id']]
 )->fetch();
 
 $section_id = $user['section_id']; 
+
 
 $subjects = $db->query(
     "SELECT

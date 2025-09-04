@@ -11,8 +11,8 @@ require("views/partials/notification.php");
             <p class="mt-1 text-sm/6 text-gray-600"><?= htmlspecialchars($subject['subject_about']); ?></p>
             <p class="mt-1 text-sm/6 text-gray-600"><strong><?= htmlspecialchars($subject['section_name']); ?></strong></p>
         </div>
-          <div>
-            <a href="<?= base_url('/parent/student/'. $student['student_id'].'/subjects') ?>"
+        <div>
+            <a href="<?= base_url('/parent/student/' . $student['student_id'] . '/subjects') ?>"
                 class="h-9 inline-flex items-center px-3 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 transition-colors duration-150">
 
                 <!-- Back arrow SVG -->
@@ -36,13 +36,13 @@ require("views/partials/notification.php");
 
 <main class="flex-1 overflow-y-auto px-30 py-6">
 
-   
+
 
 
     <div>
         <h2 class="text-lg font-semibold text-gray-900 mb-2">Submitted Quizzes</h2>
         <input type="text" placeholder="Search inactive quizzes..."
-            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
             data-target="inactive">
 
         <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
@@ -92,7 +92,7 @@ require("views/partials/notification.php");
                                             data-quiz='<?= htmlspecialchars(json_encode($quiz), ENT_QUOTES, 'UTF-8') ?>'
                                             command="show-modal"
                                             commandfor="drawer"
-                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors duration-150">
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
                                             Show Feedback
                                         </button>
 
@@ -188,7 +188,7 @@ require("views/partials/notification.php");
                 console.log(quiz);
 
                 title.innerHTML = `<strong>Title :</strong> <br> ${quiz.title}`;
-                rating.innerHTML =  `<strong >Score : <br> <span class='text-green-700'>${quiz.score} </span> </strong>`;
+                rating.innerHTML = `<strong >Score : <br> <span class='text-green-700'>${quiz.score} </span> </strong>`;
                 feedback.innerHTML = quiz.feedback ? `<strong>Feedback :</strong> <br> ${quiz.feedback} ` : '<strong>Feedback :</strong>';
 
 

@@ -33,7 +33,7 @@ require("views/partials/notification.php");
                         <label class="block text-sm/6 font-medium text-gray-900">Quiz Title</label>
                         <div class="mt-2">
                             <input required type="text" name="title" value="<?= htmlspecialchars($quiz['title']) ?>"
-                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
+                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <input required id="num_questions" type="number" name="num_questions" min="1" max="100"
                                    value="<?= htmlspecialchars($quiz['num_questions']) ?>"
-                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
+                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <input required id="passing_score" type="number" name="passing_score" min="1"
                                    value="<?= htmlspecialchars($quiz['passing_score']) ?>"
-                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
+                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Must not be higher than number of items.</p>
                     </div>
@@ -61,7 +61,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <input required id="deadline" type="datetime-local" name="deadline"
                                    value="<?= htmlspecialchars(date('Y-m-d\TH:i', strtotime($quiz['deadline']))) ?>"
-                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
+                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Set the date & time when the quiz will automatically become inactive.</p>
                     </div>
@@ -69,7 +69,7 @@ require("views/partials/notification.php");
 
                 <div class="mt-4">
                     <button type="button" id="generateBtn"
-                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus:outline-indigo-600">
+                            class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus:outline-green-600">
                         Adjust Number of Questions
                     </button>
                 </div>
@@ -84,7 +84,7 @@ require("views/partials/notification.php");
                         <label class="block text-sm/6 font-medium text-gray-900">Question #<?= $index+1 ?></label>
                         <div class="mt-2">
                             <input required type="text" name="question[]" value="<?= htmlspecialchars($q['question_text']) ?>"
-                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600" />
+                                   class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600" />
                         </div>
                         <div class="sm:col-span-4 mt-4">
                             <label class="block text-sm/6 font-medium text-gray-900">Choices</label>
@@ -92,7 +92,7 @@ require("views/partials/notification.php");
                                 <?php foreach (['a', 'b', 'c', 'd'] as $letter): ?>
                                     <input required type="text" name="choice_<?= $letter ?>[]" value="<?= htmlspecialchars($q["choice_$letter"]) ?>"
                                            placeholder="Choice <?= strtoupper($letter) ?>"
-                                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600" />
+                                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600" />
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -100,7 +100,7 @@ require("views/partials/notification.php");
                             <label class="block text-sm/6 font-medium text-gray-900">Correct Answer</label>
                             <div class="mt-2">
                                 <select name="answer[]" required
-                                        class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600">
+                                        class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600">
                                     <option value="A" <?= $q['correct_answer']=='A' ? 'selected' : '' ?>>A</option>
                                     <option value="B" <?= $q['correct_answer']=='B' ? 'selected' : '' ?>>B</option>
                                     <option value="C" <?= $q['correct_answer']=='C' ? 'selected' : '' ?>>C</option>
@@ -114,7 +114,7 @@ require("views/partials/notification.php");
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="submit"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus:outline-indigo-600">
+                        class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus:outline-green-600">
                     Save Changes
                 </button>
             </div>
@@ -176,21 +176,21 @@ document.addEventListener('DOMContentLoaded', () => {
             <label class="block text-sm/6 font-medium text-gray-900">Question #${index}</label>
             <div class="mt-2">
                 <input required type="text" name="question[]" placeholder="Enter your question here"
-                       class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600" />
+                       class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600" />
             </div>
             <div class="sm:col-span-4 mt-4">
                 <label class="block text-sm/6 font-medium text-gray-900">Choices</label>
                 <div class="mt-2 space-y-2">
                     ${['A','B','C','D'].map(letter => `
                         <input required type="text" name="choice_${letter.toLowerCase()}[]" placeholder="Choice ${letter}"
-                               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600" />`).join('')}
+                               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600" />`).join('')}
                 </div>
             </div>
             <div class="sm:col-span-4 mt-4">
                 <label class="block text-sm/6 font-medium text-gray-900">Correct Answer</label>
                 <div class="mt-2">
                     <select name="answer[]" required
-                            class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600">
+                            class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-green-600">
                         <option value="" disabled selected>Select the correct answer</option>
                         <option value="A">A</option>
                         <option value="B">B</option>

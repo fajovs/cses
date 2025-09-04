@@ -22,7 +22,7 @@ require("views/partials/notification.php");
         <input
             type="text"
             placeholder="Search subjects..."
-            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all">
     </div>
 
     <div>
@@ -70,7 +70,7 @@ require("views/partials/notification.php");
                                             Quizess
                                         </a>
                                         <a href="<?= base_url("/faculty/subject/" . htmlspecialchars($subject['subject_id']) . "/exams" ) ?>"
-                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             Examinations </a>
                                     </td>
                                 </tr>

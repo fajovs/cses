@@ -12,6 +12,7 @@ if (!isset($_GET['file']) || empty($_GET['file'])) {
 // Prevent directory traversal attacks
 $filename = basename($_GET['file']);
 
+
 // Full file path
 $filePath = $uploadDir . $filename;
 

@@ -1,5 +1,5 @@
 <?php
-$act = "rounded-lg bg-indigo-600 text-white shadow-lg shadow-indigo-600/25 border border-indigo-500/20";
+$act = "rounded-lg bg-green-600 text-white shadow-lg shadow-green-600/25 border border-green-500/20";
 $nact = "rounded-lg text-slate-200 hover:bg-slate-700/50 hover:text-white transition-all duration-200 backdrop-blur-sm border border-transparent hover:border-slate-600/30";
 require base_path('CORE/nav-notification.php');
 ?>
@@ -8,9 +8,9 @@ require base_path('CORE/nav-notification.php');
 <nav class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700/50 backdrop-blur-xl">
     <!-- Added floating blur elements for visual depth -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-4 -left-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-xl"></div>
+        <div class="absolute -top-4 -left-4 w-24 h-24 bg-green-500/10 rounded-full blur-xl"></div>
         <div class="absolute top-8 right-1/4 w-32 h-32 bg-slate-500/5 rounded-full blur-2xl"></div>
-        <div class="absolute -bottom-4 right-8 w-20 h-20 bg-indigo-400/8 rounded-full blur-xl"></div>
+        <div class="absolute -bottom-4 right-8 w-20 h-20 bg-green-400/8 rounded-full blur-xl"></div>
     </div>
     
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -38,13 +38,13 @@ require base_path('CORE/nav-notification.php');
                                     <div class="p-6">
                                         <!-- Enhanced menu items with better hover effects -->
                                         <div class="group relative flex gap-x-6 rounded-xl p-4 hover:bg-slate-50/80 transition-all duration-200 hover:scale-[1.02]">
-                                            <div class="mt-1 flex size-12 flex-none items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-slate-50 group-hover:from-indigo-100 group-hover:to-slate-100 transition-all duration-200 shadow-sm">
+                                            <div class="mt-1 flex size-12 flex-none items-center justify-center rounded-xl bg-gradient-to-br from-green-50 to-slate-50 group-hover:from-green-100 group-hover:to-slate-100 transition-all duration-200 shadow-sm">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-slate-600">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                                                 </svg>
                                             </div>
                                             <div>
-                                                <a href=<?= base_url('/admin/users/faculties') ?> class="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors duration-200">
+                                                <a href=<?= base_url('/admin/users/faculties') ?> class="font-semibold text-slate-900 group-hover:text-green-600 transition-colors duration-200">
                                                     Faculties
                                                     <span class="absolute inset-0"></span>
                                                 </a>
@@ -168,7 +168,7 @@ require base_path('CORE/nav-notification.php');
                 <div class="ml-4 flex items-center md:ml-6 space-x-4">
                     <?php if ($_SESSION['role'] === 'faculty') : ?>
                         <!-- Enhanced notification button with glassmorphic styling -->
-                        <button popovertarget="notifications" type="button" class="relative rounded-xl p-3 text-slate-300 hover:text-white hover:bg-slate-700/50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 transition-all duration-200 backdrop-blur-sm border border-slate-600/30 hover:border-slate-500/50" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                        <button popovertarget="notifications" type="button" class="relative rounded-xl p-3 text-slate-300 hover:text-white hover:bg-slate-700/50 focus:outline-2 focus:outline-offset-2 focus:outline-green-500 transition-all duration-200 backdrop-blur-sm border border-slate-600/30 hover:border-slate-500/50" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                             <span class="absolute -inset-1.5"></span>
                             <span class="sr-only">View notifications</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-6">
@@ -241,9 +241,9 @@ require base_path('CORE/nav-notification.php');
                         <!-- Enhanced profile dropdown with glassmorphic styling -->
                         <div class="relative ml-3">
                             <div>
-                                <button type="button" onclick="toggleMenu()" class="flex items-center gap-x-3 rounded-xl bg-slate-700/50 backdrop-blur-sm border border-slate-600/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600/50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 transition-all duration-200 hover:scale-105" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <button type="button" onclick="toggleMenu()" class="flex items-center gap-x-3 rounded-xl bg-slate-700/50 backdrop-blur-sm border border-slate-600/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600/50 focus:outline-2 focus:outline-offset-2 focus:outline-green-500 transition-all duration-200 hover:scale-105" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                     <div class="flex items-center gap-x-3">
-                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-slate-600 flex items-center justify-center text-white font-semibold text-sm">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-slate-600 flex items-center justify-center text-white font-semibold text-sm">
                                             <?= strtoupper(substr($_SESSION['first_name'], 0, 1)) ?>
                                         </div>
                                         <span class="hidden sm:block"><?= htmlspecialchars($_SESSION['last_name'] . ', ' . $_SESSION['first_name']) ?></span>
@@ -305,7 +305,7 @@ require base_path('CORE/nav-notification.php');
             <!-- Enhanced mobile profile section -->
             <div class="border-t border-slate-700/50 pt-4 pb-3 bg-slate-900/50">
                 <div class="flex items-center px-6">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-slate-600 flex items-center justify-center text-white font-semibold">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-slate-600 flex items-center justify-center text-white font-semibold">
                         <?= strtoupper(substr($_SESSION['first_name'], 0, 1)) ?>
                     </div>
                     <div class="ml-4">

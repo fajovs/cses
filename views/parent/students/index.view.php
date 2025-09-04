@@ -21,7 +21,7 @@ require("views/partials/notification.php");
         <input
             type="text"
             placeholder="Search Student..."
-            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all">
     </div>
 
     <div>
@@ -60,7 +60,7 @@ require("views/partials/notification.php");
                                     <td class="px-6 py-5 text-center">
                              
                                         <a href="<?= base_url("/parent/student/" . htmlspecialchars($student['student_id']) . "/subjects" ) ?>"
-                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             View </a>
                                     </td>
                                 </tr>

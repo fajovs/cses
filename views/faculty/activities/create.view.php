@@ -22,7 +22,7 @@ require("views/partials/notification.php");
 
 <main class="flex-1 overflow-y-auto px-30 py-6">
     <h1 class="text-2xl font-bold mb-4">Create New Activity</h1>
-    <form method="POST" action="<?= base_url('/faculty/subject/activity/store') ?>">
+    <form method="POST" action="<?= base_url('/faculty/subject/activity/store') ?>" enctype="multipart/form-data">
         <div class="space-y-12">
             <input type="hidden" name="subject_id" value="<?= htmlspecialchars($subject['subject_id']) ?>" />
 
@@ -32,23 +32,32 @@ require("views/partials/notification.php");
                     <div class="sm:col-span-4">
                         <label for="title" class="block text-sm font-medium text-gray-900">Activity Title</label>
                         <input required id="title" type="text" name="title" placeholder="Enter activity title"
-                            class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600" />
+                            class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                     </div>
 
                     <div class="sm:col-span-3">
                         <label for="deadline" class="block text-sm font-medium text-gray-900">Deadline</label>
                         <input required id="deadline" type="datetime-local" name="deadline"
-                            class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600"
+                            class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600"
                             min="<?= date('Y-m-d\TH:i') ?>" />
                     </div>
 
                     <div class="sm:col-span-full">
                         <label for="description" class="block text-sm font-medium text-gray-900">Description</label>
                         <textarea required id="description" name="description" rows="5"
-                            class="h-50 mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600"
+                            class="h-50 mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600"
                             placeholder="Briefly describe the activity..."></textarea>
                     </div>
 
+                    <!-- ✅ Optional File Upload -->
+                    <div class="sm:col-span-full">
+                        <label for="file" class="block text-sm font-medium text-gray-900">Attach File (Optional)</label>
+                        <input id="file" name="file" type="file" accept=".pdf, .png, .jpg, .jpeg"
+                            class="mt-2 block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
+                               file:rounded-md file:border-0 file:bg-green-600 file:text-white 
+                               hover:file:bg-green-500 focus:outline-none" />
+                        <p class="mt-1 text-xs text-gray-500">Accepted formats: PDF, PNG, JPG, JPEG</p>
+                    </div>
                 </div>
             </div>
 
@@ -57,19 +66,20 @@ require("views/partials/notification.php");
                 <div id="criteriaContainer" class="space-y-6 mt-4"></div>
 
                 <button type="button" id="addCriteriaBtn"
-                    class="mt-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    class="mt-4 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-600">
                     Add Criteria
                 </button>
             </div>
 
             <div class="mt-6 flex justify-end">
                 <button type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600">
+                    class="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-500 focus:ring-2 focus:ring-green-600">
                     Save Activity
                 </button>
             </div>
         </div>
     </form>
+
 </main>
 
 <script>
@@ -104,12 +114,12 @@ require("views/partials/notification.php");
                         <div class="w-full">
                             <label class="block text-sm font-medium text-gray-900">Criteria</label>
                             <input required type="text" name="criteria_name[]" placeholder="e.g. Clarity"
-                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600" />
+                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                         </div>
                         <div class="w-full sm:w-1/3">
                             <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
                             <input required type="number" name="criteria_weight[]" placeholder="e.g. 30" min="1" max="100"
-                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600" />
+                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                         </div>
                         <div class="flex items-end">
                             <button type="button" onclick="this.closest('.criteria-block').remove();"

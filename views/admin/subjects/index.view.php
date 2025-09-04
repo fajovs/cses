@@ -13,10 +13,10 @@ require("views/partials/notification.php");
             <p class="mt-1 text-sm/6 text-gray-600"><?= htmlentities($program['program_about']); ?></p>
         </div>
         <div class="flex flex-col gap-4">
-            <a href=<?= base_url('/admin/program/edit/' . $program['program_id']) ?> class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 outline-none">
+            <a href=<?= base_url('/admin/program/edit/' . $program['program_id']) ?> class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 outline-none">
                 Manage
             </a>
-            <a href=<?= base_url('/admin/program/' . $program['program_id']) . '/sections' ?> class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 outline-none">
+            <a href=<?= base_url('/admin/program/' . $program['program_id']) . '/sections' ?> class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 outline-none">
                 Sections
             </a>
         </div>
@@ -29,7 +29,7 @@ require("views/partials/notification.php");
         <input
             type="text"
             placeholder="Search subjects..."
-            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all">
     </div>
 
     <div>
@@ -37,7 +37,7 @@ require("views/partials/notification.php");
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
                 <h2 class="text-lg font-semibold text-gray-900">Subjects</h2>
                 <a href="<?= base_url('/admin/program/'. $program['program_id'] .'/subject') ?>"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                     Add Subject
                 </a>
             </div>
@@ -72,7 +72,7 @@ require("views/partials/notification.php");
                                     </td>
                                     <td class="px-6 py-5 text-center">
                                         <a href="<?= base_url("/admin/program/" . htmlspecialchars($subject['program_id']). "/subject/".htmlspecialchars($subject['subject_id'])."/edit") ?>"
-                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             Manage
                                         </a>
                                     </td>

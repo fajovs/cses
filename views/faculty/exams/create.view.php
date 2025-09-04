@@ -33,7 +33,7 @@ require("views/partials/notification.php");
                         <label for="title" class="block text-sm/6 font-medium text-gray-900">Exam Title</label>
                         <div class="mt-2">
                             <input required id="title" type="text" name="title" placeholder="Enter exam title"
-                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                     </div>
 
@@ -41,7 +41,7 @@ require("views/partials/notification.php");
                         <label for="num_questions" class="block text-sm/6 font-medium text-gray-900">Number of Items</label>
                         <div class="mt-2">
                             <input required id="num_questions" type="number" name="num_questions" min="1" max="100" placeholder="e.g. 5"
-                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                     </div>
 
@@ -49,7 +49,7 @@ require("views/partials/notification.php");
                         <label for="passing_score" class="block text-sm/6 font-medium text-gray-900">Passing Score</label>
                         <div class="mt-2">
                             <input required id="passing_score" type="number" name="passing_score" min="1" placeholder="e.g. 3"
-                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Must not be higher than number of items.</p>
                     </div>
@@ -58,7 +58,7 @@ require("views/partials/notification.php");
                         <label for="deadline" class="block text-sm/6 font-medium text-gray-900">Deadline</label>
                         <div class="mt-2">
                             <input required id="deadline" type="datetime-local" name="deadline"
-                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Set the date & time when the exam will automatically become inactive.</p>
                     </div>
@@ -66,7 +66,7 @@ require("views/partials/notification.php");
 
                 <div class="mt-4">
                     <button type="button" id="generateBtn"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
                         Generate Questions
                     </button>
                 </div>
@@ -78,7 +78,7 @@ require("views/partials/notification.php");
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="submit"
-                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
                     Save Exam
                 </button>
             </div>
@@ -147,27 +147,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     <label class="block text-sm/6 font-medium text-gray-900">Question #${index}</label>
                     <div class="mt-2">
                         <input required type="text" name="question[]" placeholder="Enter your question here"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                     </div>
                 </div>
                 <div class="sm:col-span-4 mt-4">
                     <label class="block text-sm/6 font-medium text-gray-900">Choices</label>
                     <div class="mt-2 space-y-2">
                         <input required type="text" name="choice_a[]" placeholder="Choice A"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         <input required type="text" name="choice_b[]" placeholder="Choice B"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         <input required type="text" name="choice_c[]" placeholder="Choice C"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                         <input required type="text" name="choice_d[]" placeholder="Choice D"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                     </div>
                 </div>
                 <div class="sm:col-span-4 mt-4">
                     <label class="block text-sm/6 font-medium text-gray-900">Correct Answer</label>
                     <div class="mt-2">
                         <select name="answer[]" required
-                            class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6">
+                            class="w-full rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6">
                             <option value="" disabled selected>Select the correct answer</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
