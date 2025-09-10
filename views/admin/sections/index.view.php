@@ -9,128 +9,97 @@ require("views/partials/notification.php");
         <div>
             <h1 class="text-3xl font-bold text-gray-900 mb-2"><?= htmlentities($program['program_name']); ?> </h1>
             <p class="mt-1 text-sm/6 text-gray-600"><?= htmlentities($program['program_about']); ?></p>
+
         </div>
-        <div class="flex flex-col gap-4"> 
+        <div class="flex flex-col gap-4">
             <a href=<?= base_url('/admin/program/edit/' . $program['program_id']) ?> class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 outline-none">
                 Manage
             </a>
             <a href=<?= base_url('/admin/program/' . $program['program_id']) . '/subjects' ?> class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 outline-none">
                 Subjects
             </a>
+
         </div>
 
     </div>
 </header>
 
-<main class="flex-1 overflow-y-auto px-30 py-6">
-
-    <!-- Search Section -->
-    <div class="mb-8 w-full">
-        <input
-            type="text"
-            placeholder="Search sections..."
-            class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all">
+<main class="flex-1 overflow-y-auto px-27 py-6">
+    <div class="my-2 flex justify-end">
+        <button command="show-modal" commandfor="drawer"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-amber-600 rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
+            Add Section
+        </button>
     </div>
 
-    <!-- Sections Table -->
-    <div class="mb-6">
-        <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
-                <h2 class="text-lg font-semibold text-gray-900">Sections</h2>
-                <button command="show-modal" commandfor="drawer"
-                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
-                    Add Section
-                </button>
-            </div>
-            <div class="max-h-[600px] overflow-y-auto">
+    <?php ksort($sections); // sort years ascending 
+    ?>
+    <?php foreach ($sections as $year => $yearSections): ?>
+        
+
+        <div class="mb-12">
+            <?php if ($year === 1) : ?>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">First Year</h2>
+            <?php elseif ($year === 2) : ?>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Second Year</h2>
+            <?php elseif ($year === 3) : ?>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Third Year</h2>
+            <?php elseif ($year === 4) : ?>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Fourth Year</h2>
+            <?php endif; ?>
+            <!-- Search Input for this year -->
+            <input type="text" placeholder="Search sections in Year <?= $year ?>..."
+                class="searchInput w-full px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 mb-4"
+                data-year="<?= $year ?>">
+
+            <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
                 <table class="w-full">
                     <thead>
                         <tr class="border-b border-gray-100">
                             <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
                             <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
+                            <th class="w-50 px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Year Level</th>
                             <th class="w-50 px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
-                        <?php foreach ($sections as $section): ?>
-                            <tr
-                                class="hover:bg-gray-25 transition-colors duration-150 searchRow"
-                                data-search-value="<?= htmlspecialchars($section['section_name']) ?>">
+                        <?php foreach ($yearSections as $section): ?>
+                            <tr class="hover:bg-gray-25 transition-colors duration-150 searchRow"
+                                data-search-value="<?= htmlspecialchars($section['section_name']) ?>"
+                                data-year="<?= $year ?>">
+                                <td class="px-6 py-5 text-center"><?= htmlspecialchars($section['section_name']) ?></td>
+                                <td class="px-6 py-5 text-center"><?= htmlspecialchars($section['student_count']) ?></td>
                                 <td class="px-6 py-5 text-center">
-                                    <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($section['section_name']) ?></div>
+                                    <?php if ($year === 1) : ?>
+                                        <span class="inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 inset-ring inset-ring-red-400/20">First Year</span>
+                                    <?php elseif ($year === 2) : ?>
+                                        <span class="inline-flex items-center rounded-md bg-green-400/10 px-2 py-1 text-xs font-medium text-green-400 inset-ring inset-ring-green-400/20">Second Year</span>
+                                    <?php elseif ($year === 3) : ?>
+                                        <span class="inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 inset-ring inset-ring-blue-400/20">Third Year</span>
+                                    <?php elseif ($year === 4) : ?>
+                                        <span class="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 inset-ring inset-ring-indigo-400/20">Fourth Year</span>
+                                    <?php endif; ?>
                                 </td>
-                                <td class="px-6 py-5 text-center">
-                                    <span class="text-sm text-gray-600"><?= htmlspecialchars($section['student_count']) ?></span>
-                                </td>
-                                <td class="w-50 px-6 py-5 text-right">
-                                    <button
-                                        command="show-modal"
-                                        commandfor="drawerEdit"
+                                <td class="w-50 px-6 py-5 text-center">
+                                    <button command="show-modal" commandfor="drawerEdit"
                                         data-section-id="<?= htmlspecialchars($section['section_id']) ?>"
                                         data-section-name="<?= htmlspecialchars($section['section_name']) ?>"
-                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700">
-                                        EDIT
-                                    </button>
+                                        data-year-level="<?= htmlspecialchars($section['year_level']) ?>"
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700">EDIT</button>
                                     <button type="button" command="show-modal" commandfor="delete-dialog-<?= htmlspecialchars($section['section_id']) ?>"
-                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg hover:bg-rose-700">
-                                        Delete
-                                    </button>
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg hover:bg-rose-700">Delete</button>
                                 </td>
+                                
                             </tr>
-
-                            <!-- Delete confirmation modal -->
-                            <el-dialog>
-                                <dialog id="delete-dialog-<?= htmlspecialchars($section['section_id']) ?>" aria-labelledby="dialog-title"
-                                    class="fixed inset-0 overflow-y-auto bg-transparent backdrop:bg-transparent">
-                                    <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity"></el-dialog-backdrop>
-                                    <div class="fixed inset-0 flex items-center justify-center p-4">
-                                        <el-dialog-panel class="relative bg-white rounded-lg shadow-xl sm:w-full sm:max-w-lg">
-                                            <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                                <div class="sm:flex sm:items-start">
-                                                    <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
-                                                        <svg class="size-6 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M12 9v3.75M12 15.75h.007v.008H12v-.008ZM3.697 17.126c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L3.697 17.126Z" />
-                                                        </svg>
-                                                    </div>
-                                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                                        <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Delete Section?</h3>
-                                                        <p class="mt-2 text-sm text-gray-500">Are you sure you want to delete <?= htmlspecialchars($section['section_name']) ?>? This action cannot be undone.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse">
-                                                <form method="POST" action=<?= base_url("/admin/section/delete") ?>>
-                                                    <input type="hidden" name="_method" value="DELETE" />
-                                                    <input type="hidden" name="program_id" value=<?= htmlspecialchars($section['program_id']) ?> />
-
-                                                    <input type="hidden" name="section_id" value=<?= htmlspecialchars($section['section_id']) ?> />
-                                                    <button type="submit"
-                                                        class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                                <button type="button" command="close" commandfor="delete-dialog-<?= htmlspecialchars($section['section_id']) ?>"
-                                                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </el-dialog-panel>
-                                    </div>
-                                </dialog>
-                            </el-dialog>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-
-
-
+    <?php endforeach; ?>
 </main>
 
-<!-- Add Drawer (kept as is) -->
+<!-- Add Drawer -->
 <el-dialog>
     <dialog id="drawer" aria-labelledby="drawer-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-hidden bg-transparent not-open:hidden backdrop:bg-transparent">
         <el-dialog-backdrop class="absolute inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"></el-dialog-backdrop>
@@ -145,6 +114,7 @@ require("views/partials/notification.php");
                             <div class="space-y-12">
                                 <div class="border-b border-gray-900/10 pb-12">
                                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <!-- Section Name -->
                                         <div class="sm:col-span-6">
                                             <label for="section_name" class="block text-sm/6 font-medium text-gray-900">Section Name</label>
                                             <div class="mt-2">
@@ -152,6 +122,14 @@ require("views/partials/notification.php");
                                                     <input type="hidden" name="program_id" value=<?= htmlspecialchars($program['program_id']) ?> />
                                                     <input required id="section_name" type="text" name="section_name" placeholder="eg. BSIT-1A" class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" />
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Year Level -->
+                                        <div class="sm:col-span-6">
+                                            <label for="year_level" class="block text-sm/6 font-medium text-gray-900 mt-4">Year Level</label>
+                                            <div class="mt-2">
+                                                <input required id="year_level" type="number" name="year_level" min="1" max="4" value="1" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
                                             </div>
                                         </div>
                                     </div>
@@ -169,7 +147,7 @@ require("views/partials/notification.php");
     </dialog>
 </el-dialog>
 
-<!-- Edit Drawer (kept as is) -->
+<!-- Edit Drawer -->
 <el-dialog>
     <dialog id="drawerEdit" aria-labelledby="drawer-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-hidden bg-transparent not-open:hidden backdrop:bg-transparent">
         <el-dialog-backdrop class="absolute inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"></el-dialog-backdrop>
@@ -184,8 +162,9 @@ require("views/partials/notification.php");
                             <div class="space-y-12">
                                 <div class="border-b border-gray-900/10 pb-12">
                                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <!-- Section Name -->
                                         <div class="sm:col-span-6">
-                                            <label for="section_name" class="block text-sm/6 font-medium text-gray-900">Section Name</label>
+                                            <label for="edit-section-name" class="block text-sm/6 font-medium text-gray-900">Section Name</label>
                                             <div class="mt-2">
                                                 <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                                     <input type="hidden" name="_method" value="PATCH" />
@@ -195,6 +174,16 @@ require("views/partials/notification.php");
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        <!-- Year Level -->
+                                        <div class="sm:col-span-6">
+                                            <label for="edit-year-level" class="block text-sm/6 font-medium text-gray-900 mt-4">Year Level</label>
+                                            <div class="mt-2">
+                                                <input required id="edit-year-level" type="number" name="year_level" min="1" max="4" value="1" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -218,13 +207,13 @@ require("views/partials/notification.php");
             button.addEventListener('click', () => {
                 const sectionId = button.getAttribute('data-section-id');
                 const sectionName = button.getAttribute('data-section-name');
+                const yearLevel = button.getAttribute('data-year-level');
 
                 document.getElementById('edit-section-id').value = sectionId;
                 document.getElementById('edit-section-name').value = sectionName;
+                document.getElementById('edit-year-level').value = yearLevel || 1;
             });
         });
-
-
 
         document.querySelectorAll('.searchInput').forEach(input => {
             input.addEventListener('keyup', () => {
@@ -235,10 +224,17 @@ require("views/partials/notification.php");
                 });
             });
         });
+    });
 
+    document.querySelectorAll('.searchInput').forEach(input => {
+        input.addEventListener('keyup', () => {
+            const filter = input.value.toLowerCase();
+            const year = input.dataset.year;
+            document.querySelectorAll(`.searchRow[data-year="${year}"]`).forEach(row => {
+                row.style.display = row.dataset.searchValue.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        });
     });
 </script>
-
-
 
 <?php require("views/partials/foot.php"); ?>

@@ -44,7 +44,9 @@ $attemptedExams = $db->query(
     "SELECT e.*, a.*
      FROM examinations e
      INNER JOIN student_exam_attempts a ON e.exam_id = a.exam_id
-     WHERE e.subject_id = :subject_id AND a.student_id = :student_id",
+     WHERE e.subject_id = :subject_id 
+     AND a.student_id = :student_id
+     AND a.status IN ('submitted', 'expired')",
     [
         ':subject_id' => $subject_id,
         ':student_id' => $user['student_id']
@@ -65,10 +67,24 @@ $notAttemptedExams = $db->query(
     ]
 )->fetchAll();
 
+$inProgressExams = $db->query(
+    "SELECT e.*, a.*
+     FROM examinations e
+     INNER JOIN student_exam_attempts a ON e.exam_id = a.exam_id
+     WHERE e.subject_id = :subject_id 
+     AND a.student_id = :student_id
+     AND a.status = 'in_progress'",
+    [
+        ':subject_id' => $subject_id,
+        ':student_id' => $user['student_id']
+    ]
+)->fetchAll();
+
 // ✅ Pass both lists to view
 view('/student/exams/index.view.php', [
     'heading'            => 'Exams',
     'subject'            => $subject,
     'attemptedExams'     => $attemptedExams,
-    'notAttemptedExams'  => $notAttemptedExams
+    'notAttemptedExams'  => $notAttemptedExams,
+    'inProgressExams'=> $inProgressExams
 ]);

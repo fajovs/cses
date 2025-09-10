@@ -2,6 +2,7 @@
 require("views/partials/head.php");
 require("views/partials/nav.php");
 require("views/partials/notification.php");
+
 ?>
 
 <header class="bg-white shadow-sm px-30 flex-none">
@@ -16,6 +17,64 @@ require("views/partials/notification.php");
 </header>
 
 <main class="flex-1 overflow-y-auto px-30 py-6">
+
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-900 mb-2">In-Progress Quizzes</h2>
+        <input type="text" placeholder="Search In progress quizzes..."
+            class="searchInput w-full mb-4 px-4 py-3 text-sm bg-white border-0 rounded-lg shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-green-500 focus:outline-none transition-all"
+            data-target="active">
+
+        <div class="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 overflow-hidden">
+            <div class="p-6 text-gray-600 text-sm">
+                <div class="max-h-[500px] overflow-y-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-100">
+                                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Items</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Passing Score</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Deadline</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Date Created</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <?php foreach ($inprogressQuizzes as $quiz): ?>
+                                
+                                <tr class="hover:bg-gray-25 transition-colors duration-150 searchRow">
+                                    <td class="px-6 py-5">
+                                        <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($quiz['title']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-5 text-center"><?= htmlspecialchars($quiz['num_questions']) ?></td>
+                                    <td class="px-6 py-5 text-center"><?= htmlspecialchars($quiz['passing_score']) ?></td>
+
+                                    <td class="px-6 py-5 text-center"><?= htmlspecialchars($quiz['deadline']) ?></td>
+                                    <td class="px-6 py-5 text-center"><?= htmlspecialchars($quiz['created_at']) ?></td>
+                                    <td class="px-6 py-5 text-center">
+                                        <span class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">In Progress</span>
+                                    </td>
+                                    <td class="px-6 py-5 text-center flex gap-2">
+
+                                        <a href=<?= base_url('/student/subject/' . $quiz['subject_id'] . '/quiz/' . $quiz['quiz_id']) ?>
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors duration-150">
+                                            Continue
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <?php if (empty($inprogressQuizzes)): ?>
+                                <tr>
+                                    <td colspan="6" class="px-6 py-5 text-center text-gray-500">No active quizzes found.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Active Quizzes -->
     <div class="mb-8">
@@ -41,6 +100,7 @@ require("views/partials/notification.php");
                         </thead>
                         <tbody class="divide-y divide-gray-50">
                             <?php foreach ($notAttemptedQuizzes as $quiz): ?>
+                                
                                 <tr class="hover:bg-gray-25 transition-colors duration-150 searchRow">
                                     <td class="px-6 py-5">
                                         <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($quiz['title']) ?></div>
@@ -51,7 +111,7 @@ require("views/partials/notification.php");
                                     <td class="px-6 py-5 text-center"><?= htmlspecialchars($quiz['deadline']) ?></td>
                                     <td class="px-6 py-5 text-center"><?= htmlspecialchars($quiz['created_at']) ?></td>
                                     <td class="px-6 py-5 text-center">
-                                        <span class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">Active</span>
+                                        <span class="inline-block px-2 py-1 text-xs font-semibold text-amber-700 bg-amber-100 rounded">Not Taken</span>
                                     </td>
                                     <td class="px-6 py-5 text-center flex gap-2">
 
@@ -94,7 +154,7 @@ require("views/partials/notification.php");
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Deadline</th>
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Date Submitted</th>
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
-                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Remark</th>
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
                             </tr>
                         </thead>
@@ -116,11 +176,11 @@ require("views/partials/notification.php");
                                     </td>
                                     <td class="px-6 py-5 text-center">
                                         <?php
-                                        $status = htmlspecialchars($quiz['status']);
-                                        $colorClass = ($status === 'passed') ? 'text-green-600' : 'text-red-600';
+                                        $remarks = htmlspecialchars($quiz['remarks']);
+                                        $colorClass = ($remarks === 'passed') ? 'text-green-600' : 'text-red-600';
                                         ?>
                                         <strong class="<?= $colorClass ?>">
-                                            <?= ucfirst($status) ?>
+                                            <?= ucfirst($remarks) ?>
                                         </strong>
                                     </td>
                                     <td class="px-6 py-5 text-center flex gap-2">

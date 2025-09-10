@@ -12,7 +12,7 @@ require base_path('CORE/nav-notification.php');
         <div class="absolute top-8 right-1/4 w-32 h-32 bg-slate-500/5 rounded-full blur-2xl"></div>
         <div class="absolute -bottom-4 right-8 w-20 h-20 bg-green-400/8 rounded-full blur-xl"></div>
     </div>
-    
+
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
@@ -23,10 +23,10 @@ require base_path('CORE/nav-notification.php');
                     <div class="ml-10 flex items-baseline space-x-2">
                         <?php if ($role === "admin"): ?>
                             <a href=<?= base_url('/admin/programs') ?> class="<?= $heading === "Programs" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">Programs</a>
-                            
+
                             <!-- Enhanced dropdown button with better styling -->
                             <button popovertarget="desktop-menu-solutions" class="<?= $heading === "Users" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium inline-flex items-center gap-x-2 transition-all duration-200 hover:scale-105">
-                                Users 
+                                Users
                                 <svg viewBox="0 0 20 20" fill="currentColor" class="size-4 transition-transform duration-200 group-hover:rotate-180">
                                     <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
                                 </svg>
@@ -90,9 +90,9 @@ require base_path('CORE/nav-notification.php');
 
                         <?php elseif ($role === "faculty"): ?>
                             <a href=<?= base_url('/faculty/subjects') ?> class="<?= $heading === "Subjects" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">Subjects</a>
-                            
+
                             <button popovertarget="submissions" class="<?= $heading === "Submissions" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium inline-flex items-center gap-x-2 transition-all duration-200 hover:scale-105">
-                                Submissions 
+                                Submissions
                                 <svg viewBox="0 0 20 20" fill="currentColor" class="size-4 transition-transform duration-200 group-hover:rotate-180">
                                     <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
                                 </svg>
@@ -174,7 +174,7 @@ require base_path('CORE/nav-notification.php');
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-6">
                                 <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            
+
                             <?php if ((!empty($activityNotification) || !empty($quizNotification) || !empty($examNotification)) && $_SESSION['role'] === 'faculty') : ?>
                                 <!-- Enhanced notification marker with glow effect -->
                                 <span class="absolute -top-1 -right-1 block h-3 w-3 rounded-full bg-gradient-to-r from-red-500 to-red-400 ring-2 ring-slate-800 shadow-lg shadow-red-500/50"></span>
@@ -251,9 +251,15 @@ require base_path('CORE/nav-notification.php');
                                     <box-icon id="chevron-icon" color="white" name="chevron-down" class="transition-transform duration-200"></box-icon>
                                 </button>
                             </div>
-                            
+
                             <!-- Enhanced dropdown menu with glassmorphic styling -->
                             <div id="menu" class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white/95 backdrop-blur-xl py-2 shadow-2xl ring-1 ring-slate-200/50 border border-white/20 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                                <a href=<?= base_url('/profile') ?> class="flex items-center gap-x-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50/80 hover:text-slate-900 transition-all duration-200 mx-2 rounded-lg" role="menuitem" tabindex="-1" id="user-menu-item-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                    </svg>
+                                    My Profile
+                                </a>
                                 <a href=<?= base_url('/logout') ?> class="flex items-center gap-x-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50/80 hover:text-slate-900 transition-all duration-200 mx-2 rounded-lg" role="menuitem" tabindex="-1" id="user-menu-item-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
@@ -262,21 +268,21 @@ require base_path('CORE/nav-notification.php');
                                 </a>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
-            
-            <!-- Enhanced mobile menu button -->
-            <div class="-mr-2 flex md:hidden">
-                <button type="button" onclick="toggleMenu()" class="relative inline-flex items-center justify-center rounded-xl bg-slate-700/50 backdrop-blur-sm border border-slate-600/30 p-2.5 text-slate-300 hover:bg-slate-600/50 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 focus:outline-hidden transition-all duration-200" aria-controls="mobile-menu" aria-expanded="false">
-                    <span class="absolute -inset-0.5"></span>
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                </button>
-            </div>
         </div>
+
+        <!-- Enhanced mobile menu button -->
+        <div class="-mr-2 flex md:hidden">
+            <button type="button" onclick="toggleMenu()" class="relative inline-flex items-center justify-center rounded-xl bg-slate-700/50 backdrop-blur-sm border border-slate-600/30 p-2.5 text-slate-300 hover:bg-slate-600/50 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-800 focus:outline-hidden transition-all duration-200" aria-controls="mobile-menu" aria-expanded="false">
+                <span class="absolute -inset-0.5"></span>
+                <span class="sr-only">Open main menu</span>
+                <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </div>
+    </div>
     </div>
 
     <!-- Enhanced mobile menu with glassmorphic styling -->
@@ -301,7 +307,7 @@ require base_path('CORE/nav-notification.php');
                     <a href=<?= base_url('/parent/students') ?> class="block <?= $heading === "Students" ? $act : $nact ?> px-4 py-3 text-base font-medium transition-all duration-200">Students</a>
                 <?php endif; ?>
             </div>
-            
+
             <!-- Enhanced mobile profile section -->
             <div class="border-t border-slate-700/50 pt-4 pb-3 bg-slate-900/50">
                 <div class="flex items-center px-6">

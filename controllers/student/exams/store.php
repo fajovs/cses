@@ -7,10 +7,12 @@ $db = new Database($config['database']);
 
 $subject_id = $_POST['subject_id'] ?? null;
 $exam_id    = $_POST['exam_id'] ?? null;
+$ea_id      = $_POST['ea_id'] ?? null;
+$submissionType = $_POST['submission_type'] ?? 'submitted';
 
-if (!$subject_id || !$exam_id) {
+if (!$subject_id || !$exam_id || !$ea_id) {
     http_response_code(400);
-    $_SESSION['error'] = 'Missing exam or subject information.';
+    $_SESSION['error'] = 'Missing exam, subject, or attempt information.';
     header('Location: ' . base_url('/student/subjects'));
     exit;
 }
@@ -65,18 +67,8 @@ $answers = $_POST['answers'] ?? [];
 try {
     $db->beginTransaction();
 
-    // Step 1: Insert empty attempt (score/status to be updated later)
-    $db->query(
-        "INSERT INTO student_exam_attempts (exam_id, student_id, submitted_at)
-         VALUES (:exam_id, :student_id, NOW())",
-        [
-            ':exam_id'    => $exam_id,
-            ':student_id' => $user['student_id']
-        ]
-    );
-    $attemptId = $db->lastInsertId();
 
-    // Step 2: Fetch correct answers
+    // Fetch correct answers
     $correctAnswers = $db->query(
         "SELECT exam_question_id, correct_answer 
          FROM exam_questions 
@@ -86,46 +78,51 @@ try {
 
     $score = 0;
 
-    // Step 3: Save answers & compute score
     foreach ($answers as $questionId => $selected) {
         $selected = strtoupper($selected);
-        $correct = (isset($correctAnswers[$questionId]) && $selected === $correctAnswers[$questionId]) ? 1 : 0;
+        $isCorrect = (isset($correctAnswers[$questionId]) && $selected === $correctAnswers[$questionId]) ? 1 : 0;
 
-        if ($correct) {
+        if ($isCorrect) {
             $score++;
         }
 
+        // Insert answer
         $db->query(
             "INSERT INTO student_exam_answers 
                 (student_exam_attempt_id, exam_question_id, selected_answer, is_correct)
              VALUES (:attempt_id, :question_id, :selected_answer, :is_correct)",
             [
-                ':attempt_id'      => $attemptId,
+                ':attempt_id'      => $ea_id,
                 ':question_id'     => $questionId,
                 ':selected_answer' => $selected,
-                ':is_correct'      => $correct
+                ':is_correct'      => $isCorrect
             ]
         );
     }
 
-    // Step 4: Compute status based on passing_score
-    $status = ($score >= $exam['passing_score']) ? 'passed' : 'failed';
+    // Determine remarks
+    $remarks = ($score >= $exam['passing_score']) ? 'passed' : 'failed';
 
-    // Step 5: Update attempt with score & status
+    // Update attempt
     $db->query(
         "UPDATE student_exam_attempts 
-         SET score = :score, status = :status 
+         SET score = :score, 
+             remarks = :remarks, 
+             status = :status,
+             submitted_at = NOW()
          WHERE student_exam_attempt_id = :attempt_id",
         [
             ':score'      => $score,
-            ':status'     => $status,
-            ':attempt_id' => $attemptId
+            ':remarks'    => $remarks,
+            ':status'     => $submissionType,
+            ':attempt_id' => $ea_id
         ]
     );
 
     $db->commit();
 
-    $_SESSION['success'] = "Exam submitted! Your score: $score/{$exam['num_questions']} - You {$status}!";
+    $_SESSION['success'] = "Exam submitted! Your score: $score/{$exam['num_questions']} - You {$remarks}!";
+
 } catch (Exception $e) {
     $db->rollBack();
     $_SESSION['error'] = 'Failed to submit exam: ' . $e->getMessage();

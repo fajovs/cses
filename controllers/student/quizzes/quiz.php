@@ -54,19 +54,16 @@ if (!$quiz) {
 // ✅ Check if the student has already taken the quiz
 $existingAttempt = $db->query(
     "SELECT * FROM student_quiz_attempts
-     WHERE quiz_id = :quiz_id AND student_id = :student_id LIMIT 1",
+     WHERE quiz_id = :quiz_id AND status = 'in_progress' AND student_id = :student_id LIMIT 1",
     [
         ':quiz_id' => $quiz_id,
         ':student_id' => $user['student_id']
     ]
 )->fetch();
 
-if ($existingAttempt) {
-    // Already submitted, block access or redirect
-    $_SESSION['error'] = 'You have already submitted this quiz.';
-    header('Location: ' . base_url('/student/subject/' . $subject_id . '/quizzes'));
-    exit;
-}
+
+
+
 
 // Fetch quiz questions
 $questions = $db->query(
@@ -79,5 +76,6 @@ view('/student/quizzes/quiz.view.php', [
     'heading'   => 'Take Quiz',
     'subject'   => $subject,
     'quiz'      => $quiz,
-    'questions' => $questions
+    'questions' => $questions,
+    'existingAttempt' => $existingAttempt
 ]);

@@ -49,7 +49,9 @@ $attemptedQuizzes = $db->query(
     "SELECT q.*, a.*
      FROM quizzes q
      INNER JOIN student_quiz_attempts a ON q.quiz_id = a.quiz_id
-     WHERE q.subject_id = :subject_id AND a.student_id = :student_id",
+     WHERE q.subject_id = :subject_id 
+       AND a.student_id = :student_id
+       AND a.status IN ('submitted', 'expired')",
     [
         ':subject_id' => $subject_id,
         ':student_id' => $user['student_id']
@@ -70,10 +72,25 @@ $notAttemptedQuizzes = $db->query(
     ]
 )->fetchAll();
 
+$inprogressQuizzes = $db->query(
+    "SELECT q.*, a.*
+     FROM quizzes q
+     INNER JOIN student_quiz_attempts a ON q.quiz_id = a.quiz_id
+     WHERE q.subject_id = :subject_id 
+       AND a.student_id = :student_id
+       AND a.status = 'in_progress'",
+    [
+        ':subject_id' => $subject_id,
+        ':student_id' => $user['student_id']
+    ]
+)->fetchAll();
+
+
 // ✅ Pass both lists to view
 view('/student/quizzes/index.view.php', [
     'heading'            => 'Quizzes',
     'subject'            => $subject,
     'attemptedQuizzes'   => $attemptedQuizzes,
-    'notAttemptedQuizzes'=> $notAttemptedQuizzes
+    'notAttemptedQuizzes'=> $notAttemptedQuizzes,
+    'inprogressQuizzes'=> $inprogressQuizzes
 ]);

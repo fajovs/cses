@@ -3,6 +3,10 @@
 $router->get(base_url('/'), 'controllers/auth.php', []);
 $router->post(base_url('/'), 'controllers/auth.php', []);
 $router->get(base_url('/logout'), 'controllers/logout.php', []);
+$router->get(base_url('/profile'), 'controllers/profile.php', ['admin','parent','faculty','student']);
+
+$router->patch(base_url('/update'), 'controllers/update.php', ['admin','parent','faculty','student']);
+
 // Authentication end
 
 
@@ -133,6 +137,10 @@ $router->post(base_url('/student/exam/submit'), 'controllers/student/exams/store
 $router->get(base_url('/student/subject/:id/activities'), 'controllers/student/activities/index.php', ['student']);
 $router->get(base_url('/student/subject/:id/activity/:aid'), 'controllers/student/activities/activity.php', ['student']);
 $router->post(base_url('/student/activity/submit'), 'controllers/student/activities/store.php', ['student']);
+
+$router->post(base_url('/quiz/attempt'), 'controllers/student/quizzes/attempt.php', ['student']);
+$router->post(base_url('/exam/attempt'), 'controllers/student/exams/attempt.php', ['student']);
+
 
 
 //PARENT ROUTES

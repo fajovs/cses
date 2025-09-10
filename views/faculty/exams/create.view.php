@@ -13,7 +13,7 @@ require("views/partials/notification.php");
         </div>
         <div class="flex flex-col gap-4">
             <a href="<?= base_url('/faculty/subject/' . $subject['subject_id']) . '/exams' ?>"
-               class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 outline-none">
+                class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 outline-none">
                 Cancel
             </a>
         </div>
@@ -25,7 +25,7 @@ require("views/partials/notification.php");
     <form method="POST" action="<?= base_url('/faculty/subject/exam/store') ?>">
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
-                <input type="hidden" name="subject_id" value="<?= htmlspecialchars($subject['subject_id']) ?>"/>
+                <input type="hidden" name="subject_id" value="<?= htmlspecialchars($subject['subject_id']) ?>" />
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
@@ -54,7 +54,7 @@ require("views/partials/notification.php");
                         <p class="mt-1 text-xs text-gray-500">Must not be higher than number of items.</p>
                     </div>
 
-                    <div class="sm:col-span-3">
+                    <div class="sm:col-span-2">
                         <label for="deadline" class="block text-sm/6 font-medium text-gray-900">Deadline</label>
                         <div class="mt-2">
                             <input required id="deadline" type="datetime-local" name="deadline"
@@ -62,6 +62,18 @@ require("views/partials/notification.php");
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Set the date & time when the exam will automatically become inactive.</p>
                     </div>
+
+
+                    <div class="sm:col-span-2">
+                        <label for="duration" class="block text-sm/6 font-medium text-gray-900">Duration (minutes)</label>
+                        <div class="mt-2">
+                            <input required id="duration" type="number" name="duration"
+                                min="1" max="300" value="60" placeholder="e.g. 60"
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600 sm:text-sm/6" />
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">Set the time limit (default 60 minutes). Max 300 minutes.</p>
+                    </div>
+
                 </div>
 
                 <div class="mt-4">
@@ -87,61 +99,56 @@ require("views/partials/notification.php");
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const generateBtn = document.getElementById('generateBtn');
-    const numQuestionsInput = document.getElementById('num_questions');
-    const passingScoreInput = document.getElementById('passing_score');
-    const deadlineInput = document.getElementById('deadline');
-    const container = document.getElementById('questionsContainer');
+    document.addEventListener('DOMContentLoaded', () => {
+        const generateBtn = document.getElementById('generateBtn');
+        const numQuestionsInput = document.getElementById('num_questions');
+        const passingScoreInput = document.getElementById('passing_score');
+        const deadlineInput = document.getElementById('deadline');
+        const container = document.getElementById('questionsContainer');
 
-    generateBtn.addEventListener('click', () => {
-        const desiredNum = parseInt(numQuestionsInput.value, 10);
-        if (isNaN(desiredNum) || desiredNum <= 0) {
-            alert('Please enter a valid number of questions.');
-            return;
-        }
-
-        const currentNum = container.querySelectorAll('.question-block').length;
-
-        if (desiredNum > currentNum) {
-            for (let i = currentNum + 1; i <= desiredNum; i++) {
-                container.insertAdjacentHTML('beforeend', createQuestionBlock(i));
+        generateBtn.addEventListener('click', () => {
+            const desiredNum = parseInt(numQuestionsInput.value, 10);
+            if (isNaN(desiredNum) || desiredNum <= 0) {
+                alert('Please enter a valid number of questions.');
+                return;
             }
-        } else if (desiredNum < currentNum) {
-            for (let i = currentNum; i > desiredNum; i--) {
-                const lastBlock = container.querySelector('.question-block:last-child');
-                if (lastBlock) lastBlock.remove();
+
+            const currentNum = container.querySelectorAll('.question-block').length;
+
+            if (desiredNum > currentNum) {
+                for (let i = currentNum + 1; i <= desiredNum; i++) {
+                    container.insertAdjacentHTML('beforeend', createQuestionBlock(i));
+                }
+            } else if (desiredNum < currentNum) {
+                for (let i = currentNum; i > desiredNum; i--) {
+                    const lastBlock = container.querySelector('.question-block:last-child');
+                    if (lastBlock) lastBlock.remove();
+                }
             }
-        }
-    });
+        });
 
-    passingScoreInput.addEventListener('input', () => {
-        const numQuestions = parseInt(numQuestionsInput.value, 10);
-        const passingScore = parseInt(passingScoreInput.value, 10);
-        if (!isNaN(numQuestions) && !isNaN(passingScore) && passingScore > numQuestions) {
-            alert('Passing score cannot be higher than the number of items.');
-            passingScoreInput.value = '';
-        }
-    });
+        passingScoreInput.addEventListener('input', () => {
+            const numQuestions = parseInt(numQuestionsInput.value, 10);
+            const passingScore = parseInt(passingScoreInput.value, 10);
+            if (!isNaN(numQuestions) && !isNaN(passingScore) && passingScore > numQuestions) {
+                alert('Passing score cannot be higher than the number of items.');
+                passingScoreInput.value = '';
+            }
+        });
 
+        deadlineInput.addEventListener('change', () => {
+            const selectedDate = new Date(deadlineInput.value);
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 5);
+            deadlineInput.min = now.toISOString().slice(0, 16);
+            if (selectedDate <= now) {
+                alert('Deadline must be in the future.');
+                deadlineInput.value = '';
+            }
+        });
 
-        
-        
-
-
-    deadlineInput.addEventListener('change', () => {
-        const selectedDate = new Date(deadlineInput.value);
-        const now = new Date();
-        now.setMinutes(now.getMinutes() + 5);
-        deadlineInput.min = now.toISOString().slice(0, 16);
-        if (selectedDate <= now) {
-            alert('Deadline must be in the future.');
-            deadlineInput.value = '';
-        }
-    });
-
-    function createQuestionBlock(index) {
-        return `
+        function createQuestionBlock(index) {
+            return `
             <div class="border-b border-gray-900/10 pb-12 question-block">
                 <div class="sm:col-span-4">
                     <label class="block text-sm/6 font-medium text-gray-900">Question #${index}</label>
@@ -177,8 +184,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             </div>`;
-    }
-});
+        }
+    });
+
+    const durationInput = document.getElementById('duration');
+
+
+    durationInput.addEventListener('input', () => {
+        const duration = parseInt(durationInput.value, 10);
+        if (isNaN(duration) || duration < 1 || duration > 300) {
+            alert('Duration must be between 1 and 300 minutes.');
+            // clamp value: fallback to default 60 if invalid
+            durationInput.value = isNaN(duration) ? 60 : Math.min(Math.max(duration, 1), 300);
+        }
+    });
 </script>
 
 <?php require("views/partials/foot.php"); ?>

@@ -54,19 +54,13 @@ if (!$exam) {
 // ✅ Check if the student has already taken the exam
 $existingAttempt = $db->query(
     "SELECT * FROM student_exam_attempts
-     WHERE exam_id = :exam_id AND student_id = :student_id LIMIT 1",
+     WHERE exam_id = :exam_id AND status = 'in_progress' AND student_id = :student_id LIMIT 1",
     [
         ':exam_id' => $exam_id,
         ':student_id' => $user['student_id']
     ]
 )->fetch();
 
-if ($existingAttempt) {
-    // Already submitted, block access or redirect
-    $_SESSION['error'] = 'You have already submitted this exam.';
-    header('Location: ' . base_url('/student/subject/' . $subject_id . '/exams'));
-    exit;
-}
 
 // Fetch exam questions
 $questions = $db->query(
@@ -79,5 +73,6 @@ view('/student/exams/exam.view.php', [
     'heading'   => 'Take Exam',
     'subject'   => $subject,
     'exam'      => $exam,
-    'questions' => $questions
+    'questions' => $questions,
+    'existingAttempt' => $existingAttempt
 ]);

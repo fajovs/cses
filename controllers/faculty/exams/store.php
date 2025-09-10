@@ -4,13 +4,18 @@ use Core\Database;
 $config = require base_path('config.php');
 $db = new Database($config['database']);
 
+
+
 $subject_id     = $_POST['subject_id'];                         
 $title          = trim($_POST['title']);
-$num_questions  = (int)$_POST['num_questions'];
-$passing_score  = (int)$_POST['passing_score'] ?? 0;
+$num_questions  = (int)($_POST['num_questions'] ?? 0);
+$passing_score  = (int)($_POST['passing_score'] ?? 0);
+$duration       = (int)($_POST['duration'] ?? 60); // ✅ default 60
 $deadline_raw   = $_POST['deadline'];
 $deadline       = date('Y-m-d H:i:s', strtotime($deadline_raw));
 $datetime       = date('Y-m-d H:i:s'); // current timestamp
+
+
 
 $questions      = $_POST['question'] ?? [];
 $choices_a      = $_POST['choice_a'] ?? [];
@@ -62,6 +67,10 @@ if ($passing_score <= 0) {
     $errors[] = "Passing score cannot be higher than number of items.";
 }
 
+if ($duration <= 0 || $duration > 300) {
+    $errors[] = "Duration must be between 1 and 300 minutes.";
+}
+
 if (strtotime($deadline) <= time()) {
     $errors[] = "Deadline must be in the future.";
 }
@@ -89,15 +98,16 @@ if (!empty($errors)) {
 try {
     $db->beginTransaction();
 
-    // Insert exam including passing_score
+    // Insert exam including duration & passing_score
     $db->query(
-        "INSERT INTO examinations (subject_id, title, num_questions, passing_score, deadline, is_active, created_at)
-         VALUES (:subject_id, :title, :num_questions, :passing_score, :deadline, 1, :created_at)",
+        "INSERT INTO examinations (subject_id, title, num_questions, passing_score, duration, deadline, is_active, created_at)
+         VALUES (:subject_id, :title, :num_questions, :passing_score, :duration, :deadline, 1, :created_at)",
         [
             ':subject_id'    => $subject_id,
             ':title'         => $title,
             ':num_questions' => $num_questions,
             ':passing_score' => $passing_score,
+            ':duration'      => $duration,
             ':deadline'      => $deadline,
             ':created_at'    => $datetime
         ]

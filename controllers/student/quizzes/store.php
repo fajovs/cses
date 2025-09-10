@@ -7,6 +7,10 @@ $db = new Database($config['database']);
 
 $subject_id = $_POST['subject_id'] ?? null;
 $quiz_id    = $_POST['quiz_id'] ?? null;
+$sa_id = $_POST['sa_id'] ?? null;
+$submissionType = $_POST['submission_type'] ?? 'submitted';
+
+
 
 if (!$subject_id || !$quiz_id) {
     http_response_code(400);
@@ -65,18 +69,10 @@ $answers = $_POST['answers'] ?? [];
 try {
     $db->beginTransaction();
 
-    // Step 1: Insert empty attempt (score/status to be updated later)
-    $db->query(
-        "INSERT INTO student_quiz_attempts (quiz_id, student_id, submitted_at)
-         VALUES (:quiz_id, :student_id, NOW())",
-        [
-            ':quiz_id'    => $quiz_id,
-            ':student_id' => $user['student_id']
-        ]
-    );
-    $attemptId = $db->lastInsertId();
+   
 
-    // Step 2: Fetch correct answers
+
+   
     $correctAnswers = $db->query(
         "SELECT quiz_question_id, correct_answer 
          FROM quiz_questions 
@@ -86,7 +82,6 @@ try {
 
     $score = 0;
 
-    // Step 3: Save answers & compute score
     foreach ($answers as $questionId => $selected) {
         $selected = strtoupper($selected);
         $correct = (isset($correctAnswers[$questionId]) && $selected === $correctAnswers[$questionId]) ? 1 : 0;
@@ -100,7 +95,7 @@ try {
                 (student_quiz_attempt_id, quiz_question_id, selected_answer, is_correct)
              VALUES (:attempt_id, :question_id, :selected_answer, :is_correct)",
             [
-                ':attempt_id'      => $attemptId,
+                ':attempt_id'      => $sa_id,
                 ':question_id'     => $questionId,
                 ':selected_answer' => $selected,
                 ':is_correct'      => $correct
@@ -108,20 +103,25 @@ try {
         );
     }
 
-    // Step 4: Compute status based on passing_score
-    $status = ($score >= $quiz['passing_score']) ? 'passed' : 'failed';
 
-    // Step 5: Update attempt with score & status
+    $remarks = ($score >= $quiz['passing_score']) ? 'passed' : 'failed';
+
+   
     $db->query(
         "UPDATE student_quiz_attempts 
-         SET score = :score, status = :status 
-         WHERE student_quiz_attempt_id = :attempt_id",
+     SET score = :score, 
+         remarks = :remarks, 
+         status = :status,
+         submitted_at = now()
+     WHERE student_quiz_attempt_id = :attempt_id",
         [
             ':score'      => $score,
-            ':status'     => $status,
-            ':attempt_id' => $attemptId
+            ':remarks'    => $remarks,
+            ':status'     => $submissionType,
+            ':attempt_id' => $sa_id
         ]
     );
+
 
     $db->commit();
 

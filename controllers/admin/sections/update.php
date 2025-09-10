@@ -7,6 +7,7 @@ $db = new Database($config['database']);
 
 $section_id  = $_POST['section_id'];
 $section_name  = $_POST['section_name'];
+$year_level  = $_POST['edit_year_level'];
 $programId = $_POST['program_id'] ?? null;
 
 
@@ -20,11 +21,12 @@ try {
 
     $db->query(
         'UPDATE program_sections 
-     SET section_name = :section_name
+     SET section_name = :section_name, year_level = :year_level
      WHERE section_id = :section_id',
         [
             ':section_id' => $section_id,
-            ':section_name' => $section_name
+            ':section_name' => $section_name,
+            ':year_level' => $year_level
         ]
     );
 

@@ -1,6 +1,5 @@
 <?php
 
-
 use Core\Database;
 
 $config = require base_path('config.php');
@@ -8,13 +7,14 @@ $db = new Database($config['database']);
 
 $program_id = $params['id'];
 
+// Fetch program
 $program = $db->query(
     "SELECT * FROM programs WHERE program_id = :program_id",
     [':program_id' => $program_id]
 )->fetch();
 
-
-$sections = $db->query(
+// Fetch sections with student count
+$sectionsRaw = $db->query(
     "SELECT 
         ps.*, 
         COUNT(s.student_id) AS student_count
@@ -25,12 +25,22 @@ $sections = $db->query(
     [':program_id' => $program_id]
 )->fetchAll();
 
-if(!$program){
+if (!$program) {
     http_response_code(404);
     require base_path('views/404.view.php');
     exit;
 }
 
+// Group sections by year_level
+$sections = [];
+foreach ($sectionsRaw as $section) {
+    $year = $section['year_level'];
+    if (!isset($sections[$year])) {
+        $sections[$year] = [];
+    }
+    $sections[$year][] = $section;
+
+}
 
 
 

@@ -7,9 +7,10 @@ $db = new Database($config['database']);
 $subject_id     = $_POST['subject_id'];                         
 $title          = trim($_POST['title']);
 $num_questions  = (int)$_POST['num_questions'];
-$passing_score  = (int)$_POST['passing_score'] ?? 0;
+$passing_score  = (int)($_POST['passing_score'] ?? 0);
 $deadline_raw   = $_POST['deadline'];
 $deadline       = date('Y-m-d H:i:s', strtotime($deadline_raw));
+$duration       = (int)($_POST['duration'] ?? 30); // ✅ Duration in minutes (default 30)
 $datetime       = date('Y-m-d H:i:s'); // current timestamp
 
 $questions      = $_POST['question'] ?? [];
@@ -66,6 +67,10 @@ if (strtotime($deadline) <= time()) {
     $errors[] = "Deadline must be in the future.";
 }
 
+if ($duration <= 0) {
+    $errors[] = "Duration must be greater than zero minutes.";
+}
+
 // Validate each question & choices
 for ($i = 0; $i < count($questions); $i++) {
     if (trim($questions[$i]) === '' ||
@@ -89,15 +94,16 @@ if (!empty($errors)) {
 try {
     $db->beginTransaction();
 
-    // Insert quiz including passing_score
+    // Insert quiz including passing_score and duration
     $db->query(
-        "INSERT INTO quizzes (subject_id, title, num_questions, passing_score, deadline, is_active, created_at)
-         VALUES (:subject_id, :title, :num_questions, :passing_score, :deadline, 1, :created_at)",
+        "INSERT INTO quizzes (subject_id, title, num_questions, passing_score, duration, deadline, is_active, created_at)
+         VALUES (:subject_id, :title, :num_questions, :passing_score, :duration, :deadline, 1, :created_at)",
         [
             ':subject_id'    => $subject_id,
             ':title'         => $title,
             ':num_questions' => $num_questions,
             ':passing_score' => $passing_score,
+            ':duration'      => $duration,
             ':deadline'      => $deadline,
             ':created_at'    => $datetime
         ]

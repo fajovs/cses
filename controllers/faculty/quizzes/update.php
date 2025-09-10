@@ -39,7 +39,7 @@ if (!$subject || $user['faculty_id'] != $subject['faculty_id']) {
     exit;
 }
 
-// Fetch existing questions (for initial render if needed)
+// Fetch existing questions
 $questions = $db->query(
     "SELECT * FROM quiz_questions WHERE quiz_id = :quiz_id",
     [':quiz_id' => $quiz_id]
@@ -47,50 +47,75 @@ $questions = $db->query(
 
 
 // Handle POST request
-$title = trim($_POST['title'] ?? '');
-$deadline = trim($_POST['deadline'] ?? '');
-$num_questions = (int) ($_POST['num_questions'] ?? 0);
-$passing_score = (int) ($_POST['passing_score'] ?? 0);
-$question_texts = $_POST['question'] ?? [];
-$choice_a = $_POST['choice_a'] ?? [];
-$choice_b = $_POST['choice_b'] ?? [];
-$choice_c = $_POST['choice_c'] ?? [];
-$choice_d = $_POST['choice_d'] ?? [];
-$correct_answers = $_POST['answer'] ?? [];
-$question_ids = $_POST['question_ids'] ?? [];
+$title          = trim($_POST['title'] ?? '');
+$deadline       = trim($_POST['deadline'] ?? '');
+$num_questions  = (int) ($_POST['num_questions'] ?? 0);
+$passing_score  = (int) ($_POST['passing_score'] ?? 0);
+$duration       = (int) ($_POST['duration'] ?? 30); // ✅ default 30 mins
+
+$question_texts   = $_POST['question'] ?? [];
+$choice_a         = $_POST['choice_a'] ?? [];
+$choice_b         = $_POST['choice_b'] ?? [];
+$choice_c         = $_POST['choice_c'] ?? [];
+$choice_d         = $_POST['choice_d'] ?? [];
+$correct_answers  = $_POST['answer'] ?? [];
+$question_ids     = $_POST['question_ids'] ?? [];
 
 try {
     $db->beginTransaction();
 
-    // Update quiz info (added passing_score)
+    // ✅ Update quiz info
     $db->query(
         "UPDATE quizzes 
-         SET title = :title, deadline = :deadline, num_questions = :num_questions, passing_score = :passing_score
+         SET title = :title, 
+             deadline = :deadline, 
+             num_questions = :num_questions, 
+             passing_score = :passing_score,
+             duration = :duration
          WHERE quiz_id = :quiz_id",
         [
-            ':title' => $title,
-            ':deadline' => $deadline,
+            ':title'         => $title,
+            ':deadline'      => $deadline,
             ':num_questions' => $num_questions,
             ':passing_score' => $passing_score,
-            ':quiz_id' => $quiz_id
+            ':duration'      => $duration,
+            ':quiz_id'       => $quiz_id
         ]
     );
 
-    // Loop through questions
+    // ✅ Step 1: Delete removed questions
+    $existing_ids = $db->query(
+        "SELECT quiz_question_id FROM quiz_questions WHERE quiz_id = :quiz_id",
+        [':quiz_id' => $quiz_id]
+    )->fetchAll(PDO::FETCH_COLUMN);
+
+    $submitted_ids = array_filter($question_ids); // ignore new ones (empty IDs)
+
+    $to_delete = array_diff($existing_ids, $submitted_ids);
+
+    if (!empty($to_delete)) {
+        $placeholders = implode(',', array_fill(0, count($to_delete), '?'));
+        $db->query(
+            "DELETE FROM quiz_questions WHERE quiz_question_id IN ($placeholders)",
+            array_values($to_delete)
+        );
+    }
+
+    // ✅ Step 2: Update or Insert
     foreach ($question_texts as $index => $text) {
         $qid = $question_ids[$index] ?: null;
 
         $params = [
-            ':question_text' => trim($text),
-            ':choice_a' => trim($choice_a[$index]),
-            ':choice_b' => trim($choice_b[$index]),
-            ':choice_c' => trim($choice_c[$index]),
-            ':choice_d' => trim($choice_d[$index]),
+            ':question_text'  => trim($text),
+            ':choice_a'       => trim($choice_a[$index]),
+            ':choice_b'       => trim($choice_b[$index]),
+            ':choice_c'       => trim($choice_c[$index]),
+            ':choice_d'       => trim($choice_d[$index]),
             ':correct_answer' => trim($correct_answers[$index])
         ];
 
         if ($qid) {
-            // Update existing question
+            // Update existing
             $params[':qid'] = $qid;
             $db->query(
                 "UPDATE quiz_questions 
@@ -104,7 +129,7 @@ try {
                 $params
             );
         } else {
-            // Insert new question
+            // Insert new
             $params[':quiz_id'] = $quiz_id;
             $db->query(
                 "INSERT INTO quiz_questions 
@@ -122,7 +147,6 @@ try {
     exit;
 } catch (Exception $e) {
     $db->rollBack();
-
     // Optional: log $e->getMessage()
     $_SESSION['error'] = 'Failed to update quiz. Please try again.';
     header('Location: ' . base_url('/faculty/subject/' . $subject['subject_id'] . '/quiz/' . $quiz_id . '/update'));
