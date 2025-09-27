@@ -14,28 +14,51 @@ if ($_SESSION['role'] === 'faculty') {
     )->fetch();
 
 
-    // Activities
-    $activityNotification = $db->query(
+    $assignmentNotification = $db->query(
         "SELECT 
-         a.activity_id,
-         a.title AS activity_title,
+         a.assignment_id,
+         a.title AS assignment_title,
          s.subject_id,
          s.subject_name,
-         COUNT(acs.submission_id) AS total_submissions,
-         MAX(acs.submitted_at) AS last_submission
-     FROM activity_submissions acs
-     LEFT JOIN activities a ON acs.activity_id = a.activity_id
+         COUNT(ass.submission_id) AS total_submissions,
+         MAX(ass.submitted_at) AS last_submission
+     FROM assignment_submissions ass
+     LEFT JOIN assignments a ON ass.assignment_id = a.assignment_id
      LEFT JOIN subjects s ON a.subject_id = s.subject_id
      LEFT JOIN faculties f ON s.faculty_id = f.faculty_id
-     WHERE acs.is_checked = :is_checked 
+     WHERE ass.is_checked = :is_checked 
        AND f.faculty_id = :faculty_id
-     GROUP BY a.activity_id, a.title, s.subject_id, s.subject_name
+     GROUP BY a.assignment_id, a.title, s.subject_id, s.subject_name
      ORDER BY last_submission DESC",
         [
             ':is_checked' => 0,
             ':faculty_id' => $user['faculty_id']
         ]
     )->fetchAll();
+
+    $projectNotification = $db->query(
+        "SELECT 
+         p.project_id,
+         p.title AS project_title,
+         s.subject_id,
+         s.subject_name,
+         COUNT(ps.submission_id) AS total_submissions,
+         MAX(ps.submitted_at) AS last_submission
+     FROM project_submissions ps
+     LEFT JOIN projects p ON ps.project_id = p.project_id
+     LEFT JOIN subjects s ON p.subject_id = s.subject_id
+     LEFT JOIN faculties f ON s.faculty_id = f.faculty_id
+     WHERE ps.is_checked = :is_checked 
+       AND f.faculty_id = :faculty_id
+     GROUP BY p.project_id, p.title, s.subject_id, s.subject_name
+     ORDER BY last_submission DESC",
+        [
+            ':is_checked' => 0,
+            ':faculty_id' => $user['faculty_id']
+        ]
+    )->fetchAll();
+
+
 
     // Exams
     $examNotification = $db->query(

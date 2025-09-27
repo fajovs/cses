@@ -1,0 +1,75 @@
+SELECT DISTINCT st.student_number, u.first_name, u.middle_name, u.last_name, u.suffix, sb.subject_name,q.title,sqa.score,e.title,sea.score, a.title, asub.total_score, p.title, psub.total_score,
+	SUM(sqa.score) AS qtotal_score
+	FROM students st
+	LEFT JOIN users u ON st.user_id = u.user_id
+	LEFT JOIN program_sections ps ON st.section_id = ps.section_id
+	LEFT JOIN subjects sb ON ps.section_id = sb.section_id
+	LEFT JOIN quizzes q ON sb.subject_id = q.subject_id
+	LEFT JOIN student_quiz_attempts sqa ON q.quiz_id = sqa.quiz_id
+	LEFT JOIN examinations e ON sb.subject_id = e.subject_id
+	LEFT JOIN student_exam_attempts sea ON e.exam_id = sea.exam_id
+	LEFT JOIN assignments a ON sb.subject_id = a.subject_id
+	LEFT JOIN assignment_submissions asub ON a.assignment_id = asub.assignment_id
+	LEFT JOIN projects p ON sb.subject_id = p.subject_id
+	LEFT JOIN project_submissions psub ON p.project_id = psub.project_id
+WHERE sb.subject_id = 21
+ORDER BY u.last_name, u.first_name
+
+<div class="mt-8 overflow-x-auto max-h-96 border rounded-lg">
+        <table class="table-auto border border-gray-300 divide-y divide-gray-200">
+            <thead class="bg-gray-100 sticky top-0 z-10">
+                <tr>
+                    <?php
+                    $quizIndex = 1;
+                    $examIndex = 1;
+                    foreach ($columns as $i => $col): ?>
+                        <?php if ($i < 2): ?>
+                            <!-- First 2 headers plain -->
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700 text-left border border-gray-300 whitespace-nowrap">
+                                <?= htmlspecialchars($col) ?>
+                            </th>
+                        <?php elseif ($colTypes[$i] === 'quiz'): ?>
+                            <!-- Quiz headers -->
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700 text-center border border-gray-300 whitespace-nowrap"
+                                title="<?= htmlspecialchars($col) ?>">
+                                Q<?= $quizIndex++ ?>
+                            </th>
+                        <?php elseif ($colTypes[$i] === 'exam'): ?>
+                            <!-- Exam headers -->
+                            <th class="px-4 py-2 text-sm font-semibold text-gray-700 text-center border border-gray-300 whitespace-nowrap"
+                                title="<?= htmlspecialchars($col) ?>">
+                                E<?= $examIndex++ ?>
+                            </th>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-200">
+                <?php foreach ($rows as $row): ?>
+                    <tr>
+                        <?php foreach ($row as $j => $cell): ?>
+                            <?php if ($j < 2): ?>
+                                <!-- First 2 cells (student name/id) -->
+                                <td class="px-4 py-2 text-sm text-gray-900 border border-gray-300 text-left whitespace-nowrap">
+                                    <?= htmlspecialchars($cell) ?>
+                                </td>
+                            <?php elseif ($colTypes[$j] === 'quiz'): ?>
+                                <!-- Quiz cells -->
+                                <td class="px-4 py-2 text-sm text-gray-900 border border-gray-300 text-center whitespace-nowrap"
+                                    title="Quiz <?= $j - 1 ?>: <?= htmlspecialchars($columns[$j]) ?>">
+                                    <?= htmlspecialchars($cell) ?>
+                                </td>
+                            <?php elseif ($colTypes[$j] === 'exam'): ?>
+                                <!-- Exam cells -->
+                                <td class="px-4 py-2 text-sm text-gray-900 border border-gray-300 text-center whitespace-nowrap"
+                                    title="Exam <?= $j - 1 ?>: <?= htmlspecialchars($columns[$j]) ?>">
+                                    <?= htmlspecialchars($cell) ?>
+                                </td>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>

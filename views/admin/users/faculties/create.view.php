@@ -225,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('<?= base_url('/admin/users/check-email') ?>?email=' + encodeURIComponent(email));
                 const data = await response.json();
+               
                 if (data.exists) {
                     emailError.textContent = "This email is already taken.";
                     emailUnique = false;

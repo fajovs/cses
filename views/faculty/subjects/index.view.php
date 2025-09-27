@@ -1,6 +1,7 @@
 <?php
 require("views/partials/head.php");
 require("views/partials/nav.php");
+
 require("views/partials/notification.php");
 
 ?>
@@ -61,12 +62,17 @@ require("views/partials/notification.php");
                                         <span class="text-sm text-gray-600"><?= htmlspecialchars($subject['section_name']) ?></span>
                                     </td>
                                     <td class="px-6 py-5 text-center">
-                                        <a href="<?= base_url("/faculty/subject/" . htmlspecialchars($subject['subject_id']) ."/activities") ?>"
-                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-150">
-                                            Activities
+                                     
+                                        <a href="<?= base_url("/faculty/subject/" . htmlspecialchars($subject['subject_id']) ."/assignments") ?>"
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
+                                            Assignments
+                                        </a>
+                                         <a href="<?= base_url("/faculty/subject/" . htmlspecialchars($subject['subject_id']) ."/projects") ?>"
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
+                                            Projects
                                         </a>
                                         <a href="<?= base_url("/faculty/subject/" . htmlspecialchars($subject['subject_id']) ."/quizzes") ?>"
-                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             Quizess
                                         </a>
                                         <a href="<?= base_url("/faculty/subject/" . htmlspecialchars($subject['subject_id']) . "/exams" ) ?>"

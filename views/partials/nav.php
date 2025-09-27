@@ -2,16 +2,21 @@
 $act = "rounded-lg bg-green-600 text-white shadow-lg shadow-green-600/25 border border-green-500/20";
 $nact = "rounded-lg text-slate-200 hover:bg-slate-700/50 hover:text-white transition-all duration-200 backdrop-blur-sm border border-transparent hover:border-slate-600/30";
 require base_path('CORE/nav-notification.php');
+
+use Core\Database;
+
+$config = require base_path('config.php');
+$db = new Database($config['database']);
+
+$user = $db->query(
+    "SELECT * FROM users WHERE user_id = :user_id",
+    [':user_id' => $_SESSION['user_id']]
+)->fetch();
+
 ?>
 
 <!-- Enhanced navigation with gradient background and glassmorphic styling -->
-<nav class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700/50 backdrop-blur-xl">
-    <!-- Added floating blur elements for visual depth -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-4 -left-4 w-24 h-24 bg-green-500/10 rounded-full blur-xl"></div>
-        <div class="absolute top-8 right-1/4 w-32 h-32 bg-slate-500/5 rounded-full blur-2xl"></div>
-        <div class="absolute -bottom-4 right-8 w-20 h-20 bg-green-400/8 rounded-full blur-xl"></div>
-    </div>
+<nav class="bg-green-700">
 
     <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
@@ -102,7 +107,24 @@ require base_path('CORE/nav-notification.php');
                                 <div class="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm/6 shadow-lg ring-1 ring-gray-900/5">
                                     <div class="p-4">
 
-                                        <!-- Activities -->
+
+                                        <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                            <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                                <!-- Clipboard Icon -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                                                </svg>
+
+                                            </div>
+                                            <div>
+                                                <a href="<?= base_url('/faculty/submissions/assignments') ?>" class="font-semibold text-gray-900">
+                                                    Assignments
+                                                    <span class="absolute inset-0"></span>
+                                                </a>
+                                                <p class="mt-1 text-gray-600">View and score submitted assignments. </p>
+                                            </div>
+                                        </div>
+
                                         <div class="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                             <div class="mt-1 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                                 <!-- Clipboard Icon -->
@@ -111,11 +133,11 @@ require base_path('CORE/nav-notification.php');
                                                 </svg>
                                             </div>
                                             <div>
-                                                <a href="<?= base_url('/faculty/submissions/activities') ?>" class="font-semibold text-gray-900">
-                                                    Activities
+                                                <a href="<?= base_url('/faculty/submissions/projects') ?>" class="font-semibold text-gray-900">
+                                                    Projects
                                                     <span class="absolute inset-0"></span>
                                                 </a>
-                                                <p class="mt-1 text-gray-600">View and score submitted activities. </p>
+                                                <p class="mt-1 text-gray-600">View and score submitted projects. </p>
                                             </div>
                                         </div>
 
@@ -156,10 +178,16 @@ require base_path('CORE/nav-notification.php');
                                     </div>
                                 </div>
                             </el-popover>
+                            <a href=<?= base_url('/faculty/reports') ?> class="<?= $heading === "Reports" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">Reports</a>
+
                         <?php elseif ($role === "student"): ?>
                             <a href=<?= base_url('/student/subjects') ?> class="<?= $heading === "Subjects" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">Subjects</a>
+                            <a href=<?= base_url('/student/reports') ?> class="<?= $heading === "Reports" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">Reports</a>
+
                         <?php elseif ($role === "parent"): ?>
                             <a href=<?= base_url('/parent/students') ?> class="<?= $heading === "Students" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">MyStudents</a>
+                            <a href=<?= base_url('/parent/reports') ?> class="<?= $heading === "Reports" ? $act : $nact ?> px-4 py-2.5 text-sm font-medium transition-all duration-200">Reports</a>
+
                         <?php endif; ?>
                     </div>
                 </div>
@@ -175,7 +203,14 @@ require base_path('CORE/nav-notification.php');
                                 <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
 
-                            <?php if ((!empty($activityNotification) || !empty($quizNotification) || !empty($examNotification)) && $_SESSION['role'] === 'faculty') : ?>
+                            <?php if (
+                                (!empty($activityNotification) ||
+                                    !empty($quizNotification) ||
+                                    !empty($examNotification) ||
+                                    !empty($assignmentNotification) ||
+                                    !empty($projectNotification))
+                                && $_SESSION['role'] === 'faculty'
+                            ) : ?>
                                 <!-- Enhanced notification marker with glow effect -->
                                 <span class="absolute -top-1 -right-1 block h-3 w-3 rounded-full bg-gradient-to-r from-red-500 to-red-400 ring-2 ring-slate-800 shadow-lg shadow-red-500/50"></span>
 
@@ -184,13 +219,14 @@ require base_path('CORE/nav-notification.php');
                                         <!-- Scrollable container -->
                                         <div class="p-2 max-h-60 overflow-y-auto">
 
-                                            <!-- Activities -->
-                                            <?php if (!empty($activityNotification)): ?>
-                                                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Activities</div>
-                                                <?php foreach ($activityNotification as $notif): ?>
-                                                    <a href="<?= base_url('/faculty/submissions/subject/' . htmlspecialchars($notif['subject_id']) . '/activity/' . htmlspecialchars($notif['activity_id'])) ?>" class="block p-3 border-b border-gray-200 last:border-none hover:bg-gray-100 transition-colors duration-150 text-left">
+                                            <!-- Assignments -->
+                                            <?php if (!empty($assignmentNotification)): ?>
+                                                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Assignments</div>
+                                                <?php foreach ($assignmentNotification as $notif): ?>
+                                                    <a href="<?= base_url('/faculty/submissions/subject/' . htmlspecialchars($notif['subject_id']) . '/assignment/' . htmlspecialchars($notif['assignment_id'])) ?>"
+                                                        class="block p-3 border-b border-gray-200 last:border-none hover:bg-gray-100 transition-colors duration-150 text-left">
                                                         <div class="font-semibold text-gray-900">
-                                                            <?= htmlspecialchars($notif['activity_title'] ?? 'Untitled Activity') ?>
+                                                            <?= htmlspecialchars($notif['assignment_title'] ?? 'Untitled Assignment') ?>
                                                         </div>
                                                         <p class="mt-1 text-gray-700 text-sm">
                                                             <?= htmlspecialchars($notif['subject_name'] ?? 'Untitled Subject') ?> —
@@ -199,6 +235,24 @@ require base_path('CORE/nav-notification.php');
                                                     </a>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
+
+                                            <!-- Projects -->
+                                            <?php if (!empty($projectNotification)): ?>
+                                                <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Projects</div>
+                                                <?php foreach ($projectNotification as $notif): ?>
+                                                    <a href="<?= base_url('/faculty/submissions/subject/' . htmlspecialchars($notif['subject_id']) . '/project/' . htmlspecialchars($notif['project_id'])) ?>"
+                                                        class="block p-3 border-b border-gray-200 last:border-none hover:bg-gray-100 transition-colors duration-150 text-left">
+                                                        <div class="font-semibold text-gray-900">
+                                                            <?= htmlspecialchars($notif['project_title'] ?? 'Untitled Project') ?>
+                                                        </div>
+                                                        <p class="mt-1 text-gray-700 text-sm">
+                                                            <?= htmlspecialchars($notif['subject_name'] ?? 'Untitled Subject') ?> —
+                                                            <?= (int)$notif['total_submissions'] ?> new submission<?= $notif['total_submissions'] > 1 ? 's' : '' ?>.
+                                                        </p>
+                                                    </a>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
 
                                             <!-- Quizzes -->
                                             <?php if (!empty($quizNotification)): ?>
@@ -244,9 +298,9 @@ require base_path('CORE/nav-notification.php');
                                 <button type="button" onclick="toggleMenu()" class="flex items-center gap-x-3 rounded-xl bg-slate-700/50 backdrop-blur-sm border border-slate-600/30 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-600/50 focus:outline-2 focus:outline-offset-2 focus:outline-green-500 transition-all duration-200 hover:scale-105" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                     <div class="flex items-center gap-x-3">
                                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-slate-600 flex items-center justify-center text-white font-semibold text-sm">
-                                            <?= strtoupper(substr($_SESSION['first_name'], 0, 1)) ?>
+                                            <?= strtoupper(substr($user['first_name'], 0, 1)) ?>
                                         </div>
-                                        <span class="hidden sm:block"><?= htmlspecialchars($_SESSION['last_name'] . ', ' . $_SESSION['first_name']) ?></span>
+                                        <span class="hidden sm:block"><?= htmlspecialchars($user['last_name'] . ', ' . $user['first_name']) ?></span>
                                     </div>
                                     <box-icon id="chevron-icon" color="white" name="chevron-down" class="transition-transform duration-200"></box-icon>
                                 </button>
@@ -312,11 +366,11 @@ require base_path('CORE/nav-notification.php');
             <div class="border-t border-slate-700/50 pt-4 pb-3 bg-slate-900/50">
                 <div class="flex items-center px-6">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-slate-600 flex items-center justify-center text-white font-semibold">
-                        <?= strtoupper(substr($_SESSION['first_name'], 0, 1)) ?>
+                        <?= strtoupper(substr($user['first_name'], 0, 1)) ?>
                     </div>
                     <div class="ml-4">
-                        <div class="text-base font-medium text-white"><?= htmlspecialchars($_SESSION['last_name'] . ', ' . $_SESSION['first_name']) ?></div>
-                        <div class="text-sm font-medium text-slate-400"><?= htmlspecialchars($_SESSION['email']) ?></div>
+                        <div class="text-base font-medium text-white"><?= htmlspecialchars($user['last_name'] . ', ' . $user['first_name']) ?></div>
+                        <div class="text-sm font-medium text-slate-400"><?= htmlspecialchars($user['email']) ?></div>
                     </div>
                 </div>
                 <div class="mt-4 space-y-2 px-4">

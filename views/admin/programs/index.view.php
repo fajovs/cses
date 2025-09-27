@@ -76,7 +76,7 @@ require("views/partials/notification.php");
                             </td>
                             <td class="px-6 py-5 text-center">
                                 <a href=<?= base_url("/admin/program/" . htmlspecialchars($program['program_id'])."/sections") ?>
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-150">
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                     Year Section
                                 </a>
                                 <a href=<?= base_url("/admin/program/" . htmlspecialchars($program['program_id'])."/subjects") ?>

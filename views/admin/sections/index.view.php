@@ -27,7 +27,7 @@ require("views/partials/notification.php");
 <main class="flex-1 overflow-y-auto px-27 py-6">
     <div class="my-2 flex justify-end">
         <button command="show-modal" commandfor="drawer"
-            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-amber-600 rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
             Add Section
         </button>
     </div>
@@ -70,24 +70,18 @@ require("views/partials/notification.php");
                                 <td class="px-6 py-5 text-center"><?= htmlspecialchars($section['section_name']) ?></td>
                                 <td class="px-6 py-5 text-center"><?= htmlspecialchars($section['student_count']) ?></td>
                                 <td class="px-6 py-5 text-center">
-                                    <?php if ($year === 1) : ?>
-                                        <span class="inline-flex items-center rounded-md bg-red-400/10 px-2 py-1 text-xs font-medium text-red-400 inset-ring inset-ring-red-400/20">First Year</span>
-                                    <?php elseif ($year === 2) : ?>
-                                        <span class="inline-flex items-center rounded-md bg-green-400/10 px-2 py-1 text-xs font-medium text-green-400 inset-ring inset-ring-green-400/20">Second Year</span>
-                                    <?php elseif ($year === 3) : ?>
-                                        <span class="inline-flex items-center rounded-md bg-blue-400/10 px-2 py-1 text-xs font-medium text-blue-400 inset-ring inset-ring-blue-400/20">Third Year</span>
-                                    <?php elseif ($year === 4) : ?>
-                                        <span class="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 inset-ring inset-ring-indigo-400/20">Fourth Year</span>
-                                    <?php endif; ?>
+                            
+                                        <span class="inline-flex items-center rounded-md bg-green-400/10 px-2 py-1 text-xs font-medium text-green-400 inset-ring inset-ring-green-400/20"><?= $year === 1 ? 'First Year' : ($year === 2 ? 'Second Year' : ($year === 3 ? 'Third Year' : ($year === 4 ? 'Fourth Year' : ''))) ?></span>
+                                   
                                 </td>
                                 <td class="w-50 px-6 py-5 text-center">
                                     <button command="show-modal" commandfor="drawerEdit"
                                         data-section-id="<?= htmlspecialchars($section['section_id']) ?>"
                                         data-section-name="<?= htmlspecialchars($section['section_name']) ?>"
                                         data-year-level="<?= htmlspecialchars($section['year_level']) ?>"
-                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700">EDIT</button>
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">EDIT</button>
                                     <button type="button" command="show-modal" commandfor="delete-dialog-<?= htmlspecialchars($section['section_id']) ?>"
-                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg hover:bg-rose-700">Delete</button>
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">Delete</button>
                                 </td>
                                 
                             </tr>

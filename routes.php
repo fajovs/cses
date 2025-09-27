@@ -91,23 +91,45 @@ $router->patch(base_url('/faculty/subject/exam/state'), 'controllers/faculty/exa
 $router->delete(base_url('/faculty/exam/delete'), 'controllers/faculty/exams/destroy.php', ['faculty']);
 
 
-$router->get(base_url('/faculty/subject/:id/activities'), 'controllers/faculty/activities/index.php', ['faculty']);
-$router->get(base_url('/faculty/subject/:id/activity'), 'controllers/faculty/activities/create.php', ['faculty']);
-$router->get(base_url('/faculty/subject/:id/activity/:aid'), 'controllers/faculty/activities/edit.php', ['faculty']);
 
-$router->post(base_url('/faculty/subject/activity/store'), 'controllers/faculty/activities/store.php', ['faculty']);
-$router->patch(base_url('/faculty/subject/activity/state'), 'controllers/faculty/activities/state.php', ['faculty']);
-$router->delete(base_url('/faculty/activity/delete'), 'controllers/faculty/activities/destroy.php', ['faculty']);
-$router->patch(base_url('/faculty/subject/:id/activity/:aid/update'), 'controllers/faculty/activities/update.php', ['faculty']);
+$router->get(base_url('/faculty/subject/:id/assignments'), 'controllers/faculty/assignments/index.php', ['faculty']);
+$router->get(base_url('/faculty/subject/:id/assignment'), 'controllers/faculty/assignments/create.php', ['faculty']);
+$router->get(base_url('/faculty/subject/:id/assignment/:aid'), 'controllers/faculty/assignments/edit.php', ['faculty']);
+$router->post(base_url('/faculty/subject/assignment/store'), 'controllers/faculty/assignments/store.php', ['faculty']);
+$router->patch(base_url('/faculty/subject/assignment/state'), 'controllers/faculty/assignments/state.php', ['faculty']);
+$router->delete(base_url('/faculty/assignment/delete'), 'controllers/faculty/assignments/destroy.php', ['faculty']);
+$router->patch(base_url('/faculty/subject/:id/assignment/:aid/update'), 'controllers/faculty/assignments/update.php', ['faculty']);
+
+$router->get(base_url('/faculty/subject/:id/projects'), 'controllers/faculty/projects/index.php', ['faculty']);
+$router->get(base_url('/faculty/subject/:id/project'), 'controllers/faculty/projects/create.php', ['faculty']);
+$router->get(base_url('/faculty/subject/:id/project/:aid'), 'controllers/faculty/projects/edit.php', ['faculty']);
+$router->post(base_url('/faculty/subject/project/store'), 'controllers/faculty/projects/store.php', ['faculty']);
+$router->patch(base_url('/faculty/subject/project/state'), 'controllers/faculty/projects/state.php', ['faculty']);
+$router->delete(base_url('/faculty/project/delete'), 'controllers/faculty/projects/destroy.php', ['faculty']);
+$router->patch(base_url('/faculty/subject/:id/project/:aid/update'), 'controllers/faculty/projects/update.php', ['faculty']);
+
+
+
+$router->get(base_url('/faculty/reports'), 'controllers/faculty/reports/index.php', ['faculty']);
+$router->get(base_url('/faculty/reports/students'), 'controllers/faculty/reports/students.php', ['faculty']);
+$router->get(base_url('/faculty/reports/generate'), 'controllers/faculty/reports/generate.php', ['faculty']);
 
 
 
 
-$router->get(base_url('/faculty/submissions/activities'), 'controllers/faculty/submissions/activities/index.php', ['faculty']);
-$router->get(base_url('/faculty/submissions/:id/activities'), 'controllers/faculty/submissions/activities/activities.php', ['faculty']);
-$router->get(base_url('/faculty/submissions/subject/:id/activity/:aid'), 'controllers/faculty/submissions/activities/submissions.php', ['faculty']);
+
+$router->get(base_url('/faculty/submissions/projects'), 'controllers/faculty/submissions/projects/index.php', ['faculty']);
+$router->get(base_url('/faculty/submissions/:id/projects'), 'controllers/faculty/submissions/projects/projects.php', ['faculty']);
+$router->get(base_url('/faculty/submissions/subject/:id/project/:aid'), 'controllers/faculty/submissions/projects/submissions.php', ['faculty']);
 $router->get(base_url('/download'), 'controllers/download.php',['faculty', 'student']);
-$router->patch(base_url('/faculty/submissions/activity/evaluate'), 'controllers/faculty/submissions/activities/evaluate.php',['faculty']);
+$router->patch(base_url('/faculty/submissions/project/evaluate'), 'controllers/faculty/submissions/projects/evaluate.php',['faculty']);
+
+
+$router->get(base_url('/faculty/submissions/assignments'), 'controllers/faculty/submissions/assignments/index.php', ['faculty']);
+$router->get(base_url('/faculty/submissions/:id/assignments'), 'controllers/faculty/submissions/assignments/assignments.php', ['faculty']);
+$router->get(base_url('/faculty/submissions/subject/:id/assignment/:aid'), 'controllers/faculty/submissions/assignments/submissions.php', ['faculty']);
+$router->get(base_url('/download'), 'controllers/download.php',['faculty', 'student']);
+$router->patch(base_url('/faculty/submissions/assignment/evaluate'), 'controllers/faculty/submissions/assignments/evaluate.php',['faculty']);
 
 
 
@@ -138,19 +160,34 @@ $router->get(base_url('/student/subject/:id/activities'), 'controllers/student/a
 $router->get(base_url('/student/subject/:id/activity/:aid'), 'controllers/student/activities/activity.php', ['student']);
 $router->post(base_url('/student/activity/submit'), 'controllers/student/activities/store.php', ['student']);
 
+$router->get(base_url('/student/subject/:id/projects'), 'controllers/student/projects/index.php', ['student']);
+$router->get(base_url('/student/subject/:id/project/:aid'), 'controllers/student/projects/project.php', ['student']);
+$router->post(base_url('/student/project/submit'), 'controllers/student/projects/store.php', ['student']);
+
+$router->get(base_url('/student/subject/:id/assignments'), 'controllers/student/assignments/index.php', ['student']);
+$router->get(base_url('/student/subject/:id/assignment/:aid'), 'controllers/student/assignments/assignment.php', ['student']);
+$router->post(base_url('/student/assignment/submit'), 'controllers/student/assignments/store.php', ['student']);
+
+
 $router->post(base_url('/quiz/attempt'), 'controllers/student/quizzes/attempt.php', ['student']);
 $router->post(base_url('/exam/attempt'), 'controllers/student/exams/attempt.php', ['student']);
 
+$router->get(base_url('/student/reports'), 'controllers/student/reports/index.php', ['student']);
+$router->get(base_url('/student/reports/generate'), 'controllers/student/reports/generate.php', ['student']);
 
 
 //PARENT ROUTES
 $router->get(base_url('/parent/students'), 'controllers/parent/students/index.php', ['parent']);
 $router->get(base_url('/parent/student/:sid/subjects'), 'controllers/parent/subjects/index.php', ['parent']);
-$router->get(base_url('/parent/student/:sid/subject/:suid/activities'), 'controllers/parent/activities/index.php', ['parent']);
+$router->get(base_url('/parent/student/:sid/subject/:suid/projects'), 'controllers/parent/projects/index.php', ['parent']);
+$router->get(base_url('/parent/student/:sid/subject/:suid/assignments'), 'controllers/parent/assignments/index.php', ['parent']);
 $router->get(base_url('/parent/student/:sid/subject/:suid/quizzes'), 'controllers/parent/quizzes/index.php', ['parent']);
 $router->get(base_url('/parent/student/:sid/subject/:suid/examinations'), 'controllers/parent/examinations/index.php', ['parent']);
 
 
+$router->get(base_url('/parent/reports'), 'controllers/parent/reports/index.php', ['parent']);
+$router->get(base_url('/parent/reports/generate'), 'controllers/parent/reports/generate.php', ['parent']);
+$router->get(base_url('/parent/reports/subjects'), 'controllers/parent/reports/subjects.php', ['parent']);
 
 
 

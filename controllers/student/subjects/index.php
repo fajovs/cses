@@ -21,15 +21,25 @@ $subjects = $db->query(
         COUNT(DISTINCT st.student_id) AS student_count,
         ps.section_name,
 
-        -- Count not submitted activities
+        -- Count not submitted assignments
         (
-            SELECT COUNT(*) FROM activities a
+            SELECT COUNT(*) FROM assignments a
             WHERE a.subject_id = s.subject_id AND a.is_active = 1
-            AND a.activity_id NOT IN (
-                SELECT activity_id FROM activity_submissions 
+            AND a.assignment_id NOT IN (
+                SELECT assignment_id FROM assignment_submissions 
                 WHERE student_id = :student_id
             )
-        ) AS not_submitted_activities,
+        ) AS not_submitted_assignments,
+
+         -- Count not submitted projects
+        (
+            SELECT COUNT(*) FROM projects a
+            WHERE a.subject_id = s.subject_id AND a.is_active = 1
+            AND a.project_id NOT IN (
+                SELECT project_id FROM project_submissions 
+                WHERE student_id = :student_id
+            )
+        ) AS not_submitted_projects,
 
         -- Count not attempted quizzes
         (

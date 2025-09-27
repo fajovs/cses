@@ -61,21 +61,31 @@ require("views/partials/notification.php");
                                         <span class="text-sm text-gray-600"><?= htmlspecialchars($subject['section_name']) ?></span>
                                     </td>
                                     <td class="px-6 py-5 text-center flex gap-5 justify-center">
-                                        <!-- Activities Button -->
-                                        <!-- Activities Button -->
-                                        <a href="<?= base_url("/student/subject/" . htmlspecialchars($subject['subject_id']) . "/activities") ?>"
-                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition-colors duration-150">
-                                            Activities
-                                            <?php if ($subject['not_submitted_activities'] > 0): ?>
+                                      
+                                        <a href="<?= base_url("/student/subject/" . htmlspecialchars($subject['subject_id']) . "/assignments") ?>"
+                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
+                                            Assignments
+                                            <?php if ($subject['not_submitted_assignments'] > 0): ?>
                                                 <span class="absolute top-0 right-0 -mt-1 -mr-1 flex items-center justify-center h-5 w-5 text-xs font-bold bg-red-600 text-white rounded-full">
-                                                    <?= $subject['not_submitted_activities'] ?>
+                                                    <?= $subject['not_submitted_assignments'] ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </a>
+
+                                        
+                                        <a href="<?= base_url("/student/subject/" . htmlspecialchars($subject['subject_id']) . "/projects") ?>"
+                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
+                                            Projects
+                                            <?php if ($subject['not_submitted_projects'] > 0): ?>
+                                                <span class="absolute top-0 right-0 -mt-1 -mr-1 flex items-center justify-center h-5 w-5 text-xs font-bold bg-red-600 text-white rounded-full">
+                                                    <?= $subject['not_submitted_projects'] ?>
                                                 </span>
                                             <?php endif; ?>
                                         </a>
 
                                         <!-- Quizzes Button -->
                                         <a href="<?= base_url("/student/subject/" . htmlspecialchars($subject['subject_id']) . "/quizzes") ?>"
-                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-150">
+                                            class="relative inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
                                             Quizzes
                                             <?php if ($subject['not_attempted_quizzes'] > 0): ?>
                                                 <span class="absolute top-0 right-0 -mt-1 -mr-1 flex items-center justify-center h-5 w-5 text-xs font-bold bg-red-600 text-white rounded-full">

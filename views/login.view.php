@@ -85,12 +85,6 @@
         </div>
       </form>
 
-      <!-- Added subtle footer with slate styling -->
-      <div class="mt-6 text-center">
-        <p class="text-xs text-slate-500">
-          Protected by advanced security measures
-        </p>
-      </div>
     </div>
   </div>
 </div>

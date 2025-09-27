@@ -67,7 +67,7 @@ require("views/partials/notification.php");
                             </td>
 
                             <td class="px-6 py-5 text-center">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Parent</span>
+                                <span class="inline-flex px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Parent</span>
                             </td>
                             <td class="px-6 py-5 text-center">
                                 <span class="text-sm font-medium text-gray-900"><?= htmlspecialchars($parent['email']) ?></span>
