@@ -24,7 +24,7 @@ require("views/partials/notification.php");
     <form method="POST" action=<?= base_url('/admin/users/student/update') ?>>
         <div class="space-y-12">
             <input type="hidden" name="_method" value="PATCH" />
-            <input type="hidden" name="user_id" value=<?= htmlspecialchars($user['user_id']) ?> />
+            <input type="hidden" name="user_id" value=<?= htmlspecialchars($users['user_id']) ?> />
             <div class="border-b border-gray-900/10 pb-12">
                 <h2 class="text-base/7 font-semibold text-gray-900">Manage Student</h2>
 
@@ -38,7 +38,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
-                                    value=<?= htmlspecialchars($user['student_number']) ?>
+                                    value=<?= htmlspecialchars($users['student_number']) ?>
                                     required
                                     id="student_number"
                                     type="text"
@@ -76,7 +76,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
-                                    value=<?= htmlspecialchars($user['first_name']) ?>
+                                    value=<?= htmlspecialchars($users['first_name']) ?>
                                     required
                                     id="first_name"
                                     type="text"
@@ -93,7 +93,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
-                                    value=<?= htmlspecialchars($user['middle_name']) ?>
+                                    value=<?= htmlspecialchars($users['middle_name']) ?>
                                     required
                                     id="middle_name"
                                     type="text"
@@ -109,7 +109,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
-                                    value=<?= htmlspecialchars($user['last_name']) ?>
+                                    value=<?= htmlspecialchars($users['last_name']) ?>
                                     required
                                     id="last_name"
                                     type="text"
@@ -127,7 +127,7 @@ require("views/partials/notification.php");
                         <div class="mt-2">
                             <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
-                                    value=<?= htmlspecialchars($user['suffix']) ?>
+                                    value="<?= htmlspecialchars($users['suffix']) ?>"
                                   
                                     id="suffix"
                                     type="text"
@@ -146,13 +146,13 @@ require("views/partials/notification.php");
                             <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-green-600">
                                 <input
                                     disabled
-                                    value=<?= htmlspecialchars($user['email']) ?>
+                                    value=<?= htmlspecialchars($users['email']) ?>
                                     required
                                     id="email"
                                     type="text"
                                     name="email"
                                     placeholder=""
-                                    data-original-email="<?= htmlspecialchars($user['email']) ?>"
+                                    data-original-email="<?= htmlspecialchars($users['email']) ?>"
                                     class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" />
 
                             </div>
@@ -246,7 +246,7 @@ require("views/partials/notification.php");
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                             <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Delete User?</h3>
-                            <p class="mt-2 text-sm text-gray-500">Are you sure you want to delete <?= htmlspecialchars($user['first_name']) . ' ' . htmlspecialchars($user['last_name']) ?>? This action cannot be undone.</p>
+                            <p class="mt-2 text-sm text-gray-500">Are you sure you want to delete <?= htmlspecialchars($users['first_name']) . ' ' . htmlspecialchars($users['last_name']) ?>? This action cannot be undone.</p>
                         </div>
                     </div>
                 </div>
@@ -254,7 +254,7 @@ require("views/partials/notification.php");
 
                     <form method="POST" action=<?= base_url('/admin/users/student/delete') ?>>
                         <input type="hidden" name="_method" value="DELETE" />
-                        <input type="hidden" name="user_id" value=<?= htmlspecialchars($user['user_id']) ?> />
+                        <input type="hidden" name="user_id" value=<?= htmlspecialchars($users['user_id']) ?> />
 
                         <button type="submit"
                             class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">
@@ -379,8 +379,8 @@ require("views/partials/notification.php");
     const sectionsSelect = document.getElementById('section_id');
 
     // Existing saved program & section from PHP
-    const existingProgramId = "<?= htmlspecialchars($user['program_id']) ?>";
-    const existingSectionId = "<?= htmlspecialchars($user['section_id']) ?>";
+    const existingProgramId = "<?= htmlspecialchars($users['program_id']) ?>";
+    const existingSectionId = "<?= htmlspecialchars($users['section_id']) ?>";
 
     if (programSelect && sectionsSelect) {
         // Preselect saved program

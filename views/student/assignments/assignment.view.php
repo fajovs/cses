@@ -65,12 +65,16 @@ require("views/partials/notification.php");
             <input type="hidden" name="subject_id" value=<?= htmlspecialchars($assignment['subject_id']) ?> />
 
             <div>
-                <label for="file" class="block text-sm font-medium text-gray-900">Upload File (PDF, PNG, JPG, JPEG)</label>
-                <input required id="file" name="file" type="file" accept=".pdf, .png, .jpg, .jpeg"
+                <label for="file" class="block text-sm font-medium text-gray-900">
+                    Upload File (PDF, Images, or Videos)
+                </label>
+                <input required id="file" name="file" type="file"
+                    accept=".pdf, .png, .jpg, .jpeg, .mp4, .mov, .avi, .mkv"
                     class="mt-2 block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
-                           file:rounded-md file:border-0 file:bg-green-600 file:text-white 
-                           hover:file:bg-green-500 focus:outline-none" />
+               file:rounded-md file:border-0 file:bg-green-600 file:text-white 
+               hover:file:bg-green-500 focus:outline-none" />
             </div>
+
 
             <div>
                 <label for="note" class="block text-sm font-medium text-gray-900">Notes (Optional)</label>

@@ -245,205 +245,219 @@ require("views/partials/notification.php");
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Search filtering
-        document.querySelectorAll('.searchInput').forEach(input => {
-            input.addEventListener('keyup', () => {
-                const filter = input.value.toLowerCase();
-                const target = input.dataset.target;
-                document.querySelectorAll(`.searchRow[data-group="${target}"]`).forEach(row => {
-                    const value = row.dataset.searchValue.toLowerCase();
-                    row.style.display = value.includes(filter) ? '' : 'none';
-                });
+document.addEventListener('DOMContentLoaded', () => {
+    // Search filtering
+    document.querySelectorAll('.searchInput').forEach(input => {
+        input.addEventListener('keyup', () => {
+            const filter = input.value.toLowerCase();
+            const target = input.dataset.target;
+            document.querySelectorAll(`.searchRow[data-group="${target}"]`).forEach(row => {
+                const value = row.dataset.searchValue.toLowerCase();
+                row.style.display = value.includes(filter) ? '' : 'none';
             });
         });
+    });
 
-        // Function to get equivalent rating only
-        function getEquivalentGrade(score) {
-            score = Math.round(score);
+    // Function to get equivalent rating only
+    function getEquivalentGrade(score) {
+        score = Math.round(score);
+        if (score >= 95) return "1.0";
+        if (score >= 94) return "1.1";
+        if (score >= 93) return "1.2";
+        if (score >= 92) return "1.3";
+        if (score >= 91) return "1.4";
+        if (score >= 90) return "1.5";
+        if (score >= 89) return "1.6";
+        if (score >= 88) return "1.7";
+        if (score >= 87) return "1.8";
+        if (score >= 86) return "1.9";
+        if (score >= 85) return "2.0";
+        if (score >= 84) return "2.1";
+        if (score >= 83) return "2.2";
+        if (score >= 82) return "2.3";
+        if (score >= 81) return "2.4";
+        if (score >= 80) return "2.5";
+        if (score >= 79) return "2.6";
+        if (score >= 78) return "2.7";
+        if (score >= 77) return "2.8";
+        if (score >= 76) return "2.9";
+        if (score >= 75) return "3.0";
+        if (score >= 74) return "3.1";
+        if (score >= 73) return "3.2";
+        if (score >= 72) return "3.3";
+        if (score >= 71) return "3.4";
+        if (score >= 70) return "3.5";
+        if (score >= 69) return "3.6";
+        if (score >= 68) return "3.7";
+        if (score >= 67) return "3.8";
+        if (score >= 66) return "3.9";
+        if (score >= 65) return "4.0";
+        if (score >= 64) return "4.1";
+        if (score >= 63) return "4.2";
+        if (score >= 62) return "4.3";
+        if (score >= 61) return "4.4";
+        if (score >= 60) return "4.5";
+        if (score >= 59) return "4.6";
+        if (score >= 58) return "4.7";
+        if (score >= 57) return "4.8";
+        if (score >= 56) return "4.9";
+        return "5.0"; // Failed (below 56)
+    }
 
-            if (score >= 95) return "1.0";
-            if (score >= 94) return "1.1";
-            if (score >= 93) return "1.2";
-            if (score >= 92) return "1.3";
-            if (score >= 91) return "1.4";
-            if (score >= 90) return "1.5";
-            if (score >= 89) return "1.6";
-            if (score >= 88) return "1.7";
-            if (score >= 87) return "1.8";
-            if (score >= 86) return "1.9";
-            if (score >= 85) return "2.0";
-            if (score >= 84) return "2.1";
-            if (score >= 83) return "2.2";
-            if (score >= 82) return "2.3";
-            if (score >= 81) return "2.4";
-            if (score >= 80) return "2.5";
-            if (score >= 79) return "2.6";
-            if (score >= 78) return "2.7";
-            if (score >= 77) return "2.8";
-            if (score >= 76) return "2.9";
-            if (score >= 75) return "3.0";
-            if (score >= 74) return "3.1";
-            if (score >= 73) return "3.2";
-            if (score >= 72) return "3.3";
-            if (score >= 71) return "3.4";
-            if (score >= 70) return "3.5";
-            if (score >= 69) return "3.6";
-            if (score >= 68) return "3.7";
-            if (score >= 67) return "3.8";
-            if (score >= 66) return "3.9";
-            if (score >= 65) return "4.0";
-            if (score >= 64) return "4.1";
-            if (score >= 63) return "4.2";
-            if (score >= 62) return "4.3";
-            if (score >= 61) return "4.4";
-            if (score >= 60) return "4.5";
-            if (score >= 59) return "4.6";
-            if (score >= 58) return "4.7";
-            if (score >= 57) return "4.8";
-            if (score >= 56) return "4.9";
+    // Populate criteria in drawer
+    document.querySelectorAll('[command="show-modal"][commandfor="drawer"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const criterias = JSON.parse(button.dataset.criterias);
+            const container = document.getElementById('criteriaContainer');
+            const submissionId = document.getElementById('submission-id');
+            const submitBtn = document.getElementById('submit-btn');
+            const totalRating = document.getElementById('total-score');
+            const submission = JSON.parse(button.dataset.submission);
+            const subject = JSON.parse(button.dataset.subject);
+            const assignment = JSON.parse(button.dataset.assignment);
+            const fileName = document.getElementById('fileName');
+            const overall = document.getElementById('rating');
 
-            return "5.0"; // Failed (below 56)
-        }
+            container.innerHTML = '';
+            submissionId.value = submission.submission_id;
+            totalRating.value = submission.total_score;
+            submitBtn.innerHTML = submission.total_score ? 'Re - Evaluate' : 'Evaluate';
 
-
-        // Populate criteria in drawer
-        document.querySelectorAll('[command="show-modal"][commandfor="drawer"]').forEach(button => {
-            button.addEventListener('click', () => {
-                const criterias = JSON.parse(button.dataset.criterias);
-                const container = document.getElementById('criteriaContainer');
-                const submissionId = document.getElementById('submission-id');
-                const submitBtn = document.getElementById('submit-btn');
-                const totalRating = document.getElementById('total-score');
-                const submission = JSON.parse(button.dataset.submission);
-                const subject = JSON.parse(button.dataset.subject);
-                const assignment = JSON.parse(button.dataset.assignment);
-                container.innerHTML = '';
-                const overall = document.getElementById('rating');
-
-                submissionId.value = submission.submission_id;
-                totalRating.value = submission.total_score;
-                submitBtn.innerHTML = submission.total_score ? 'Re - Evaluate' : 'Evaluate';
-
-                criterias.forEach(criteria => {
-                    const isRequired = !submission.total_score ? 'required' : '';
-                    const criteriaHTML = `
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <div class="w-full">
-                                <label class="block text-sm font-medium text-gray-900">Criteria</label>
-                                <input type="text" value="${criteria.criteria_name}" disabled
-                                    class="mt-1 block w-full rounded-md bg-gray-100 px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300" />
-                            </div>
-                            <div class="w-full">
-                                <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
-                                <input type="number" value="${criteria.weight}" disabled
-                                    class="mt-1 block w-full rounded-md bg-gray-100 px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 weight-input" />
-                            </div>
-                            <div class="w-full">
-                                <label class="block text-sm font-medium text-gray-900">Score</label>
-                                <input ${isRequired} type="number" min="0" max="${criteria.weight}"
-                                    class="score-input mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-black-900 outline outline-1 outline-gray-300" />
-                            </div>
+            criterias.forEach(criteria => {
+                const isRequired = !submission.total_score ? 'required' : '';
+                const criteriaHTML = `
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="w-full">
+                            <label class="block text-sm font-medium text-gray-900">Criteria</label>
+                            <input type="text" value="${criteria.criteria_name}" disabled
+                                class="mt-1 block w-full rounded-md bg-gray-100 px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300" />
                         </div>
+                        <div class="w-full">
+                            <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
+                            <input type="number" value="${criteria.weight}" disabled
+                                class="mt-1 block w-full rounded-md bg-gray-100 px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 weight-input" />
+                        </div>
+                        <div class="w-full">
+                            <label class="block text-sm font-medium text-gray-900">Score</label>
+                            <input ${isRequired} type="number" min="0" max="${criteria.weight}"
+                                class="score-input mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-black-900 outline outline-1 outline-gray-300" />
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', criteriaHTML);
+            });
+
+            // File & student info
+            const filePath = submission.file_path;
+            const fileUrl = `/ccses/download?file=${encodeURIComponent(filePath)}`;
+            const downloadBtn = document.getElementById('downloadBtn');
+            const stName = document.getElementById('st-name');
+            const stSection = document.getElementById('st-section');
+            const assignmentName = document.getElementById('assignment-name');
+
+            fileName.innerHTML = "";
+
+            if (filePath) {
+                stName.innerHTML = `<strong>Name : <br></strong>${submission.full_name}`;
+                stSection.innerHTML = `<strong>Section : <br></strong>${subject.section_name}`;
+                assignmentName.innerHTML = `<strong>Assignment :<br></strong>${assignment.title}`;
+
+                const ext = filePath.split('.').pop().toLowerCase();
+                const videoExts = ["mp4", "mov", "avi", "mkv"];
+                const imageExts = ["jpg", "jpeg", "png"];
+
+                if (videoExts.includes(ext)) {
+                    fileName.innerHTML = `
+                        <video controls class="w-full max-h-96 rounded-lg shadow">
+                            <source src="${fileUrl}" type="video/${ext === 'mp4' ? 'mp4' : 'ogg'}">
+                            Your browser does not support the video tag.
+                        </video>
                     `;
-
-                    container.insertAdjacentHTML('beforeend', criteriaHTML);
-                });
-
-                // File & student info
-                const filePath = submission.file_path;
-                const fileUrl = `/ccses/download?file=${encodeURIComponent(filePath)}`;
-                const downloadBtn = document.getElementById('downloadBtn');
-                const stName = document.getElementById('st-name');
-                const stSection = document.getElementById('st-section');
-                const assignmentName = document.getElementById('assignment-name');
-
-                if (filePath) {
-                    downloadBtn.href = fileUrl;
-                    downloadBtn.classList.remove('hidden');
-                    stName.innerHTML = `<strong>Name : <br></strong>${submission.full_name}`;
-                    stSection.innerHTML = `<strong>Section : <br></strong>${subject.section_name}`;
-                    assignmentName.innerHTML = `<strong>Assignment :<br> </strong>${assignment.title}`;
+                } else if (imageExts.includes(ext)) {
+                    fileName.innerHTML = `
+                        <img src="${fileUrl}" alt="Uploaded Image"
+                             class="max-w-full h-auto rounded-lg shadow" />
+                    `;
                 } else {
-                    stName.innerHTML = `<strong>Name : <br></strong>${submission.full_name}`;
-                    stSection.innerHTML = `<strong>Section : <br></strong>${subject.section_name}`;
-                    assignmentName.innerHTML = `<strong>Assignment :<br> </strong>${assignment.title}`;
-                    downloadBtn.classList.add('hidden');
-                    fileName.textContent = "No file uploaded";
+                    // PDFs and other files → no preview, just filename
+                    fileName.textContent = filePath.split('/').pop();
                 }
 
-                // ✅ Score inputs logic
-                const scoreInputs = container.querySelectorAll('.score-input');
+                downloadBtn.href = fileUrl;
+                downloadBtn.classList.remove('hidden');
+            } else {
+                stName.innerHTML = `<strong>Name : <br></strong>${submission.full_name}`;
+                stSection.innerHTML = `<strong>Section : <br></strong>${subject.section_name}`;
+                assignmentName.innerHTML = `<strong>Assignment :<br></strong>${assignment.title}`;
+                downloadBtn.classList.add('hidden');
+                fileName.textContent = "No file uploaded";
+            }
 
-                function recalcOverall() {
-                    let totalScore = 0;
-                    let totalWeight = 0;
-                    let hasScore = false;
+            // ✅ Score inputs logic
+            const scoreInputs = container.querySelectorAll('.score-input');
 
-                    scoreInputs.forEach((scoreInput, i) => {
-                        const weightInput = container.querySelectorAll('.weight-input')[i];
-                        const weight = parseFloat(weightInput.value) || 0;
-                        const score = parseFloat(scoreInput.value);
+            function recalcOverall() {
+                let totalScore = 0;
+                let totalWeight = 0;
+                let hasScore = false;
 
-                        if (!isNaN(score) && score >= 0) {
-                            hasScore = true;
-                            // (inputScore / maxScore) * weight * 100
-                            const normalized = (score / weight) * weight * 100;
-                            totalScore += normalized;
-                        }
+                scoreInputs.forEach((scoreInput, i) => {
+                    const weightInput = container.querySelectorAll('.weight-input')[i];
+                    const weight = parseFloat(weightInput.value) || 0;
+                    const score = parseFloat(scoreInput.value);
 
-                        totalWeight += weight * 100;
-                    });
+                    if (!isNaN(score) && score >= 0) {
+                        hasScore = true;
+                        const normalized = (score / weight) * weight * 100;
+                        totalScore += normalized;
+                    }
 
-                    // ✅ Final score as integer
-                    const total = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) : 0;
-                    totalRating.value = total;
+                    totalWeight += weight * 100;
+                });
 
-                    if (hasScore) {
-                        const eq = getEquivalentGrade(total);
-                        const numEq = parseFloat(eq); // convert to number if possible
+                const total = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) : 0;
+                totalRating.value = total;
 
-                        let colorClass = "bg-green-200 text-green-700"; // default (good)
+                if (hasScore) {
+                    const eq = getEquivalentGrade(total);
+                    const numEq = parseFloat(eq);
+                    let colorClass = "bg-green-200 text-green-700";
 
-                        if (isNaN(numEq)) {
-                            // handle "N/A"
-                            colorClass = "bg-gray-300 text-gray-700";
-                        } else if (numEq >= 3.6 && numEq <= 5.0) {
-                            colorClass = "bg-red-200 text-red-700";
-                        } else if (numEq >= 3.1 && numEq <= 3.5) {
-                            colorClass = "bg-amber-200 text-amber-700";
-                        }
+                    if (isNaN(numEq)) {
+                        colorClass = "bg-gray-300 text-gray-700";
+                    } else if (numEq >= 3.6 && numEq <= 5.0) {
+                        colorClass = "bg-red-200 text-red-700";
+                    } else if (numEq >= 3.1 && numEq <= 3.5) {
+                        colorClass = "bg-amber-200 text-amber-700";
+                    }
 
-                                        overall.innerHTML = `
+                    overall.innerHTML = `
                         <strong>Score :</strong> ${total}<br>
                         <strong>Equivalent Rating :</strong> 
                         <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full ${colorClass}">
                             ${eq}
                         </span>
                     `;
-                                    } else {
-                                        overall.innerHTML = `<strong>Score :</strong> 
+                } else {
+                    overall.innerHTML = `<strong>Score :</strong> 
                         <span class="inline-block px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Unrated</span>`;
-                    }
-
                 }
+            }
 
-
-
-                scoreInputs.forEach((input, i) => {
-                    const weight = parseFloat(container.querySelectorAll('.weight-input')[i].value) || 0;
-
-                    input.addEventListener('input', () => {
-                        if (input.value < 0) input.value = 0;
-                        if (input.value > weight) input.value = weight; // cap by weight
-                        recalcOverall();
-                    });
+            scoreInputs.forEach((input, i) => {
+                const weight = parseFloat(container.querySelectorAll('.weight-input')[i].value) || 0;
+                input.addEventListener('input', () => {
+                    if (input.value < 0) input.value = 0;
+                    if (input.value > weight) input.value = weight;
+                    recalcOverall();
                 });
-
             });
         });
     });
+});
 </script>
+
+
 
 
 

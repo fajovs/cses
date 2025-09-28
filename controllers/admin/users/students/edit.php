@@ -28,6 +28,6 @@ if(!$user){
 
 view('/admin/users/students/edit.view.php', [
     'heading' => 'Create Faculty',
-    'user' => $user,
+    'users' => $user,
     'programs' => $programs
 ]);

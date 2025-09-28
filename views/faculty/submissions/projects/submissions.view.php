@@ -305,7 +305,6 @@ require("views/partials/notification.php");
             return "5.0"; // Failed (below 56)
         }
 
-
         // Populate criteria in drawer
         document.querySelectorAll('[command="show-modal"][commandfor="drawer"]').forEach(button => {
             button.addEventListener('click', () => {
@@ -358,17 +357,41 @@ require("views/partials/notification.php");
                 const projectName = document.getElementById('project-name');
 
                 if (filePath) {
-                    downloadBtn.href = fileUrl;
-                    downloadBtn.classList.remove('hidden');
                     stName.innerHTML = `<strong>Name : <br></strong>${submission.full_name}`;
                     stSection.innerHTML = `<strong>Section : <br></strong>${subject.section_name}`;
-                    projectName.innerHTML = `<strong>project :<br> </strong>${project.title}`;
+                    projectName.innerHTML = `<strong>Project :<br></strong>${project.title}`;
+
+                    const ext = filePath.split('.').pop().toLowerCase();
+                    const videoExts = ["mp4", "mov", "avi", "mkv"];
+                    const imageExts = ["jpg", "jpeg", "png"];
+
+                    if (videoExts.includes(ext)) {
+                        fileName.innerHTML = `
+                        <video controls class="w-full max-h-96 rounded-lg shadow">
+                            <source src="${fileUrl}" type="video/${ext === 'mp4' ? 'mp4' : 'ogg'}">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                    } else if (imageExts.includes(ext)) {
+                        fileName.innerHTML = `
+                        <img src="${fileUrl}" alt="Uploaded Image"
+                             class="max-w-full h-auto rounded-lg shadow" />
+                    `;
+                    } else {
+                        // PDFs and other files → no preview, just filename
+                        fileName.textContent = filePath.split('/').pop();
+                    }
+
+                    downloadBtn.href = fileUrl;
+                    downloadBtn.classList.remove('hidden');
+
                 } else {
                     stName.innerHTML = `<strong>Name : <br></strong>${submission.full_name}`;
                     stSection.innerHTML = `<strong>Section : <br></strong>${subject.section_name}`;
-                    projectName.innerHTML = `<strong>project :<br> </strong>${project.title}`;
+                    projectName.innerHTML = `<strong>Project :<br></strong>${project.title}`;
                     downloadBtn.classList.add('hidden');
                     fileName.textContent = "No file uploaded";
+                    filePreview.innerHTML = "";
                 }
 
                 // ✅ Score inputs logic
@@ -394,17 +417,16 @@ require("views/partials/notification.php");
                         totalWeight += weight * 100;
                     });
 
-                    // ✅ Final score as integer
                     const total = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) : 0;
                     totalRating.value = total;
-   if (hasScore) {
-                        const eq = getEquivalentGrade(total);
-                        const numEq = parseFloat(eq); // convert to number if possible
 
-                        let colorClass = "bg-green-200 text-green-700"; // default (good)
+                    if (hasScore) {
+                        const eq = getEquivalentGrade(total);
+                        const numEq = parseFloat(eq);
+
+                        let colorClass = "bg-green-200 text-green-700";
 
                         if (isNaN(numEq)) {
-                            // handle "N/A"
                             colorClass = "bg-gray-300 text-gray-700";
                         } else if (numEq >= 3.6 && numEq <= 5.0) {
                             colorClass = "bg-red-200 text-red-700";
@@ -412,35 +434,33 @@ require("views/partials/notification.php");
                             colorClass = "bg-amber-200 text-amber-700";
                         }
 
-                                        overall.innerHTML = `
-                        <strong>Score :</strong> ${total}<br>
-                        <strong>Equivalent Rating :</strong> 
-                        <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full ${colorClass}">
-                            ${eq}
-                        </span>
-                    `;
-                                    } else {
-                                        overall.innerHTML = `<strong>Score :</strong> 
-                        <span class="inline-block px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Unrated</span>`;
+                        overall.innerHTML = `
+                            <strong>Score :</strong> ${total}<br>
+                            <strong>Equivalent Rating :</strong> 
+                            <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full ${colorClass}">
+                                ${eq}
+                            </span>
+                        `;
+                    } else {
+                        overall.innerHTML = `<strong>Score :</strong> 
+                            <span class="inline-block px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Unrated</span>`;
                     }
                 }
-
-
 
                 scoreInputs.forEach((input, i) => {
                     const weight = parseFloat(container.querySelectorAll('.weight-input')[i].value) || 0;
 
                     input.addEventListener('input', () => {
                         if (input.value < 0) input.value = 0;
-                        if (input.value > weight) input.value = weight; // cap by weight
+                        if (input.value > weight) input.value = weight;
                         recalcOverall();
                     });
                 });
-
             });
         });
     });
 </script>
+
 
 
 
