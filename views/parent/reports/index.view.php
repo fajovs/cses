@@ -143,10 +143,19 @@ require("views/partials/notification.php");
                 const highestAssignments = assignments.reduce((sum, a) => sum + (a.total || 0), 0);
                 const highestProjects = projects.reduce((sum, e) => sum + (e.total || 0), 0);
 
-                const quizScoreEq = Math.round((totalQuizzes / highestQuizzes) * 40 + 55);
-                const assignScoreEq = Math.round((totalAssignments / highestAssignments) * 40 + 55);
-                const projScoreEq = Math.round((totalProjects / highestProjects) * 40 + 55);
-                const examScoreEq = Math.round((totalExams / highestExams) * 40 + 55);
+                function safeScore(total, highest) {
+                    if (typeof total !== "number" || typeof highest !== "number" || highest === 0) {
+                        return "";
+                    }
+                    const result = (total / highest) * 40 + 55;
+                    return isNaN(result) ? "" : Math.round(result);
+                }
+
+                const quizScoreEq = safeScore(totalQuizzes, highestQuizzes);
+                const assignScoreEq = safeScore(totalAssignments, highestAssignments);
+                const projScoreEq = safeScore(totalProjects, highestProjects);
+                const examScoreEq = safeScore(totalExams, highestExams);
+
 
                 const quizGradeEq = getEquivalentGrade(quizScoreEq);
                 const assignGradeEq = getEquivalentGrade(assignScoreEq);
@@ -154,6 +163,9 @@ require("views/partials/notification.php");
                 const examGradeEq = getEquivalentGrade(examScoreEq);
 
                 function getEquivalentGrade(score) {
+                    if (score === null || score === "" || isNaN(score)) {
+                        return "";
+                    }
                     score = Math.round(score);
 
                     if (score >= 95) return "1.0";

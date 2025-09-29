@@ -111,8 +111,15 @@ require("views/partials/notification.php");
                 const projGradeEq = getEquivalentGrade(projScoreEq);
                 const examGradeEq = getEquivalentGrade(examScoreEq);
 
+               
+
                 function getEquivalentGrade(score) {
+                     if (score === null || score === "" || isNaN(score)) {
+                        return "";
+                    }
                     score = Math.round(score);
+
+                   
 
                     if (score >= 95) return "1.0";
                     if (score >= 94) return "1.1";
