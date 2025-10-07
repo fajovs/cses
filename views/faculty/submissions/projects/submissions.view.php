@@ -116,7 +116,7 @@ require("views/partials/notification.php");
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Students</th>
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Submitted</th>
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Score</th>
-                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Rating</th>
+                                <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
                                 <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
                         </thead>
@@ -133,17 +133,7 @@ require("views/partials/notification.php");
 
                                         <?= htmlspecialchars($submission['total_score']) ?>
                                     </td>
-                                    <td class="px-6 py-5 text-center">
-                                        <?php
-                                        $rate = $submission['equivalent_rate'] ?? null;
-                                        $colorClass = ($rate !== null && $rate > 3.0)
-                                            ? "text-red-700 bg-red-100"
-                                            : "text-green-700 bg-green-100";
-                                        ?>
-                                        <span class="inline-block px-2 py-1 text-xs font-semibold rounded <?= $colorClass ?>">
-                                            <?= htmlspecialchars($rate) ?>
-                                        </span>
-                                    </td>
+                                    
                                     <td class="px-6 py-5 text-center">
                                         <span class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">Evaluated</span>
                                     </td>
@@ -421,7 +411,7 @@ require("views/partials/notification.php");
                     totalRating.value = total;
 
                     if (hasScore) {
-                        const eq = getEquivalentGrade(total);
+                      
                         const numEq = parseFloat(eq);
 
                         let colorClass = "bg-green-200 text-green-700";
@@ -436,10 +426,7 @@ require("views/partials/notification.php");
 
                         overall.innerHTML = `
                             <strong>Score :</strong> ${total}<br>
-                            <strong>Equivalent Rating :</strong> 
-                            <span class="inline-block px-2 py-1 text-sm font-semibold rounded-full ${colorClass}">
-                                ${eq}
-                            </span>
+                        
                         `;
                     } else {
                         overall.innerHTML = `<strong>Score :</strong> 
