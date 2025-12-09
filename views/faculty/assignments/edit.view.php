@@ -3,6 +3,8 @@ require("views/partials/head.php");
 require("views/partials/nav.php");
 require("views/partials/notification.php");
 
+// Calculate sum of criteria weights for metric scale
+$metric_sum = array_sum(array_column($criterias, 'weight'));
 ?>
 
 <header class="bg-white shadow-sm px-30 flex-none">
@@ -33,7 +35,7 @@ require("views/partials/notification.php");
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
                     <div class="sm:col-span-4">
-                        <label for="title" class="block text-sm font-medium text-gray-900">assignment Title</label>
+                        <label for="title" class="block text-sm font-medium text-gray-900">Assignment Title</label>
                         <input required id="title" type="text" name="title" placeholder="Enter assignment title"
                             value="<?= htmlspecialchars($assignment['title']) ?>"
                             class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
@@ -53,37 +55,47 @@ require("views/partials/notification.php");
                             placeholder="Briefly describe the assignment..."><?= htmlspecialchars($assignment['description']) ?></textarea>
                     </div>
 
-
                     <!-- ✅ File Upload -->
                     <div class="sm:col-span-full">
                         <label for="file" class="block text-sm font-medium text-gray-900">Attach File (Optional)</label>
                         <input id="file" name="file" type="file" accept=".pdf, .png, .jpg, .jpeg"
                             class="mt-2 block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
-               file:rounded-md file:border-0 file:bg-green-600 file:text-white 
-               hover:file:bg-green-500 focus:outline-none" />
+                            file:rounded-md file:border-0 file:bg-green-600 file:text-white 
+                            hover:file:bg-green-500 focus:outline-none" />
                         <p class="mt-1 text-xs text-gray-500">Accepted formats: PDF, PNG, JPG, JPEG</p>
 
                         <?php if (!empty($assignment['file_path'])): ?>
                             <p class="mt-2 text-sm text-gray-600">
                                 Current File:
                                 <a href="<?= base_url('/download?file=' . urlencode($assignment['file_name'])) ?>"
-                                    class="text-blue-600 hover:underline"
-                                    download>
+                                    class="text-blue-600 hover:underline" download>
                                     <?= htmlspecialchars($assignment['file_name']) ?>
                                 </a>
                             </p>
                         <?php endif; ?>
                     </div>
-
-
-
                     <!-- ✅ End File Upload -->
-
                 </div>
             </div>
 
+            <!-- Metric Scale -->
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-900">Metric Scale</label>
+                <select id="metricScale" name="metric_scale"
+                    class="mt-2 block w-60 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600">
+                    <option value="10" <?= $metric_sum == 10 ? 'selected' : '' ?>>10</option>
+                    <option value="50" <?= $metric_sum == 50 ? 'selected' : '' ?>>50</option>
+                    <option value="100" <?= $metric_sum == 100 ? 'selected' : '' ?>>100</option>
+                    <option value="custom" <?= !in_array($metric_sum, [10,50,100]) ? 'selected' : '' ?>>Custom</option>
+                </select>
 
-            <div>
+                <input id="customMetricInput" type="number" min="1" placeholder="Enter custom metric"
+                    value="<?= !in_array($metric_sum, [10,50,100]) ? $metric_sum : '' ?>"
+                    class="<?= !in_array($metric_sum, [10,50,100]) ? '' : 'hidden' ?> mt-3 block w-60 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+            </div>
+
+            <!-- Criteria -->
+            <div class="mt-6">
                 <h2 class="text-xl font-semibold">Criteria</h2>
                 <div id="criteriaContainer" class="space-y-6 mt-4">
                     <?php foreach ($criterias as $index => $criteria): ?>
@@ -95,7 +107,7 @@ require("views/partials/notification.php");
                                         class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                                 </div>
                                 <div class="w-full sm:w-1/3">
-                                    <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
+                                    <label class="block text-sm font-medium text-gray-900">Metric</label>
                                     <input required type="number" name="criteria_weight[]" value="<?= htmlspecialchars($criteria['weight']) ?>" min="1" max="100"
                                         class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                                 </div>
@@ -122,63 +134,89 @@ require("views/partials/notification.php");
             </div>
         </div>
     </form>
-
-
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const addCriteriaBtn = document.getElementById('addCriteriaBtn');
-        const container = document.getElementById('criteriaContainer');
-        const form = document.querySelector('form');
+document.addEventListener('DOMContentLoaded', () => {
+    const addCriteriaBtn = document.getElementById('addCriteriaBtn');
+    const container = document.getElementById('criteriaContainer');
+    const form = document.querySelector('form');
+    const metricScale = document.getElementById('metricScale');
+    const customMetricInput = document.getElementById('customMetricInput');
 
-        addCriteriaBtn.addEventListener('click', () => {
-            container.insertAdjacentHTML('beforeend', createCriteriaBlock());
-        });
+    // Show/hide custom metric input
+    metricScale.addEventListener('change', () => {
+        if (metricScale.value === 'custom') {
+            customMetricInput.classList.remove('hidden');
+        } else {
+            customMetricInput.classList.add('hidden');
+            customMetricInput.value = '';
+        }
+    });
 
-        function createCriteriaBlock() {
-            return `
-                <div class="border border-gray-300 rounded-lg p-4 criteria-block">
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full">
-                            <label class="block text-sm font-medium text-gray-900">Criteria</label>
-                            <input required type="text" name="criteria_name[]" placeholder="e.g. Clarity"
-                                   class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
-                        </div>
-                        <div class="w-full sm:w-1/3">
-                            <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
-                            <input required type="number" name="criteria_weight[]" placeholder="e.g. 30" min="1" max="100"
-                                   class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
-                        </div>
-                        <div class="flex items-end">
-                            <button type="button" onclick="this.closest('.criteria-block').remove();"
-                                    class="text-sm text-red-600 hover:underline">Remove</button>
-                        </div>
+    // Add new criteria block
+    addCriteriaBtn.addEventListener('click', () => {
+        container.insertAdjacentHTML('beforeend', createCriteriaBlock());
+    });
+
+    function createCriteriaBlock() {
+        return `
+            <div class="border border-gray-300 rounded-lg p-4 criteria-block">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-full">
+                        <label class="block text-sm font-medium text-gray-900">Criteria</label>
+                        <input required type="text" name="criteria_name[]" placeholder="e.g. Clarity"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+                    </div>
+                    <div class="w-full sm:w-1/3">
+                        <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
+                        <input required type="number" name="criteria_weight[]" placeholder="e.g. 30" min="1" max="100"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+                    </div>
+                    <div class="flex items-end">
+                        <button type="button" onclick="this.closest('.criteria-block').remove();"
+                                class="text-sm text-red-600 hover:underline">Remove</button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
+    }
+
+    // Form validation
+    form.addEventListener('submit', (e) => {
+        const criteriaBlocks = document.querySelectorAll('.criteria-block');
+        if (criteriaBlocks.length === 0) {
+            e.preventDefault();
+            alert('Please add at least one criteria before submitting the form.');
+            return;
         }
 
-        form.addEventListener('submit', (e) => {
-            const criteriaBlocks = document.querySelectorAll('.criteria-block');
-            if (criteriaBlocks.length === 0) {
+        // Determine required metric total
+        let requiredTotal = metricScale.value;
+        if (requiredTotal === 'custom') {
+            requiredTotal = parseFloat(customMetricInput.value);
+            if (!requiredTotal || requiredTotal < 1) {
                 e.preventDefault();
-                alert('Please add at least one criteria before submitting the form.');
+                alert('Please enter a valid custom metric scale.');
                 return;
             }
+        } else {
+            requiredTotal = parseFloat(requiredTotal);
+        }
 
-            const weightInputs = document.querySelectorAll('input[name="criteria_weight[]"]');
-            let totalWeight = 0;
-            weightInputs.forEach(input => {
-                totalWeight += parseFloat(input.value) || 0;
-            });
-
-            if (totalWeight !== 100) {
-                e.preventDefault();
-                alert(`Total criteria weight must be exactly 100%. Current total: ${totalWeight}%.`);
-            }
+        // Sum all weights
+        const weightInputs = document.querySelectorAll('input[name="criteria_weight[]"]');
+        let totalWeight = 0;
+        weightInputs.forEach(input => {
+            totalWeight += parseFloat(input.value) || 0;
         });
+
+        if (totalWeight !== requiredTotal) {
+            e.preventDefault();
+            alert(`Total criteria weight must be exactly ${requiredTotal}. Current total: ${totalWeight}.`);
+        }
     });
+});
 </script>
 
 <?php require("views/partials/foot.php"); ?>

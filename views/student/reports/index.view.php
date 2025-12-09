@@ -89,8 +89,13 @@ require("views/partials/notification.php");
 
                 const highestQuizzes = quizzes.reduce((sum, q) => sum + (q.num_questions || 0), 0);
                 const highestExams = examinations.reduce((sum, e) => sum + (e.num_questions || 0), 0);
-                const highestAssignments = assignments.reduce((sum, a) => sum + (a.total || 0), 0);
-                const highestProjects = projects.reduce((sum, e) => sum + (e.total || 0), 0);
+                 const highestAssignments = assignments.reduce(
+                    (sum, a) => sum + (Number(a.total) || 0),
+                    0
+                );
+
+
+                const highestProjects = projects.reduce((sum, e) => sum + (Number(e.total) || 0), 0);
 
                 function safeScore(total, highest) {
                     if (typeof total !== "number" || typeof highest !== "number" || highest === 0) {
@@ -183,11 +188,11 @@ require("views/partials/notification.php");
 
                     <td colspan="2" class="border px-4 py-2">${assignments[i]?.title || ""}</td>
                     <td class="border px-4 py-2 text-center">${assignments[i]?.score ?? ""}</td>
-                    <td class="border px-4 py-2 text-center bg-green-200">${assignments[i]?.total ?? ""}</td>
+                    <td class="border px-4 py-2 text-center bg-green-200">${Math.round(assignments[i]?.total ?? 0)}</td>
 
                     <td colspan="2"class="border px-4 py-2">${projects[i]?.title || ""}</td>
                     <td class="border px-4 py-2 text-center">${projects[i]?.score ?? ""}</td>
-                    <td class="border px-4 py-2 text-center bg-green-200">${projects[i]?.total ?? ""}</td>
+                    <td class="border px-4 py-2 text-center bg-green-200">${Math.round(projects[i]?.total ?? 0)}</td>
 
                     <td colspan="2" class="border px-4 py-2">${examinations[i]?.title || ""}</td>
                     <td class="border px-4 py-2 text-center">${examinations[i]?.score ?? ""}</td>
@@ -239,7 +244,7 @@ require("views/partials/notification.php");
 
                         <td colspan="2" class="border-2 px-2 sm:px-4 py-2 text-center">Total</td>
                         <td class="border-2 px-1 sm:px-2 py-2 text-center">${totalProjects}</td>
-                        <td class="border-2 px-1 sm:px-2 py-2 text-center">${highestProjects}</td>
+                        <td class="border-2 px-1 sm:px-2 py-2 text-center bg-green-200">${highestProjects}</td>
 
                         <td colspan="2" class="border-2 px-2 sm:px-4 py-2 text-center">Total</td>
                         <td class="border-2 px-1 sm:px-2 py-2 text-center">${totalExams}</td>

@@ -133,7 +133,7 @@ require("views/partials/notification.php");
 
                                         <?= htmlspecialchars($submission['total_score']) ?>
                                     </td>
-                                    
+
                                     <td class="px-6 py-5 text-center">
                                         <span class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded">Evaluated</span>
                                     </td>
@@ -399,40 +399,17 @@ require("views/partials/notification.php");
 
                         if (!isNaN(score) && score >= 0) {
                             hasScore = true;
-                            // (inputScore / maxScore) * weight * 100
-                            const normalized = (score / weight) * weight * 100;
-                            totalScore += normalized;
+                            totalScore += score; // FIXED
                         }
 
-                        totalWeight += weight * 100;
+                        totalWeight += weight; // FIXED
                     });
 
-                    const total = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) : 0;
+                    const total = totalWeight > 0 ? totalScore : 0;
+
                     totalRating.value = total;
-
-                    if (hasScore) {
-                      
-                        const numEq = parseFloat(eq);
-
-                        let colorClass = "bg-green-200 text-green-700";
-
-                        if (isNaN(numEq)) {
-                            colorClass = "bg-gray-300 text-gray-700";
-                        } else if (numEq >= 3.6 && numEq <= 5.0) {
-                            colorClass = "bg-red-200 text-red-700";
-                        } else if (numEq >= 3.1 && numEq <= 3.5) {
-                            colorClass = "bg-amber-200 text-amber-700";
-                        }
-
-                        overall.innerHTML = `
-                            <strong>Score :</strong> ${total}<br>
-                        
-                        `;
-                    } else {
-                        overall.innerHTML = `<strong>Score :</strong> 
-                            <span class="inline-block px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Unrated</span>`;
-                    }
                 }
+
 
                 scoreInputs.forEach((input, i) => {
                     const weight = parseFloat(container.querySelectorAll('.weight-input')[i].value) || 0;

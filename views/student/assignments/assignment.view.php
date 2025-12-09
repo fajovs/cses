@@ -53,7 +53,7 @@ require("views/partials/notification.php");
                 <?php foreach ($criteria as $criterion): ?>
                     <li>
                         <?= htmlspecialchars($criterion['criteria_name']) ?> —
-                        <strong><?= htmlspecialchars($criterion['weight']) ?>%</strong>
+                        <strong><?= htmlspecialchars($criterion['weight']) ?></strong>
                     </li>
                 <?php endforeach; ?>
             </ul>

@@ -21,7 +21,7 @@ require("views/partials/notification.php");
 </header>
 
 <main class="flex-1 overflow-y-auto px-30 py-6">
-    <h1 class="text-2xl font-bold mb-4"><?= isset($project) ? 'Edit project' : 'Create New project' ?></h1>
+    <h1 class="text-2xl font-bold mb-4"><?= isset($project) ? 'Edit Project' : 'Create New Project' ?></h1>
 
     <form method="POST" action="<?= base_url('/faculty/subject/' . $subject['subject_id'] . '/project/' . $project['project_id'] . '/update') ?>" enctype="multipart/form-data">
         <div class="space-y-12">
@@ -30,10 +30,9 @@ require("views/partials/notification.php");
 
             <div class="border-b border-gray-900/10 pb-12">
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-
                     <div class="sm:col-span-4">
-                        <label for="title" class="block text-sm font-medium text-gray-900">project Title</label>
-                        <input required id="title" type="text" name="title" placeholder="Enter project title"
+                        <label for="title" class="block text-sm font-medium text-gray-900">Project Title</label>
+                        <input required id="title" type="text" name="title" placeholder="Enter Project title"
                             value="<?= htmlspecialchars($project['title']) ?>"
                             class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                     </div>
@@ -52,38 +51,51 @@ require("views/partials/notification.php");
                             placeholder="Briefly describe the project..."><?= htmlspecialchars($project['description']) ?></textarea>
                     </div>
 
-
-                    <!-- ✅ File Upload -->
                     <div class="sm:col-span-full">
                         <label for="file" class="block text-sm font-medium text-gray-900">Attach File (Optional)</label>
                         <input id="file" name="file" type="file" accept=".pdf, .png, .jpg, .jpeg"
                             class="mt-2 block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
-               file:rounded-md file:border-0 file:bg-green-600 file:text-white 
-               hover:file:bg-green-500 focus:outline-none" />
+                               file:rounded-md file:border-0 file:bg-green-600 file:text-white 
+                               hover:file:bg-green-500 focus:outline-none" />
                         <p class="mt-1 text-xs text-gray-500">Accepted formats: PDF, PNG, JPG, JPEG</p>
 
                         <?php if (!empty($project['file_path'])): ?>
                             <p class="mt-2 text-sm text-gray-600">
                                 Current File:
                                 <a href="<?= base_url('/download?file=' . urlencode($project['file_name'])) ?>"
-                                    class="text-blue-600 hover:underline"
-                                    download>
+                                    class="text-blue-600 hover:underline" download>
                                     <?= htmlspecialchars($project['file_name']) ?>
                                 </a>
                             </p>
                         <?php endif; ?>
                     </div>
-
-
-
-                    <!-- ✅ End File Upload -->
-
                 </div>
             </div>
 
+            <!-- METRIC SCALE -->
+            <?php
+            // Calculate the sum of all existing criteria weights
+            $metric_sum = array_sum(array_column($criterias, 'weight'));
+            ?>
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-900">Metric Scale</label>
+                <select id="metricScale" name="metric_scale"
+                    class="mt-2 block w-60 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600">
+                    <option value="10" <?= $metric_sum == 10 ? 'selected' : '' ?>>10</option>
+                    <option value="50" <?= $metric_sum == 50 ? 'selected' : '' ?>>50</option>
+                    <option value="100" <?= $metric_sum == 100 ? 'selected' : '' ?>>100</option>
+                    <option value="custom" <?= !in_array($metric_sum, [10, 50, 100]) ? 'selected' : '' ?>>Custom</option>
+                </select>
 
+                <input id="customMetricInput" type="number" min="1" placeholder="Enter custom metric"
+                    value="<?= !in_array($metric_sum, [10, 50, 100]) ? $metric_sum : '' ?>"
+                    class="<?= !in_array($metric_sum, [10, 50, 100]) ? '' : 'hidden' ?> mt-3 block w-60 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+            </div>
+
+
+            <!-- CRITERIA -->
             <div>
-                <h2 class="text-xl font-semibold">Criteria</h2>
+                <h2 class="text-xl font-semibold mt-6">Criteria</h2>
                 <div id="criteriaContainer" class="space-y-6 mt-4">
                     <?php foreach ($criterias as $index => $criteria): ?>
                         <div class="border border-gray-300 rounded-lg p-4 criteria-block">
@@ -94,8 +106,8 @@ require("views/partials/notification.php");
                                         class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                                 </div>
                                 <div class="w-full sm:w-1/3">
-                                    <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
-                                    <input required type="number" name="criteria_weight[]" value="<?= htmlspecialchars($criteria['weight']) ?>" min="1" max="100"
+                                    <label class="block text-sm font-medium text-gray-900">Metric</label>
+                                    <input required type="number" name="criteria_weight[]" value="<?= htmlspecialchars($criteria['weight']) ?>" min="1"
                                         class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                                 </div>
                                 <div class="flex items-end">
@@ -121,8 +133,6 @@ require("views/partials/notification.php");
             </div>
         </div>
     </form>
-
-
 </main>
 
 <script>
@@ -130,34 +140,48 @@ require("views/partials/notification.php");
         const addCriteriaBtn = document.getElementById('addCriteriaBtn');
         const container = document.getElementById('criteriaContainer');
         const form = document.querySelector('form');
+        const metricScale = document.getElementById('metricScale');
+        const customMetricInput = document.getElementById('customMetricInput');
 
+        // Show/hide custom metric input
+        metricScale.addEventListener('change', () => {
+            if (metricScale.value === 'custom') {
+                customMetricInput.classList.remove('hidden');
+            } else {
+                customMetricInput.classList.add('hidden');
+                customMetricInput.value = '';
+            }
+        });
+
+        // Add new criteria block
         addCriteriaBtn.addEventListener('click', () => {
             container.insertAdjacentHTML('beforeend', createCriteriaBlock());
         });
 
         function createCriteriaBlock() {
             return `
-                <div class="border border-gray-300 rounded-lg p-4 criteria-block">
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="w-full">
-                            <label class="block text-sm font-medium text-gray-900">Criteria</label>
-                            <input required type="text" name="criteria_name[]" placeholder="e.g. Clarity"
-                                   class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
-                        </div>
-                        <div class="w-full sm:w-1/3">
-                            <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
-                            <input required type="number" name="criteria_weight[]" placeholder="e.g. 30" min="1" max="100"
-                                   class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
-                        </div>
-                        <div class="flex items-end">
-                            <button type="button" onclick="this.closest('.criteria-block').remove();"
-                                    class="text-sm text-red-600 hover:underline">Remove</button>
-                        </div>
+            <div class="border border-gray-300 rounded-lg p-4 criteria-block">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-full">
+                        <label class="block text-sm font-medium text-gray-900">Criteria</label>
+                        <input required type="text" name="criteria_name[]" placeholder="e.g. Clarity"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+                    </div>
+                    <div class="w-full sm:w-1/3">
+                        <label class="block text-sm font-medium text-gray-900">Weight</label>
+                        <input required type="number" name="criteria_weight[]" placeholder="e.g. 30" min="1"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+                    </div>
+                    <div class="flex items-end">
+                        <button type="button" onclick="this.closest('.criteria-block').remove();"
+                                class="text-sm text-red-600 hover:underline">Remove</button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
         }
 
+        // Form validation
         form.addEventListener('submit', (e) => {
             const criteriaBlocks = document.querySelectorAll('.criteria-block');
             if (criteriaBlocks.length === 0) {
@@ -166,15 +190,20 @@ require("views/partials/notification.php");
                 return;
             }
 
+            let requiredTotal = metricScale.value === 'custom' ? parseFloat(customMetricInput.value) : parseFloat(metricScale.value);
+            if (!requiredTotal || requiredTotal < 1) {
+                e.preventDefault();
+                alert('Please enter a valid custom metric scale.');
+                return;
+            }
+
             const weightInputs = document.querySelectorAll('input[name="criteria_weight[]"]');
             let totalWeight = 0;
-            weightInputs.forEach(input => {
-                totalWeight += parseFloat(input.value) || 0;
-            });
+            weightInputs.forEach(input => totalWeight += parseFloat(input.value) || 0);
 
-            if (totalWeight !== 100) {
+            if (totalWeight !== requiredTotal) {
                 e.preventDefault();
-                alert(`Total criteria weight must be exactly 100%. Current total: ${totalWeight}%.`);
+                alert(`Total criteria weight must be exactly ${requiredTotal}. Current total: ${totalWeight}.`);
             }
         });
     });

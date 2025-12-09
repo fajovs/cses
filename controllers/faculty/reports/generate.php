@@ -53,20 +53,25 @@ header('Content-Type: application/json');
         )->fetchAll();
 
         $assignments = $db->query(
-                'SELECT a.title, asub.total_score score, (100) AS total 
+                'SELECT a.title, asub.total_score score, SUM(acrit.weight) AS total
                         FROM assignments a
+                        LEFT JOIN assignment_criteria acrit ON a.assignment_id = acrit.assignment_id
                         LEFT JOIN assignment_submissions asub ON a.assignment_id = asub.assignment_id
-                        WHERE (a.subject_id = :subject AND asub.student_id = :student_id)',
+                        WHERE (a.subject_id = :subject AND asub.student_id = :student_id) 
+                        GROUP BY a.assignment_id;',
                 [':subject' => $subject,
                         ':student_id' => $student['student_id']
                 ]
         )->fetchAll();
 
         $projects = $db->query(
-                'SELECT p.title, psub.total_score score , (100) AS total  
+                'SELECT p.title, psub.total_score score , SUM(pcrit.weight) AS total
                         FROM projects p
+                        LEFT JOIN project_criteria pcrit ON p.project_id = pcrit.project_id
                         LEFT JOIN project_submissions psub ON p.project_id = psub.project_id
-                        WHERE (p.subject_id = :subject AND psub.student_id = :student_id)',
+                        WHERE (p.subject_id = :subject AND psub.student_id = :student_id)
+                        GROUP BY p.project_id;'
+                        ,
                 [':subject' => $subject,
                         ':student_id' => $student['student_id']
                 ]

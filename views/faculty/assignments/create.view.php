@@ -49,7 +49,6 @@ require("views/partials/notification.php");
                             placeholder="Briefly describe the assignment..."></textarea>
                     </div>
 
-                    <!-- ✅ Optional File Upload -->
                     <div class="sm:col-span-full">
                         <label for="file" class="block text-sm font-medium text-gray-900">Attach File (Optional)</label>
                         <input id="file" name="file" type="file" accept=".pdf, .png, .jpg, .jpeg"
@@ -61,8 +60,24 @@ require("views/partials/notification.php");
                 </div>
             </div>
 
+            <!-- ✅ Metric Scale for Assignment -->
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-900">Metric Scale</label>
+                <select id="metricScale" name="metric_scale"
+                    class="mt-2 block w-60 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600">
+                    <option value="10">10</option>
+                    <option value="50">50</option>
+                    <option value="100" selected>100</option>
+                    <option value="custom">Custom</option>
+                </select>
+
+                <input id="customMetricInput" type="number" min="1" placeholder="Enter custom metric"
+                    class="hidden mt-3 block w-60 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+            </div>
+
+            <!-- Criteria -->
             <div>
-                <h2 class="text-xl font-semibold">Criteria</h2>
+                <h2 class="text-xl font-semibold mt-6">Criteria</h2>
                 <div id="criteriaContainer" class="space-y-6 mt-4"></div>
 
                 <button type="button" id="addCriteriaBtn"
@@ -89,38 +104,55 @@ require("views/partials/notification.php");
         const deadlineInput = document.getElementById('deadline');
         const form = document.querySelector('form');
 
-        // Set default deadline minimum
+        const metricScale = document.getElementById('metricScale');
+        const customInput = document.getElementById('customMetricInput');
+
+        // Show custom metric input
+        metricScale.addEventListener('change', () => {
+            if (metricScale.value === 'custom') {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
+                customInput.value = "";
+            }
+        });
+
+        // Deadline validation
         deadlineInput.addEventListener('change', () => {
-            const selectedDate = new Date(deadlineInput.value);
+            const selected = new Date(deadlineInput.value);
             const now = new Date();
             now.setMinutes(now.getMinutes() + 5);
             deadlineInput.min = now.toISOString().slice(0, 16);
-            if (selectedDate <= now) {
-                alert('Deadline must be at least 5 minutes in the future.');
-                deadlineInput.value = '';
+
+            if (selected <= now) {
+                alert("Deadline must be at least 5 minutes ahead.");
+                deadlineInput.value = "";
             }
         });
 
         let counter = 0;
         addCriteriaBtn.addEventListener('click', () => {
             counter++;
-            container.insertAdjacentHTML('beforeend', createCriteriaBlock(counter));
+            container.insertAdjacentHTML('beforeend', createCriteria(counter));
         });
 
-        function createCriteriaBlock(index) {
+        function createCriteria(i) {
             return `
                 <div class="border border-gray-300 rounded-lg p-4 criteria-block">
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="w-full">
                             <label class="block text-sm font-medium text-gray-900">Criteria</label>
-                            <input required type="text" name="criteria_name[]" placeholder="e.g. Clarity"
-                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+                            <input required type="text" name="criteria_name[]" placeholder="e.g. Accuracy"
+                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
                         </div>
+
                         <div class="w-full sm:w-1/3">
-                            <label class="block text-sm font-medium text-gray-900">Weight (%)</label>
-                            <input required type="number" name="criteria_weight[]" placeholder="e.g. 30" min="1" max="100"
-                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600" />
+                            <label class="block text-sm font-medium text-gray-900">Metric</label>
+                            <input required type="number" name="criteria_weight[]" min="1"
+                                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-green-600"
+                                placeholder="e.g. 20" />
                         </div>
+
                         <div class="flex items-end">
                             <button type="button" onclick="this.closest('.criteria-block').remove();"
                                 class="text-sm text-red-600 hover:underline">Remove</button>
@@ -130,30 +162,38 @@ require("views/partials/notification.php");
             `;
         }
 
-        // Form submission validation
+        // Validation
         form.addEventListener('submit', (e) => {
-            const criteriaBlocks = document.querySelectorAll('.criteria-block');
-            if (criteriaBlocks.length === 0) {
+            const blocks = document.querySelectorAll('.criteria-block');
+            if (blocks.length === 0) {
                 e.preventDefault();
-                alert('Please add at least one criteria before submitting the form.');
+                alert("Please add at least one criteria.");
                 return;
             }
 
-            // Sum all weights
-            const weightInputs = document.querySelectorAll('input[name="criteria_weight[]"]');
-            let totalWeight = 0;
-            weightInputs.forEach(input => {
-                totalWeight += parseFloat(input.value) || 0;
+            let requiredTotal = metricScale.value;
+            if (requiredTotal === "custom") {
+                requiredTotal = parseFloat(customInput.value);
+                if (!requiredTotal || requiredTotal <= 0) {
+                    e.preventDefault();
+                    alert("Enter a valid custom metric.");
+                    return;
+                }
+            } else {
+                requiredTotal = parseFloat(requiredTotal);
+            }
+
+            let total = 0;
+            document.querySelectorAll('input[name="criteria_weight[]"]').forEach(input => {
+                total += parseFloat(input.value) || 0;
             });
 
-            if (totalWeight !== 100) {
+            if (total !== requiredTotal) {
                 e.preventDefault();
-                alert(`Total criteria weight must be exactly 100%. Current total: ${totalWeight}%.`);
+                alert(`Total weight must be exactly ${requiredTotal}. Current: ${total}`);
             }
         });
     });
 </script>
-
-
 
 <?php require("views/partials/foot.php"); ?>

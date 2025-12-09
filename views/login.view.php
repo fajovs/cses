@@ -10,7 +10,7 @@
       alt="Logo" />
     <!-- Updated heading with slate color scheme -->
     <h2 class="mt-2 text-center text-3xl font-bold tracking-tight text-slate-800">
-      College of Computer Studies Evaluation System
+      CCS Student Digital submission and Parent Monitoring System
     </h2>
     <p class="mt-2 text-center text-sm text-slate-600">
       Welcome back! Please enter your credentials.
